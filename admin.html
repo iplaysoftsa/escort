@@ -1,0 +1,2501 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0406">
+<meta name="robots" content="noindex,nofollow">
+<title>Red Room — Admin Studio</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+:root{--black:#0a0406;--coal:#140a0e;--panel:#1a0b10;--cream:#f6e9e6;--dim:#b39aa0;--red:#d90429;--rose:#ff2e4d;--blush:#ff8fa3;--line:rgba(255,46,77,.18);--green:#57d692;--amber:#ffc05b;--ease:cubic-bezier(.22,.61,.36,1)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 85% -10%,rgba(217,4,41,.2),transparent 70%),radial-gradient(700px 400px at 0% 40%,rgba(139,0,22,.15),transparent 70%),var(--black);color:var(--cream);font:400 13.5px/1.55 "Inter","Helvetica Neue",Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button,a{color:inherit}
+a{text-decoration:none}
+button{cursor:pointer}
+[hidden]{display:none!important}
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;padding:11px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:rgba(10,4,6,.88);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.2rem Georgia,serif;white-space:nowrap}
+.brand-mark{width:37px;height:37px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ff5470,var(--red) 55%,#8b0016);box-shadow:0 0 20px rgba(217,4,41,.38)}
+.top-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.user-email{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dim);font-size:.77rem}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:9px 14px;border:1px solid var(--line);border-radius:30px;background:rgba(255,255,255,.025);color:var(--cream);font-weight:800;font-size:.67rem;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+.button:hover{border-color:var(--rose);color:#fff;background:rgba(255,46,77,.1)}
+.button.primary{border:0;background:linear-gradient(180deg,var(--rose),var(--red));box-shadow:0 8px 24px rgba(217,4,41,.28)}
+.button.primary:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(217,4,41,.4)}
+.button.danger:hover{border-color:#ff7f8e;color:#ff9eaa;background:rgba(217,4,41,.12)}
+.wrap{width:min(1360px,calc(100% - 40px));margin:0 auto;padding:30px 0 52px}
+.studio-nav{display:flex;gap:6px;overflow-x:auto;margin:-10px 0 28px;padding:5px;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(20,10,14,.72);scrollbar-width:thin}
+.nav-tab{display:inline-flex;align-items:center;gap:9px;min-height:40px;padding:9px 15px;border:0;border-radius:9px;background:transparent;color:var(--dim);font-size:.72rem;font-weight:800;transition:.2s}
+.nav-tab:hover,.nav-tab.active{background:rgba(255,46,77,.12);color:#fff}
+.nav-tab.active{box-shadow:inset 0 0 0 1px rgba(255,46,77,.24)}
+.nav-tab>span{min-width:20px;padding:2px 6px;border-radius:20px;background:rgba(255,255,255,.08);font-size:.59rem;text-align:center}
+.screen{min-width:0}
+.overview-actions{display:flex;gap:9px;flex-wrap:wrap}
+.overview-stats{margin-bottom:18px}
+.overview-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:15px}
+.overview-panel{min-width:0;padding:20px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 55%),rgba(20,10,14,.77)}
+.overview-panel .section-head{align-items:flex-start;margin-bottom:17px}
+.overview-panel .section-head h2{margin:5px 0 0;color:#fff;font:700 1.4rem Georgia,serif}
+.overview-panel .section-head p{margin:6px 0 0;color:var(--dim);font-size:.72rem}
+.overview-panel .eyebrow{font-size:.55rem}
+.panel-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.text-link{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:5px 0;border:0;background:none;color:#ff9bab;font-size:.67rem;font-weight:800;white-space:nowrap}
+.text-link:hover{color:#fff}
+.popular-list,.recent-list{display:grid;gap:10px}
+.recent-list{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.recent-panel{grid-column:1/-1}
+.popular-item{display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:12px;padding:9px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.02);text-align:left;transition:.18s}
+.popular-item:hover{border-color:rgba(255,46,77,.38);background:rgba(255,46,77,.055)}
+.popular-photo,.recent-photo{width:52px;height:58px;overflow:hidden;border-radius:7px;background:#10070a}
+.popular-photo img,.recent-photo img{width:100%;height:100%;object-fit:cover}
+.popular-info,.recent-info{min-width:0}
+.popular-name,.recent-name{display:block;overflow:hidden;color:#fff;font-size:.76rem;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.popular-meta,.recent-meta{display:block;margin-top:3px;color:var(--dim);font-size:.61rem}
+.popular-bar{height:4px;margin-top:8px;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.08)}
+.popular-bar span{display:block;width:var(--view-share);height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--red),var(--blush))}
+.popular-count{color:#fff;font-size:.7rem;font-weight:800;white-space:nowrap}
+.popular-empty{padding:24px;border:1px dashed var(--line);border-radius:10px;color:var(--dim);font-size:.74rem;line-height:1.55}
+.quick-actions{display:grid;gap:8px}
+.quick-actions button{display:grid;grid-template-columns:34px minmax(0,1fr) 18px;align-items:center;gap:10px;padding:11px 10px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.02);text-align:left;transition:.18s}
+.quick-actions button:hover{border-color:rgba(255,46,77,.4);background:rgba(255,46,77,.06)}
+.quick-actions button>i:first-child{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:rgba(255,46,77,.11);color:var(--blush)}
+.quick-actions button>i:last-child{color:#846c74;font-size:.68rem}
+.quick-actions strong,.quick-actions small{display:block}
+.quick-actions strong{color:#f8e9ec;font-size:.7rem}
+.quick-actions small{margin-top:3px;color:var(--dim);font-size:.6rem}
+.recent-item{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px}
+.recent-photo{width:40px;height:44px}
+.recent-name{font-size:.68rem}
+.recent-meta{font-size:.58rem}
+.recent-status{padding:5px 8px;border:1px solid rgba(255,192,91,.24);border-radius:20px;color:var(--amber);font-size:.53rem;font-weight:800;white-space:nowrap}
+.recent-status.available{border-color:rgba(87,214,146,.24);color:var(--green)}
+.recent-status.hidden{border-color:rgba(179,154,160,.2);color:var(--dim)}
+.onboarding-panel{grid-column:1/-1}
+.onboarding-list{display:grid;gap:9px}
+.onboarding-item{display:grid;grid-template-columns:minmax(0,1fr) auto auto minmax(0,auto);align-items:center;gap:12px;padding:12px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.02)}
+.onboarding-identity{min-width:0}
+.onboarding-name{display:block;overflow:hidden;color:#fff;font-size:.75rem;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.onboarding-email{display:block;overflow:hidden;margin-top:3px;color:var(--dim);font-size:.63rem;text-overflow:ellipsis;white-space:nowrap}
+.onboarding-state{padding:6px 9px;border:1px solid rgba(255,192,91,.25);border-radius:20px;color:var(--amber);font-size:.57rem;font-weight:800;white-space:nowrap}
+.onboarding-state.done{border-color:rgba(87,214,146,.25);color:var(--green)}
+.onboarding-action{min-height:33px;padding:6px 10px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);color:#ffb1be;font-size:.6rem;font-weight:800}
+.onboarding-action:hover:not(:disabled){border-color:var(--rose);color:#fff}
+.onboarding-action:disabled{opacity:.5;cursor:wait}
+.onboarding-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.draft-list{display:grid;gap:10px}
+.draft-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.025)}
+.draft-info{min-width:0}
+.draft-info strong,.draft-info span{display:block;overflow:hidden;text-overflow:ellipsis}
+.draft-info strong{color:#fff;font-size:.78rem}
+.draft-info span{margin-top:4px;color:var(--dim);font-size:.65rem}
+.draft-actions{display:flex;flex:none;gap:8px;flex-wrap:wrap}
+.draft-empty{padding:24px;border:1px dashed var(--line);border-radius:10px;color:var(--dim);font-size:.76rem}
+.creator-payment-list{display:grid;gap:14px}
+.creator-payment-card{padding:18px;border:1px solid rgba(255,255,255,.09);border-radius:13px;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 55%),rgba(20,10,14,.77)}
+.creator-payment-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.creator-payment-head h2{margin:0;color:#fff;font:700 1.15rem Georgia,serif}
+.creator-payment-meta,.creator-payment-breakdown{margin-top:5px;color:var(--dim);font-size:.7rem}
+.creator-payment-total{color:#fff;font-size:1.2rem;font-weight:800;white-space:nowrap}
+.creator-payment-progress{height:7px;margin-top:12px;overflow:hidden;border-radius:20px;background:#ffffff12}
+.creator-payment-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--red),var(--amber))}
+.creator-payment-method{margin-top:14px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:#0b0507}
+.creator-payment-method summary{color:#ffb1be;font-size:.7rem;font-weight:800;cursor:pointer}
+.creator-payment-method p{margin:8px 0 0;color:var(--dim);font-size:.7rem;overflow-wrap:anywhere}
+.creator-payout-form{display:grid;grid-template-columns:150px minmax(0,1fr) auto;align-items:end;gap:9px;margin-top:13px}
+.creator-payout-form .field{margin:0}
+.creator-payout-form label{display:block;margin-bottom:5px;color:var(--dim);font-size:.59rem;font-weight:800;text-transform:uppercase}
+.creator-payout-form input{width:100%;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#0b0507;color:#fff}
+.creator-payout-form button{min-height:38px}
+.creator-payout-form button:disabled{opacity:.45;cursor:not-allowed}
+.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:0 0 20px}
+.page-heading h1{margin:8px 0 5px}
+.page-heading p{margin:0;color:var(--dim);font-size:.82rem}
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:25px}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--blush);font-size:.63rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.eyebrow:before{content:"";width:20px;height:1px;background:currentColor}
+h1,h2,h3,p{margin-top:0}
+h1{margin:8px 0 6px;font:700 clamp(2.2rem,4vw,3.55rem)/1.02 Georgia,serif;letter-spacing:-.03em;color:#fff}
+.intro p{margin:0;color:var(--dim);font-size:.84rem}
+.stats{display:flex;gap:9px;flex-wrap:wrap}
+.stat{padding:9px 12px;border:1px solid var(--line);border-radius:30px;background:rgba(255,255,255,.025);font-size:.7rem;color:var(--dim)}
+.stat b{color:#fff;margin-right:4px}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.search{position:relative;flex:1;min-width:200px;max-width:420px}
+.search i{position:absolute;top:50%;left:14px;transform:translateY(-50%);color:var(--dim)}
+.search input{width:100%;height:42px;padding:0 14px 0 39px;border:1px solid var(--line);border-radius:30px;outline:0;background:rgba(20,10,14,.86);color:#fff}
+.search input:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(255,46,77,.1)}
+.filter{height:42px;padding:0 14px;border:1px solid var(--line);border-radius:30px;background:var(--coal);color:var(--cream)}
+.status-key{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap;color:var(--dim);font-size:.67rem}
+.status-key span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.dot.available{background:var(--green)}.dot.hidden{background:#7c6670}
+.roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.profile-card{min-width:0;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:linear-gradient(160deg,rgba(255,255,255,.035),transparent 36%),var(--panel);transition:transform .25s,border-color .25s,box-shadow .25s}
+.profile-card:hover{transform:translateY(-3px);border-color:rgba(255,46,77,.45);box-shadow:0 18px 38px rgba(0,0,0,.26)}
+.photo{position:relative;aspect-ratio:4/2.7;overflow:hidden;background:#10070a}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center 25%;transition:transform .5s}
+.profile-card:hover .photo img{transform:scale(1.035)}
+.photo:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(10,4,6,.72));pointer-events:none}
+.photo-count{position:absolute;z-index:1;top:10px;right:10px;padding:6px 9px;border:1px solid rgba(255,255,255,.18);border-radius:30px;background:rgba(10,4,6,.75);font-size:.62rem;backdrop-filter:blur(8px)}
+.photo-views{position:absolute;z-index:1;top:10px;left:10px;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid rgba(255,255,255,.18);border-radius:30px;background:rgba(10,4,6,.75);font-size:.62rem;backdrop-filter:blur(8px)}
+.photo-views i{color:#ff9bab}
+.photo-name{position:absolute;z-index:1;left:15px;bottom:12px;margin:0;color:#fff;font:700 1.42rem/1.1 Georgia,serif}
+.profile-body{padding:13px}
+.profile-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--dim);font-size:.73rem}
+.profile-meta i{margin-right:5px;color:var(--blush)}
+.profile-bio{display:-webkit-box;overflow:hidden;margin:8px 0 0;color:#bba5ab;font-size:.7rem;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.profile-updated{margin:8px 0 0;color:#806a71;font-size:.59rem}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid rgba(255,192,91,.3);border-radius:30px;background:rgba(255,192,91,.08);color:var(--amber);font-size:.61rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.status-pill.available{border-color:rgba(87,214,146,.3);background:rgba(87,214,146,.08);color:var(--green)}
+.status-pill.hidden{border-color:rgba(179,154,160,.25);background:rgba(179,154,160,.06);color:var(--dim)}
+.rate{margin:10px 0 12px;color:#fff;font:700 1rem Georgia,serif}
+.rate small{font:500 .66rem "Inter",Arial,sans-serif;color:var(--dim)}
+.card-actions{display:flex;gap:7px;flex-wrap:wrap}
+.small-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:33px;padding:7px 10px;border:1px solid rgba(255,143,163,.17);border-radius:25px;background:rgba(255,255,255,.025);color:#e5d6d9;font-size:.63rem;font-weight:800;transition:.18s}
+.small-button:hover{border-color:var(--rose);color:#fff}
+.small-button:disabled{opacity:.42;cursor:not-allowed}
+.small-button.status-action{flex:1}
+.small-button.icon{width:34px;padding:0}
+.empty,.notice{padding:25px;border:1px dashed var(--line);border-radius:12px;color:var(--dim);text-align:center}
+.notice{margin:0 0 18px;border-style:solid;text-align:left}
+.notice.error{border-color:rgba(255,46,77,.45);color:#ffb4bf;background:rgba(217,4,41,.07)}
+.notice.success{border-color:rgba(87,214,146,.35);color:#a7e8c1;background:rgba(87,214,146,.06)}
+.section{margin-top:44px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:15px}
+.section-head h2{margin:0;color:#fff;font:700 1.8rem Georgia,serif}
+.section-head p{margin:5px 0 0;color:var(--dim);font-size:.77rem}
+.bookings{display:grid;gap:9px}
+.booking{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(0,1.2fr);gap:12px;align-items:center;padding:13px 15px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(20,10,14,.75)}
+.booking h3{margin:0;color:#fff;font-size:.84rem}
+.booking p{margin:4px 0 0;color:var(--dim);font-size:.7rem}
+.booking-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:8px}
+.booking-control{display:flex;align-items:center;gap:6px;min-width:0}
+.booking-control select,.booking-control input{width:100%;min-width:0;min-height:34px;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--black);color:var(--cream);font-size:.67rem}
+.booking-control input[type=number]{max-width:118px}
+.booking-response{display:inline-flex;margin-top:8px;padding:4px 8px;border:1px solid var(--line);border-radius:30px;color:var(--dim);font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.booking-response.accepted{color:var(--ok);border-color:#2bbd7466}
+.booking-response.declined{color:var(--rose);border-color:#ff2e4d66}
+.booking-response.pending{color:var(--warn);border-color:#e6a81766}
+.modal{width:min(1040px,calc(100% - 24px));max-width:none;max-height:min(92vh,920px);padding:0;border:1px solid rgba(255,143,163,.24);border-radius:17px;background:#11070b;color:var(--cream);box-shadow:0 30px 100px rgba(0,0,0,.7)}
+.modal::backdrop{background:rgba(4,2,3,.8);backdrop-filter:blur(6px)}
+#editor.modal{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;box-shadow:none}
+#editor .modal-head{position:relative;z-index:2;padding:16px clamp(18px,4vw,48px);background:rgba(17,7,11,.96);backdrop-filter:blur(16px)}
+#editor .editor{width:min(1440px,100%);height:calc(100vh - 70px);max-height:none;margin:0 auto;padding:clamp(16px,3vw,34px);overflow:auto}
+#editor .close{width:auto;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 13px;border-radius:22px;font-size:.67rem;font-weight:800}
+#editor .preview{top:14px}
+@supports(height:100dvh){#editor.modal{height:100dvh}#editor .editor{height:calc(100dvh - 70px)}}
+@media(max-width:720px){#editor .editor{grid-template-columns:1fr}#editor .preview{position:static}}
+@media(max-width:520px){#editor .modal-head{padding:12px 15px}#editor .modal-head h2{font-size:1.1rem}#editor .close span{display:none}.onboarding-actions{grid-column:1/-1;justify-content:flex-start}}
+.invite-modal{width:min(570px,calc(100% - 24px));max-height:90vh}
+.invite-content{padding:22px}
+.invite-content>p{color:var(--dim);font-size:.8rem}
+.invite-link-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:17px 0 10px}
+.invite-link-row input{min-width:0;padding:10px 12px;border:1px solid rgba(255,143,163,.2);border-radius:8px;outline:0;background:#0b0507;color:#fff;font: .7rem ui-monospace,Consolas,monospace}
+.invite-link-row .button{align-self:stretch}
+.invite-warning{padding:12px;border:1px solid rgba(255,192,91,.18);border-radius:9px;background:rgba(255,192,91,.045);color:#e2c99f!important;font-size:.7rem!important}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:19px 22px;border-bottom:1px solid var(--line)}
+.modal-head h2{margin:0;color:#fff;font:700 1.45rem Georgia,serif}
+.close{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:none;color:var(--cream)}
+.editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:22px;padding:22px;overflow:auto;max-height:calc(92vh - 76px)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field{min-width:0}
+.field.full{grid-column:1/-1}
+.field label{display:block;margin:0 0 6px;color:#e5cbd1;font-size:.64rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid rgba(255,143,163,.18);border-radius:8px;outline:0;background:#0b0507;color:#fff;font-size:.8rem}
+.field textarea{min-height:95px;resize:vertical}
+.field-heading{grid-column:1/-1;padding-top:8px;border-top:1px solid rgba(255,143,163,.14);color:#ff9bab;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.verified-field{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid rgba(255,143,163,.18);border-radius:8px;background:#0b0507;color:#e5cbd1;font-size:.74rem}
+.verified-field input{width:17px;height:17px;margin:0;accent-color:var(--rose)}
+.verified-field span{line-height:1.4}
+.help{margin:5px 0 0;color:#8f737b;font-size:.64rem}
+.gallery-adder{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.gallery-adder .button{align-self:stretch}
+.gallery-manager{display:grid;gap:8px;margin-top:11px}
+.gallery-row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.025)}
+.gallery-thumb{position:relative;width:64px;height:64px;overflow:hidden;border-radius:7px;background:#0b0507}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-thumb.video{display:grid;place-items:center;color:#ff9bab;font-size:1.2rem}
+.gallery-thumb.video img{position:absolute;inset:0}
+.video-thumb-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.video-thumb-action{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:5px 8px;border:1px solid rgba(255,143,163,.18);border-radius:20px;background:rgba(10,4,6,.45);color:#e5d6d9;font-size:.57rem;font-weight:800;cursor:pointer;transition:.18s}
+.video-thumb-action:hover{border-color:var(--rose);color:#fff}
+.video-seo-fields{display:grid;gap:6px;margin-top:8px}
+.video-details-label{color:#ffb1be;font-size:.57rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.video-seo-fields input,.video-seo-fields textarea{width:100%;min-width:0;padding:7px 9px;border:1px solid rgba(255,143,163,.13);border-radius:7px;background:rgba(10,4,6,.58);color:#f4e5e8;font-size:.62rem}
+.video-seo-fields textarea{min-height:46px;resize:vertical}
+.modal.frame-picker-modal{width:min(760px,calc(100% - 24px))}
+.frame-picker-content{padding:18px}
+.frame-picker-content video{display:block;width:100%;max-height:58vh;aspect-ratio:16/9;border:1px solid rgba(255,143,163,.16);border-radius:10px;background:#050304;object-fit:contain}
+.frame-picker-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.gallery-thumb.broken{display:grid;place-items:center;border:1px solid rgba(255,46,77,.55);color:#ff8e9d}
+.gallery-copy{min-width:0}
+.gallery-copy strong{display:flex;align-items:center;gap:7px;margin-bottom:4px;color:#f8e9ec;font-size:.68rem}
+.gallery-copy code{display:block;overflow:hidden;color:#a98d95;font: .62rem/1.4 ui-monospace,Consolas,monospace;text-overflow:ellipsis;white-space:nowrap}
+.cover-tag{padding:3px 7px;border-radius:20px;background:rgba(255,46,77,.15);color:#ff9cab;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase}
+.gallery-controls{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex-wrap:wrap}
+.gallery-control{width:30px;height:30px;display:grid;place-items:center;border:1px solid rgba(255,143,163,.16);border-radius:50%;background:rgba(10,4,6,.45);color:#d9c6cb;font-size:.68rem;transition:.18s}
+.gallery-control:hover:not(:disabled){border-color:var(--rose);background:rgba(255,46,77,.12);color:#fff}
+.gallery-control:disabled{opacity:.3;cursor:not-allowed}
+.gallery-control.cover{width:auto;padding:0 10px;border-radius:20px;color:#ffb1be;font-size:.58rem;font-weight:800}
+.gallery-control.remove:hover{border-color:#ff7187;color:#ff9eaa}
+.gallery-empty{padding:18px;border:1px dashed rgba(255,143,163,.18);border-radius:9px;color:#967d85;text-align:center;font-size:.7rem}
+.gallery-input-error{margin:7px 0 0;color:#ff9eaa;font-size:.68rem}
+.form-error{min-height:18px;margin:0;color:#ff9eaa;font-size:.7rem}
+.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.preview{position:sticky;top:0;align-self:start;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025)}
+.preview h3{margin:0 0 10px;color:#fff;font:700 1rem Georgia,serif}
+.preview-card{overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:#160b0f}
+.preview-cover{position:relative;aspect-ratio:4/4.5;background:#0b0507}
+.preview-cover img{width:100%;height:100%;object-fit:cover}
+.preview-cover b{position:absolute;left:12px;bottom:10px;color:#fff;font:700 1.35rem Georgia,serif;text-shadow:0 2px 10px #000}
+.preview-details{padding:12px}
+.preview-details strong{display:block;color:#fff}
+.preview-details span,.preview-details p{color:var(--dim);font-size:.7rem}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:9px}
+.gallery-item{position:relative;aspect-ratio:1;border:1px solid rgba(255,255,255,.15);border-radius:7px;overflow:hidden;background:#0b0507}
+.gallery-item img{width:100%;height:100%;object-fit:cover}
+.gallery-item.broken{display:grid;place-items:center;border-color:rgba(255,46,77,.65);color:#ff8e9d}
+.gallery-item button{position:absolute;left:4px;right:4px;bottom:4px;padding:5px;border:0;border-radius:15px;background:rgba(10,4,6,.82);color:white;font-size:.53rem;font-weight:800}
+.gallery-item button:disabled{color:#b4edc8}
+.preview-error{margin:8px 0 0;color:#ff9eaa;font-size:.65rem}
+.loading{padding:35px;text-align:center;color:var(--dim)}
+.toast{position:fixed;right:20px;bottom:20px;z-index:40;max-width:min(400px,calc(100vw - 40px));padding:13px 17px;border:1px solid var(--line);border-radius:10px;background:#200c13;color:#fff;box-shadow:0 15px 50px #0008;font-size:.78rem;animation:toastIn .25s ease both}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:980px){.roster{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.overview-grid{grid-template-columns:1fr}.recent-panel{grid-column:auto}}
+@media(max-width:720px){.wrap{width:calc(100% - 28px);padding-top:25px}.editor{grid-template-columns:1fr}.preview{position:static}.preview-cover{max-height:330px}.booking{grid-template-columns:1fr}.booking-actions{grid-template-columns:1fr}}
+@media(max-width:520px){.roster{grid-template-columns:1fr}.topbar{gap:9px;padding:10px 13px}.brand{font-size:1rem}.brand-mark{width:33px;height:33px}.user-email{display:none}.button{padding:8px 11px;font-size:.61rem}.intro{align-items:flex-start}.stats{width:100%}.toolbar .search{max-width:none;flex-basis:100%}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.modal-head{padding:15px 17px}.editor{padding:16px;max-height:calc(92vh - 66px)}.invite-content{padding:16px}.invite-link-row{grid-template-columns:1fr}.booking-actions{grid-template-columns:1fr}.small-button{font-size:.6rem}.gallery-adder{grid-template-columns:1fr}.gallery-row{grid-template-columns:52px minmax(0,1fr);gap:8px}.gallery-thumb{width:52px;height:52px}.gallery-controls{grid-column:1/-1;justify-content:flex-start}.gallery-control{width:32px;height:32px}.wrap{width:calc(100% - 24px);padding-top:20px}.studio-nav{margin:0 0 20px}.nav-tab{flex:none;justify-content:center;padding:8px 10px;font-size:.64rem}.overview-panel{padding:15px}.overview-actions{width:100%}.overview-actions .button{flex:1}.popular-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px}.popular-photo{width:44px;height:50px}.onboarding-item{grid-template-columns:1fr 1fr;gap:8px}.onboarding-identity,.onboarding-action{grid-column:1/-1}.onboarding-state{justify-self:start}.draft-item{align-items:flex-start;flex-direction:column}.draft-actions{width:100%}.draft-actions .button{flex:1}.page-heading{align-items:flex-start}.page-heading>.button{width:100%}}
+@media(max-width:520px){.creator-payment-head{flex-direction:column}.creator-payment-total{font-size:1.05rem}.creator-payout-form{grid-template-columns:1fr}.creator-payout-form button{width:100%}}
+@media(max-width:720px){
+  .studio-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:visible;margin:0 0 16px;padding:8px;border-radius:16px;scrollbar-width:none}
+  .nav-tab{min-width:0;min-height:50px;display:grid;grid-template-columns:18px minmax(0,1fr) auto;align-items:center;justify-content:initial;gap:7px;padding:9px 10px;border:1px solid rgba(255,255,255,.06);border-radius:11px;text-align:left;white-space:normal;line-height:1.25}
+  .nav-tab.active{border-color:rgba(255,46,77,.24);background:linear-gradient(145deg,rgba(255,46,77,.18),rgba(217,4,41,.06))}
+  .nav-tab>span{min-width:18px;padding:3px 5px}
+  .intro,.page-heading{position:relative;overflow:hidden;padding:16px;border:1px solid rgba(255,143,163,.17);border-radius:17px;background:radial-gradient(ellipse at 100% 0,rgba(217,4,41,.2),transparent 58%),linear-gradient(145deg,#1d0c12,#10070a);box-shadow:0 14px 30px rgba(0,0,0,.2)}
+  .intro{margin-bottom:14px}
+  .overview-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .overview-stats .stat{min-width:0;min-height:67px;display:flex;align-items:center;padding:11px;border-color:rgba(255,143,163,.15);border-radius:13px;background:linear-gradient(145deg,#1c0c12,#10070a);font-size:.64rem;line-height:1.35}
+  .overview-stats .stat b{margin-right:5px;font:700 1.15rem/1 Georgia,serif}
+  .overview-panel{border-radius:16px}
+  .panel-actions{justify-content:flex-start}
+  .onboarding-item{border-radius:13px}
+  .creator-payment-card{border-radius:15px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+<link rel="stylesheet" href="site-ticker.css">
+<link rel="stylesheet" href="responsive-polish.css">
+<link rel="stylesheet" href="site-loading-screen.css">
+</head>
+<body>
+<div class="loading-screen" id="auth-wait" role="status" aria-live="polite" aria-label="Loading Red Room">
+  <div class="loader-card">
+    <div class="loader-copy">
+      <div class="loader-brand"><span class="loader-brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> RED ROOM</div>
+      <span class="loader-kicker">South Africa · Companion profiles</span>
+      <h2 id="loader-headline">You’re about to enter Red Room.</h2>
+      <p id="loader-detail">A little moment while we set the scene.</p>
+      <div class="loader-progress" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8"><span id="loader-progress-fill"></span></div>
+      <div class="loader-status"><span id="loader-status-text">Preparing the room</span><span id="loader-percent">08%</span></div>
+    </div>
+    <div class="loader-visual">
+      <img class="loader-photo is-active" src="ximg/mane.webp" alt="" fetchpriority="high">
+      <img class="loader-photo" src="ximg/1000200860.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/1000439607.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/Milly-Shades-4-768x1216.jpeg" alt="" loading="eager">
+    </div>
+  </div>
+</div>
+<div id="studio" hidden>
+  <header class="topbar">
+    <a class="brand" href="public/index.html"><span class="brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> Red Room</a>
+    <div class="top-actions"><span class="user-email" id="admin-email"></span><a class="button" href="public/index.html"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View site</a><button class="button" id="sign-out" type="button"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Sign out</button></div>
+  </header>
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">
+    <span><i class="fa-solid fa-circle"></i> Confirm availability before booking</span><span><i class="fa-solid fa-circle"></i> Check the profile's service area and rate</span>
+    <span><i class="fa-solid fa-circle"></i> Ask us to confirm travel and arrival details</span><span><i class="fa-solid fa-circle"></i> Browse Red Room profiles across South Africa</span>
+    <span><i class="fa-solid fa-circle"></i> Confirm availability before booking</span><span><i class="fa-solid fa-circle"></i> Check the profile's service area and rate</span>
+    <span><i class="fa-solid fa-circle"></i> Ask us to confirm travel and arrival details</span><span><i class="fa-solid fa-circle"></i> Browse Red Room profiles across South Africa</span>
+  </div></div>
+  <main class="wrap">
+    <nav class="studio-nav" aria-label="Studio sections">
+      <button class="nav-tab active" type="button" data-screen="overview"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Overview</button>
+      <button class="nav-tab" type="button" data-screen="profiles"><i class="fa-solid fa-users" aria-hidden="true"></i> Profiles</button>
+      <button class="nav-tab" type="button" data-screen="inquiries"><i class="fa-solid fa-inbox" aria-hidden="true"></i> Inquiries <span id="nav-inquiry-total">0</span></button>
+      <button class="nav-tab" type="button" data-screen="verification"><i class="fa-solid fa-user-check" aria-hidden="true"></i> Pending verification <span id="nav-verification-total">0</span></button>
+      <button class="nav-tab" type="button" data-screen="payments"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Creator payments</button>
+      <button class="nav-tab" type="button" data-screen="drafts"><i class="fa-solid fa-file-pen" aria-hidden="true"></i> Drafts <span id="nav-drafts-total">0</span></button>
+    </nav>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <section class="screen" id="overview-screen" aria-labelledby="overview-title">
+      <div class="intro">
+        <div><div class="eyebrow">Private admin studio</div><h1 id="overview-title">Studio overview.</h1><p>Your roster at a glance. Profile view totals update as visitors open profile details.</p></div>
+        <div class="overview-actions"><button class="button primary" type="button" data-command="add-profile"><i class="fa-solid fa-plus" aria-hidden="true"></i> New profile</button><button class="button" type="button" data-screen="profiles"><i class="fa-solid fa-users" aria-hidden="true"></i> All profiles</button></div>
+      </div>
+      <div class="stats overview-stats">
+        <span class="stat"><b id="profile-total">—</b> companions</span>
+        <span class="stat"><b id="available-total">—</b> available</span>
+        <span class="stat"><b id="hidden-total">—</b> hidden</span>
+        <span class="stat"><b id="photo-total">—</b> photos</span>
+        <span class="stat"><b id="total-views">—</b> profile views</span>
+        <span class="stat"><b id="inquiry-total">—</b> inquiries</span>
+        <span class="stat"><b id="verification-pending-total">—</b> verification pending</span>
+        <span class="stat"><b id="password-pending-total">—</b> password setup pending</span>
+      </div>
+      <div class="overview-grid">
+        <section class="overview-panel popular-panel" aria-labelledby="popular-title">
+          <div class="section-head"><div><span class="eyebrow">Audience insights</span><h2 id="popular-title">Most viewed profiles</h2><p>Anonymous profile detail views, counted once per visitor every 24 hours.</p></div><div class="panel-actions"><button class="text-link" id="initialize-views" type="button" hidden>Initialize view fields</button><button class="text-link" type="button" data-screen="profiles">Manage profiles <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div></div>
+          <div class="popular-list" id="popular-profiles" aria-live="polite"><div class="loading">Loading profile insights…</div></div>
+        </section>
+        <section class="overview-panel quick-panel" aria-labelledby="quick-title">
+          <div class="section-head"><div><span class="eyebrow">Studio shortcuts</span><h2 id="quick-title">Quick actions</h2><p>Jump straight into the daily essentials.</p></div></div>
+          <div class="quick-actions">
+            <button type="button" data-screen="profiles"><i class="fa-solid fa-address-card" aria-hidden="true"></i><span><strong>All profiles</strong><small>Search, edit and update availability</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+            <button type="button" data-command="add-profile"><i class="fa-solid fa-circle-plus" aria-hidden="true"></i><span><strong>Add a companion</strong><small>Create a profile with gallery links</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+            <button type="button" data-screen="inquiries"><i class="fa-solid fa-comments" aria-hidden="true"></i><span><strong>Review inquiries</strong><small>Open the concierge live feed</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </section>
+        <section class="overview-panel onboarding-panel" aria-labelledby="onboarding-title">
+          <div class="section-head"><div><span class="eyebrow">Creator onboarding</span><h2 id="onboarding-title">Pending verification</h2><p>Review private creator verification and account setup status.</p></div><button class="text-link" type="button" data-screen="verification">Open queue <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>
+          <p>Pending counts are shown above. Open the queue to mark completed verification.</p>
+        </section>
+        <section class="overview-panel recent-panel" aria-labelledby="recent-title">
+          <div class="section-head"><div><span class="eyebrow">Roster activity</span><h2 id="recent-title">Recently updated</h2><p>Latest profile changes in your studio.</p></div><button class="text-link" type="button" data-screen="profiles">View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>
+          <div class="recent-list" id="recent-profiles"></div>
+        </section>
+      </div>
+    </section>
+    <section class="screen" id="profiles-screen" aria-labelledby="profiles-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">Roster management</div><h1 id="profiles-title">All profiles.</h1><p>Manage profile details, availability, photos and public order.</p></div><button class="button primary" id="add-profile" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> New profile</button></div>
+      <div class="toolbar">
+        <label class="search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="search" type="search" placeholder="Search name, area or bio" aria-label="Search companions"></label>
+        <select class="filter" id="filter" aria-label="Filter by status"><option value="all">All statuses</option><option value="available">Available tonight</option><option value="check">Check availability</option><option value="hidden">Hidden</option></select>
+        <select class="filter" id="sort" aria-label="Sort companions"><option value="reward">Featured &amp; most viewed</option><option value="manual">Manual order</option><option value="name">Name A–Z</option><option value="area">Area A–Z</option><option value="updated">Recently updated</option></select>
+        <button class="button" id="seed" type="button"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Import current roster</button>
+        <button class="button" id="export" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Export HTML</button>
+      </div>
+      <div class="status-key"><span><i class="dot available"></i> Available tonight</span><span><i class="dot"></i> Check availability</span><span><i class="dot hidden"></i> Hidden from site</span></div>
+      <div class="roster" id="roster" aria-live="polite"><div class="loading">Loading roster…</div></div>
+    </section>
+    <section class="screen" id="inquiries-screen" aria-labelledby="bookings-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">Concierge desk</div><h1 id="bookings-title">Inquiries.</h1><p>Review recent booking requests and manage follow-ups.</p></div><button class="button" id="refresh-bookings" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh feed</button></div>
+      <div class="bookings" id="bookings"><div class="loading">Loading inquiries…</div></div>
+    </section>
+    <section class="screen" id="verification-screen" aria-labelledby="verification-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">Creator onboarding</div><h1 id="verification-title">Pending verification.</h1><p>Review verification and password setup. You can publish a profile here while either step is still pending.</p></div><button class="button" id="refresh-creators" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh queue</button></div>
+      <div class="onboarding-list" id="creator-accounts" aria-live="polite"><div class="loading">Loading creator accounts…</div></div>
+    </section>
+    <section class="screen" id="payments-screen" aria-labelledby="creator-payments-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">Creator payouts</div><h1 id="creator-payments-title">Creator payments.</h1><p>Pending totals include 80% of paid service amounts and all-time profile views at $0.10 CPM, converted at the latest USD/ZAR reference rate. The R1,000 threshold is tracked per creator.</p></div><button class="button" id="refresh-creator-payments" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh payouts</button></div>
+      <p class="help" id="admin-payout-rate" role="status">Loading USD/ZAR reference rate…</p>
+      <div class="creator-payment-list" id="creator-payment-list" aria-live="polite"><div class="loading">Loading creator balances…</div></div>
+    </section>
+    <section class="screen" id="drafts-screen" aria-labelledby="drafts-title" hidden>
+      <div class="page-heading"><div><div class="eyebrow">Unpublished work</div><h1 id="drafts-title">Profile drafts.</h1><p>Drafts save automatically to Firestore while you edit and when you close the editor.</p></div><button class="button" id="refresh-drafts" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh drafts</button></div>
+      <div class="draft-list" id="draft-list" aria-live="polite"><div class="loading">Loading drafts…</div></div>
+    </section>
+  </main>
+</div>
+<dialog class="modal" id="editor" aria-labelledby="editor-title">
+  <div class="modal-head"><h2 id="editor-title">New companion profile</h2><button class="close" id="close-editor" type="button" aria-label="Back to studio"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Back to studio</span></button></div>
+  <div class="editor">
+    <form id="profile-form">
+      <input id="profile-id" type="hidden">
+      <div class="fields">
+        <div class="field"><label for="name">Name</label><input id="name" name="name" maxlength="60" required autocomplete="off"></div>
+        <div class="field"><label for="area">Area</label><input id="area" name="area" maxlength="80" required autocomplete="off"></div>
+        <div class="field"><label for="rate">Starting price (R/hour)</label><input id="rate" name="rate" type="number" min="500" max="1000000" step="1" inputmode="numeric" placeholder="500" required><p class="help">Starting rate is R500 per hour.</p></div>
+        <div class="field"><label for="status">Website status</label><select id="status" name="status"><option value="check">Check availability</option><option value="available">Available tonight</option><option value="hidden">Hidden</option></select></div>
+        <div class="field"><label for="profile-visibility">Public listing</label><select id="profile-visibility" name="published"><option value="false">Not public</option><option value="true">Public now</option></select><p class="help">Public profiles can be viewed before account setup. The owner still cannot access the dashboard until they set their password. Website status “Hidden” keeps the profile off the site.</p></div>
+        <div class="field-heading">Profile contact</div>
+        <div class="field full"><label for="whatsapp-number">WhatsApp number</label><input id="whatsapp-number" name="whatsappNumber" type="tel" maxlength="24" autocomplete="tel" placeholder="+27 82 123 4567"><p class="help">Optional public number for direct profile enquiries. Only add a number approved for public display. Enter the country code; a South African number starting with 0 is converted automatically.</p></div>
+        <div class="field full"><label for="bio">Short description</label><textarea id="bio" name="bio" maxlength="600" placeholder="A short introduction for the profile preview"></textarea></div>
+        <div class="field-heading">Personal details</div>
+        <div class="field"><label for="age">Age</label><input id="age" name="age" type="number" min="18" max="99" step="1" required placeholder="18 or older"></div>
+        <div class="field"><label for="height">Height (cm)</label><input id="height" name="height" type="number" min="1" max="300" step="1" inputmode="numeric" placeholder="171"><p class="help">Enter centimeters only; the profile displays “cm” automatically.</p></div>
+        <div class="field"><label for="dress-size">Dress size</label><input id="dress-size" name="dressSize" maxlength="30" placeholder="Optional"></div>
+        <div class="field"><label for="hair-colour">Hair colour</label><input id="hair-colour" name="hairColor" maxlength="50" placeholder="Optional"></div>
+        <div class="field"><label for="eye-colour">Eye colour</label><input id="eye-colour" name="eyeColor" maxlength="50" placeholder="Optional"></div>
+        <div class="field full"><label for="languages">Languages</label><textarea id="languages" name="languages" maxlength="500" placeholder="One per line&#10;English&#10;isiZulu"></textarea><p class="help">Enter a truthful selection, one language per line.</p></div>
+        <div class="field full"><label for="personality">Personality and interests</label><textarea id="personality" name="personality" maxlength="600" placeholder="Describe her personality and interests"></textarea></div>
+        <div class="field-heading">Outcalls and experiences</div>
+        <div class="field full"><label for="travel-areas">Preferred travel areas</label><textarea id="travel-areas" name="travelAreas" maxlength="800" placeholder="One area per line"></textarea></div>
+        <div class="field full"><label for="preferred-venues">Preferred venues</label><textarea id="preferred-venues" name="preferredVenues" maxlength="800" placeholder="Optional; list only venues she has approved"></textarea><p class="help">Do not add private addresses or venue claims without her approval.</p></div>
+        <div class="field full"><label for="extended-rates">Extended stay rates</label><textarea id="extended-rates" name="extendedRates" maxlength="800" placeholder="One option per line, e.g. 2 hours — confirm rate"></textarea></div>
+        <div class="field full"><label for="services">Companionship options</label><textarea id="services" name="services" maxlength="800" placeholder="One option per line, e.g. Dinner date"></textarea></div>
+        <div class="field-heading">Media and verification</div>
+        <div class="field full">
+          <label for="video-url">Profile videos</label>
+          <div class="gallery-adder"><input id="video-url" type="text" inputmode="url" maxlength="1000" autocomplete="off" placeholder="Paste an HTTPS MP4, WebM, or GIF link"><button class="button primary" id="add-video" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add video</button></div>
+          <p class="help">Add up to 20 direct HTTPS video links. Select a frame from each video to use as its thumbnail. Set each video's title and description below. The preview is saved with the profile; remote video hosts may block frame selection. Views are counted once per visitor every 24 hours. Use media she has approved.</p>
+          <p class="gallery-input-error" id="video-input-error" role="status"></p>
+          <div class="gallery-manager" id="video-manager" aria-live="polite"></div>
+        </div>
+        <div class="field full"><label class="verified-field" for="verified-photo"><input id="verified-photo" name="verifiedPhoto" type="checkbox"><span>Show “Verified photo” badge only after checking that the profile photos are authentic and approved.</span></label></div>
+        <div class="field full">
+          <label for="gallery-url">Photo gallery</label>
+          <div class="gallery-adder"><input id="gallery-url" type="text" inputmode="url" autocomplete="off" placeholder="Paste an HTTPS image link or ximg/filename"><button class="button primary" id="add-photo" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add photo</button></div>
+          <p class="help">Add links one at a time. Use the arrows to reorder; the first photo is the cover shown on the site. VIP locks are saved as labels only and do not restrict access to image URLs.</p>
+          <p class="gallery-input-error" id="gallery-input-error" role="status"></p>
+          <div class="gallery-manager" id="gallery-manager" aria-live="polite"></div>
+          <textarea id="gallery-input" name="gallery" hidden aria-hidden="true"></textarea>
+        </div>
+        <div class="field full"><p class="form-error" id="form-error" role="alert"></p><p class="help" id="draft-save-status" role="status" aria-live="polite">Changes autosave as a draft. Choose whether the profile should be public when you save it.</p><div class="editor-actions"><button class="button primary" id="save-profile" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save profile</button><button class="button danger" id="delete-profile" type="button" hidden><i class="fa-solid fa-trash" aria-hidden="true"></i> Delete</button></div></div>
+      </div>
+    </form>
+    <aside class="preview">
+      <h3>Live site preview</h3>
+      <div class="preview-card"><div class="preview-cover"><img id="preview-cover" alt=""><b id="preview-name">Your companion</b></div><div class="preview-details"><strong id="preview-area">Service area not listed</strong><span id="preview-rate">Add a starting rate</span><p id="preview-bio"></p></div></div>
+      <div class="gallery" id="gallery-preview" aria-label="Photo gallery preview"></div>
+      <p class="preview-error" id="gallery-error" role="status"></p>
+    </aside>
+  </div>
+</dialog>
+<dialog class="modal frame-picker-modal" id="video-frame-picker" aria-labelledby="video-frame-title">
+  <div class="modal-head"><h2 id="video-frame-title">Choose a video preview</h2><button class="close" id="close-video-frame-picker" type="button" aria-label="Close frame picker"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+  <div class="frame-picker-content">
+    <video id="frame-picker-video" controls crossorigin="anonymous" playsinline preload="metadata"></video>
+    <p class="help" id="video-frame-status">Play or scrub to the frame you want, then select Use this frame.</p>
+    <p class="form-error" id="video-frame-error" role="alert"></p>
+    <div class="frame-picker-actions"><button class="button primary" id="use-video-frame" type="button" disabled><i class="fa-solid fa-image" aria-hidden="true"></i> Use this frame</button></div>
+  </div>
+</dialog>
+<dialog class="modal invite-modal" id="ownership-assignment" aria-labelledby="ownership-title">
+  <div class="modal-head"><h2 id="ownership-title">Add profile ownership</h2><button class="close" id="close-ownership" type="button" aria-label="Close ownership assignment"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+  <form class="invite-content" id="ownership-form">
+    <input id="ownership-profile-id" type="hidden">
+    <p id="ownership-profile-name">Enter the creator's email to generate a private password setup link.</p>
+    <div class="field"><label for="ownership-email">Creator login email</label><input id="ownership-email" type="email" maxlength="254" autocomplete="email" placeholder="creator@example.com" required></div>
+    <p class="help">The creator sets their own password from the setup link. The email is stored privately and is not shown on the public profile.</p>
+    <p class="form-error" id="ownership-error" role="alert"></p>
+    <button class="button primary" id="assign-ownership" type="submit"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add ownership</button>
+  </form>
+</dialog>
+<dialog class="modal invite-modal" id="invite-result" aria-labelledby="invite-title">
+  <div class="modal-head"><h2 id="invite-title">Creator setup link ready</h2><button class="close" id="close-invite" type="button" aria-label="Close invitation"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+  <div class="invite-content">
+    <p id="invite-summary">Copy this private link and send it directly to the creator.</p>
+    <div class="invite-link-row"><input id="invite-link" type="text" readonly aria-label="Creator password setup link"><button class="button primary" id="copy-invite" type="button"><i class="fa-solid fa-copy" aria-hidden="true"></i> Copy link</button></div>
+    <p class="help" id="invite-expiry"></p>
+    <p class="invite-warning">The link expires in 24 hours and allows three password attempts. The Creator ID is a reference, not a password. If this unused link expires or runs out of attempts, use Reissue setup link on the profile card. After account setup, use Forgot password for resets.</p>
+  </div>
+</dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<script src="site-loading-screen.js"></script>
+<script type="module">
+import { auth, db } from "./firebase-client.js";
+import { adminUid } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, runTransaction, serverTimestamp, setDoc, Timestamp, updateDoc, writeBatch } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+import { defaultProfiles, normalizeWhatsAppNumber, profileId, profileImageUrl, profileRate, profileThumbnailUrl } from "./profiles.js";
+import { formatViewCount } from "./format-view-count.js";
+import { calculateCreatorPayoutSummary, fetchLatestUsdZarRate, PAYOUT_THRESHOLD_ZAR } from "./creator-payouts.js";
+import { sortProfilesByRewardAndViews } from "./profile-ranking.js";
+
+const INVITE_LIFETIME_MS = 24 * 60 * 60 * 1000;
+const studio = document.getElementById("studio");
+const notice = document.getElementById("notice");
+const rosterElement = document.getElementById("roster");
+const bookingsElement = document.getElementById("bookings");
+const creatorAccountsElement = document.getElementById("creator-accounts");
+const draftListElement = document.getElementById("draft-list");
+const editor = document.getElementById("editor");
+const videoFramePicker = document.getElementById("video-frame-picker");
+const framePickerVideo = document.getElementById("frame-picker-video");
+const ownershipAssignment = document.getElementById("ownership-assignment");
+const inviteResult = document.getElementById("invite-result");
+const form = document.getElementById("profile-form");
+const ownershipForm = document.getElementById("ownership-form");
+const galleryInput = document.getElementById("gallery-input");
+const galleryUrlInput = document.getElementById("gallery-url");
+const galleryManager = document.getElementById("gallery-manager");
+const videoUrlInput = document.getElementById("video-url");
+const videoManager = document.getElementById("video-manager");
+const toastElement = document.getElementById("toast");
+let profiles = [];
+let bookings = [];
+let bookingResponses = new Map();
+let creatorAccounts = null;
+let profileOwnership = null;
+let profileDrafts = [];
+let editorGallery = [];
+let editorVideos = [];
+let editorVipLockedImages = [];
+let framePickerVideoItem = null;
+let toastTimer;
+let activeDraftRef = null;
+let editorBaseline = "";
+let lastDraftFingerprint = "";
+let draftSaveTimer;
+let draftWriteChain = Promise.resolve();
+
+const setNotice = (text, kind) => {
+  notice.textContent = text;
+  notice.className = `notice${kind ? ` ${kind}` : ""}`;
+  notice.hidden = !text;
+};
+const toast = (text) => {
+  toastElement.textContent = text;
+  toastElement.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toastElement.hidden = true; }, 3200);
+};
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+};
+const makeImage = (src, alt, onError) => {
+  const img = document.createElement("img");
+  img.src = src || "";
+  img.alt = alt;
+  img.loading = "lazy";
+  img.referrerPolicy = "no-referrer";
+  img.addEventListener("error", onError, { once: true });
+  return img;
+};
+const normalizeStatus = (status) => ["available", "check", "hidden"].includes(status) ? status : "check";
+const statusLabel = (status) => ({ available: "Available tonight", check: "Check availability", hidden: "Hidden" })[normalizeStatus(status)];
+const photoCount = (profile) => Array.isArray(profile.gallery) && profile.gallery.length ? profile.gallery.length : profile.image ? 1 : 0;
+const galleryUrls = () => [...editorGallery];
+const profileVideos = (profile) => {
+  const videos = Array.isArray(profile?.videos) ? profile.videos : profile?.videoUrl ? [{ id: "legacy", url: profile.videoUrl }] : [];
+  return videos.flatMap((video, index) => {
+    if (!video || typeof video.url !== "string") return [];
+    try {
+      const parsed = new URL(video.url);
+      if (parsed.protocol !== "https:" || !/\.(mp4|webm|gif)$/i.test(parsed.pathname)) return [];
+      return [{
+        id: /^[A-Za-z0-9_-]{1,128}$/.test(video.id) ? video.id : `legacy-${index}`,
+        url: parsed.href,
+        thumbnail: profileThumbnailUrl(video.thumbnail),
+        title: typeof video.title === "string" ? video.title.trim().slice(0, 100) : "",
+        description: typeof video.description === "string" ? video.description.trim().slice(0, 300) : ""
+      }];
+    } catch (videoUrlError) {
+      console.warn("Ignoring an invalid video URL in the profile editor.", videoUrlError);
+      return [];
+    }
+  });
+};
+const createVideoId = () => Array.from(crypto.getRandomValues(new Uint32Array(4)), (value) => value.toString(16).padStart(8, "0")).join("");
+const lineValues = (value) => Array.isArray(value) ? value.join("\n") : String(value || "");
+const readLineValues = (id) => document.getElementById(id).value.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+const extractRateAmount = (value) => {
+  const match = String(value || "").match(/\d[\d\s]*/);
+  return match ? match[0].replace(/\D/g, "") : "";
+};
+const extractHeightCm = (value) => {
+  const match = String(value || "").match(/\d+/);
+  return match ? match[0] : "";
+};
+const displayRate = (value) => {
+  const amount = Number(value);
+  return Number.isSafeInteger(amount) && amount > 0
+    ? `R${new Intl.NumberFormat("en-ZA", { maximumFractionDigits: 0 }).format(amount)} /hr`
+    : "";
+};
+
+function readEditorData() {
+  return {
+    profileId: document.getElementById("profile-id").value,
+    name: document.getElementById("name").value.trim(),
+    area: document.getElementById("area").value.trim(),
+    rate: document.getElementById("rate").value.trim(),
+    status: normalizeStatus(document.getElementById("status").value),
+    published: document.getElementById("profile-visibility").value === "true",
+    whatsappNumber: document.getElementById("whatsapp-number").value.trim(),
+    bio: document.getElementById("bio").value.trim(),
+    age: document.getElementById("age").value,
+    height: document.getElementById("height").value,
+    dressSize: document.getElementById("dress-size").value.trim(),
+    hairColor: document.getElementById("hair-colour").value.trim(),
+    eyeColor: document.getElementById("eye-colour").value.trim(),
+    languages: document.getElementById("languages").value,
+    personality: document.getElementById("personality").value.trim(),
+    travelAreas: document.getElementById("travel-areas").value,
+    preferredVenues: document.getElementById("preferred-venues").value,
+    extendedRates: document.getElementById("extended-rates").value,
+    services: document.getElementById("services").value,
+    videos: editorVideos.map((video) => ({ ...video })),
+    verifiedPhoto: document.getElementById("verified-photo").checked,
+    gallery: galleryUrls(),
+    vipLockedImages: galleryUrls().filter((url) => editorVipLockedImages.includes(url))
+  };
+}
+const editorFingerprint = (data = readEditorData()) => JSON.stringify(data);
+
+function showDraftSaveError(error) {
+  console.error("Could not autosave profile draft:", error);
+  document.getElementById("draft-save-status").textContent = "Draft save failed. Check administrator access and try again.";
+  setNotice("Could not autosave this profile draft. Check the admin-only profileDrafts Firestore rule and administrator access.", "error");
+}
+
+function scheduleDraftSave() {
+  clearTimeout(draftSaveTimer);
+  if (!editor.open) return;
+  const fingerprint = editorFingerprint();
+  const previousFingerprint = activeDraftRef ? lastDraftFingerprint : editorBaseline;
+  if (fingerprint === previousFingerprint) return;
+  document.getElementById("draft-save-status").textContent = "Unsaved changes · saving draft…";
+  draftSaveTimer = setTimeout(() => {
+    saveDraftNow().catch(showDraftSaveError);
+  }, 650);
+}
+
+async function saveDraftNow() {
+  clearTimeout(draftSaveTimer);
+  const formData = readEditorData();
+  const fingerprint = editorFingerprint(formData);
+  const previousFingerprint = activeDraftRef ? lastDraftFingerprint : editorBaseline;
+  if (fingerprint === previousFingerprint) return;
+
+  if (!activeDraftRef) activeDraftRef = doc(collection(db, "profileDrafts"));
+  const draftRef = activeDraftRef;
+  const isNewDraft = !profileDrafts.some((draft) => draft.id === draftRef.id);
+  const draft = {
+    profileId: formData.profileId,
+    profileName: formData.name || "Untitled profile",
+    formData,
+    updatedAt: serverTimestamp()
+  };
+  if (isNewDraft) draft.createdAt = serverTimestamp();
+
+  const save = draftWriteChain
+    .catch((error) => { console.error("Previous profile draft save failed:", error); })
+    .then(() => setDoc(draftRef, draft, { merge: true }));
+  draftWriteChain = save;
+  await save;
+
+  if (activeDraftRef && activeDraftRef.id === draftRef.id) lastDraftFingerprint = fingerprint;
+  const cachedDraft = {
+    id: draftRef.id,
+    ...draft,
+    updatedAt: new Date()
+  };
+  profileDrafts = [cachedDraft, ...profileDrafts.filter((item) => item.id !== draftRef.id)];
+  renderDrafts();
+  document.getElementById("nav-drafts-total").textContent = String(profileDrafts.length);
+  document.getElementById("draft-save-status").textContent = "Draft saved · changes remain unpublished.";
+}
+
+function createInviteToken() {
+  if (!window.crypto || !window.crypto.getRandomValues || !window.crypto.subtle) {
+    throw new Error("Secure random generation is unavailable. Open the admin studio over HTTPS or localhost.");
+  }
+  const bytes = new Uint8Array(32);
+  window.crypto.getRandomValues(bytes);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function hashInviteToken(token) {
+  const digest = await window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function reserveCreatorId() {
+  const counterRef = doc(db, "settings", "creatorAccountSequence");
+  return runTransaction(db, async (transaction) => {
+    const snapshot = await transaction.get(counterRef);
+    const nextId = snapshot.exists() ? snapshot.data().nextId : 23;
+    if (!Number.isSafeInteger(nextId) || nextId < 1 || nextId >= 100000) {
+      throw new Error("The creator ID sequence is invalid or has reached its limit.");
+    }
+    transaction.set(counterRef, { nextId: nextId + 1, updatedAt: serverTimestamp() }, { merge: true });
+    return `RR-ID-${String(nextId).padStart(5, "0")}`;
+  });
+}
+
+async function issueCreatorInvite(profileIdValue, email, displayName) {
+  const currentInvites = await getDocs(collection(db, "creatorInvites"));
+  const inviteRecords = currentInvites.docs.map((snapshot) => ({ inviteId: snapshot.id, ...snapshot.data() }));
+  const sameProfile = inviteRecords.filter((invite) => invite.profileId === profileIdValue);
+  if (inviteRecords.some((invite) => invite.email === email && invite.profileId !== profileIdValue && invite.status !== "revoked")) {
+    throw new Error("This email is already invited or linked to another profile.");
+  }
+  if (sameProfile.some((invite) => invite.status === "used")) {
+    throw new Error("This profile is already linked to a creator account. Use the existing email and Forgot password if needed.");
+  }
+
+  const previous = sameProfile.filter((invite) => invite.creatorId)
+    .sort((left, right) => (right.createdAt?.toMillis?.() || 0) - (left.createdAt?.toMillis?.() || 0))[0];
+  const creatorId = previous ? previous.creatorId : await reserveCreatorId();
+  const verificationStatus = previous?.verificationStatus === "verified" ? "verified" : "pending";
+  const token = createInviteToken();
+  const inviteId = await hashInviteToken(token);
+  const expiresAt = new Date(Date.now() + INVITE_LIFETIME_MS);
+  const batch = writeBatch(db);
+  sameProfile.filter((invite) => invite.status === "pending").forEach((invite) => {
+    batch.update(doc(db, "creatorInvites", invite.inviteId), { status: "revoked", updatedAt: serverTimestamp() });
+  });
+  const profileRef = doc(db, "companions", profileIdValue);
+  const profileSnapshot = await getDoc(profileRef);
+  if (!profileSnapshot.exists()) throw new Error("The profile no longer exists.");
+  const profileData = profileSnapshot.data();
+  batch.update(profileRef, {
+    published: profileData.adminVisibilitySet === true ? profileData.published === true : false,
+    updatedAt: serverTimestamp()
+  });
+  batch.set(doc(db, "creatorInvites", inviteId), {
+    creatorId,
+    profileId: profileIdValue,
+    displayName,
+    email,
+    verificationStatus,
+    adminVisibilitySet: profileData.adminVisibilitySet === true,
+    passwordStatus: "pending",
+    status: "pending",
+    attempts: 0,
+    expiresAt: Timestamp.fromDate(expiresAt),
+    ...(verificationStatus === "verified" && previous?.verifiedAt ? { verifiedAt: previous.verifiedAt } : {}),
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  });
+  await batch.commit();
+  return { token, creatorId, expiresAt };
+}
+
+function creatorSetupUrl(token) {
+  const link = new URL("/setup-password.html", "https://redroom-f17f0.web.app");
+  link.searchParams.set("token", token);
+  return link.href;
+}
+
+async function copyFreshCreatorSetupLink(account, button) {
+  button.disabled = true;
+  try {
+    const result = await issueCreatorInvite(account.profileId, account.email, account.displayName || account.name);
+    const link = creatorSetupUrl(result.token);
+    const linkInput = document.getElementById("invite-link");
+    linkInput.value = link;
+    document.getElementById("invite-summary").textContent =
+      `A fresh setup link for ${account.name || "this creator"} is ready. This replaces and invalidates any older unused link.`;
+    document.getElementById("invite-expiry").textContent =
+      `Expires ${new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium", timeStyle: "short" }).format(result.expiresAt)}.`;
+    await loadCreatorAccounts();
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard access is unavailable.");
+      await navigator.clipboard.writeText(link);
+      toast("Fresh setup link copied. Older unused links are now invalid.");
+    } catch (copyError) {
+      console.error("Could not copy fresh creator setup link:", copyError);
+      inviteResult.showModal();
+      linkInput.focus();
+      linkInput.select();
+      setNotice("The new setup link is ready. Copy it from the dialog; the previous unused link has been replaced.", "error");
+    }
+  } catch (error) {
+    console.error("Could not issue a fresh creator setup link:", error);
+    const message = error && error.message ? ` ${error.message}` : "";
+    setNotice(`Could not create a new setup link.${message}`, "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function renderStats() {
+  document.getElementById("profile-total").textContent = String(profiles.length);
+  document.getElementById("available-total").textContent = String(profiles.filter((item) => normalizeStatus(item.status) === "available").length);
+  document.getElementById("hidden-total").textContent = String(profiles.filter((item) => normalizeStatus(item.status) === "hidden").length);
+  document.getElementById("photo-total").textContent = String(profiles.reduce((total, item) => total + photoCount(item), 0));
+  document.getElementById("inquiry-total").textContent = String(bookings.length);
+  document.getElementById("nav-inquiry-total").textContent = String(bookings.length);
+  if (Array.isArray(creatorAccounts)) {
+    const pendingVerification = creatorAccounts.filter((item) => item.verificationStatus !== "verified").length;
+    document.getElementById("verification-pending-total").textContent = String(pendingVerification);
+    document.getElementById("nav-verification-total").textContent = String(pendingVerification);
+    document.getElementById("password-pending-total").textContent = String(creatorAccounts.filter((item) => item.passwordStatus !== "created").length);
+  } else {
+    document.getElementById("nav-verification-total").textContent = "—";
+  }
+  document.getElementById("nav-drafts-total").textContent = String(profileDrafts.length);
+  const totalViews = profiles.reduce((total, item) => total + (Number.isSafeInteger(item.views) && item.views > 0 ? item.views : 0), 0);
+  const totalViewsElement = document.getElementById("total-views");
+  totalViewsElement.textContent = formatViewCount(totalViews);
+  totalViewsElement.title = `${new Intl.NumberFormat("en-ZA").format(totalViews)} profile views`;
+  const missingViewCounts = profiles.filter((item) => !Number.isSafeInteger(item.views) || item.views < 0).length;
+  const initializeViewsButton = document.getElementById("initialize-views");
+  initializeViewsButton.hidden = missingViewCounts === 0;
+  initializeViewsButton.textContent = `Initialize ${missingViewCounts} view field${missingViewCounts === 1 ? "" : "s"}`;
+  renderPopularProfiles();
+  renderRecentProfiles();
+}
+
+function renderCreatorAccounts() {
+  creatorAccountsElement.replaceChildren();
+  if (!creatorAccounts.length) {
+    creatorAccountsElement.append(el("p", "popular-empty", "No creator accounts are waiting for password setup or verification."));
+    return;
+  }
+
+  for (const account of creatorAccounts) {
+    const item = el("article", "onboarding-item");
+    const identity = el("div", "onboarding-identity");
+    identity.append(el("span", "onboarding-name", account.name || "Creator account"));
+    identity.append(el("span", "onboarding-email", `${account.creatorId || "Creator ID pending"} · ${account.email || "Email unavailable"}`));
+    const verification = el("span", `onboarding-state${account.verificationStatus === "verified" ? " done" : ""}`,
+      account.verificationStatus === "verified" ? "Verification complete" : "Verification pending");
+    const password = el("span", `onboarding-state${account.passwordStatus === "created" ? " done" : ""}`,
+      account.passwordStatus === "created" ? "Password created" : "Password pending");
+    item.append(identity, verification, password);
+    const actions = el("div", "onboarding-actions");
+
+    if (account.verificationStatus !== "verified") {
+      const verifyButton = el("button", "onboarding-action", "Mark verified");
+      verifyButton.type = "button";
+      verifyButton.addEventListener("click", async () => {
+        verifyButton.disabled = true;
+        try {
+          const batch = writeBatch(db);
+          const verifiedAt = serverTimestamp();
+          batch.update(doc(db, "creatorInvites", account.inviteId), {
+            verificationStatus: "verified",
+            verifiedAt,
+            updatedAt: serverTimestamp()
+          });
+          if (account.claimedUid) {
+            batch.update(doc(db, "creatorAccounts", account.claimedUid), {
+              verificationStatus: "verified",
+              verifiedAt,
+              updatedAt: serverTimestamp()
+            });
+          }
+          await batch.commit();
+          toast(`${account.name || "Creator"} marked verified.`);
+          await loadCreatorAccounts();
+        } catch (error) {
+          console.error("Could not update creator verification:", error);
+          setNotice("Could not update verification status. Check Firestore rules and administrator access, then try again.", "error");
+          verifyButton.disabled = false;
+        }
+      });
+      actions.append(verifyButton);
+    } else {
+      actions.append(el("span", "onboarding-action", "Verified"));
+    }
+
+    if (account.passwordStatus !== "created" && account.status === "pending") {
+      const copyLinkButton = el("button", "onboarding-action", "Copy setup link");
+      copyLinkButton.type = "button";
+      copyLinkButton.title = "Create and copy a fresh link; any older unused link will stop working.";
+      copyLinkButton.addEventListener("click", () => copyFreshCreatorSetupLink(account, copyLinkButton));
+      actions.append(copyLinkButton);
+    }
+
+    const linkedProfile = profiles.find((profile) => profile.id === account.profileId);
+    if (linkedProfile?.published === true) {
+      actions.append(el("span", "onboarding-action", linkedProfile.status === "hidden" ? "Public flag · hidden" : "Profile is public"));
+    } else {
+      const publishButton = el("button", "onboarding-action", linkedProfile ? "Set profile public" : "Profile unavailable");
+      publishButton.type = "button";
+      publishButton.disabled = !linkedProfile || linkedProfile.status === "hidden";
+      publishButton.title = !linkedProfile
+        ? "This creator's profile could not be found in the roster."
+        : linkedProfile.status === "hidden"
+          ? "Change the website status from Hidden before publishing."
+          : "Make this profile public without changing verification or password status.";
+      if (linkedProfile) {
+        publishButton.addEventListener("click", async () => {
+          publishButton.disabled = true;
+          try {
+            await updateDoc(doc(db, "companions", linkedProfile.id), {
+              published: true,
+              adminVisibilitySet: true,
+              updatedAt: serverTimestamp()
+            });
+            linkedProfile.published = true;
+            linkedProfile.adminVisibilitySet = true;
+            toast(`${account.name || "Creator"}'s profile is now public.`);
+            renderRoster();
+            renderStats();
+            renderCreatorAccounts();
+          } catch (error) {
+            console.error("Could not publish creator profile from verification queue:", error);
+            setNotice("Could not set this profile public. Check Firestore rules and administrator access, then try again.", "error");
+            publishButton.disabled = false;
+          }
+        });
+      }
+      actions.append(publishButton);
+    }
+    const profileButton = el("button", "onboarding-action", linkedProfile ? "View & edit profile" : "Profile unavailable");
+    profileButton.type = "button";
+    profileButton.disabled = !linkedProfile;
+    profileButton.title = linkedProfile
+      ? "Open the full-page profile editor."
+      : "This creator's profile could not be found in the roster.";
+    if (linkedProfile) profileButton.addEventListener("click", () => openEditor(linkedProfile));
+    actions.append(profileButton);
+    item.append(actions);
+    creatorAccountsElement.append(item);
+  }
+}
+
+async function loadCreatorAccounts() {
+  creatorAccountsElement.replaceChildren(el("div", "loading", "Loading creator account status…"));
+  try {
+    const snapshot = await getDocs(collection(db, "creatorInvites"));
+    const allInvites = snapshot.docs.map((document) => {
+      const account = document.data();
+      return {
+        inviteId: document.id,
+        ...account,
+        name: account.displayName || account.profileId || "Creator account"
+      };
+    });
+    profileOwnership = new Map();
+    allInvites.filter((account) => account.status !== "revoked" && account.profileId)
+      .sort((left, right) => (left.createdAt?.toMillis?.() || 0) - (right.createdAt?.toMillis?.() || 0))
+      .forEach((account) => {
+        const current = profileOwnership.get(account.profileId);
+        if (!current || account.status === "used") {
+          profileOwnership.set(account.profileId, { status: account.status, email: account.email || "" });
+        }
+      });
+    creatorAccounts = allInvites.filter((account) => account.status !== "revoked"
+      && (account.verificationStatus !== "verified" || account.passwordStatus !== "created"))
+      .sort((left, right) => (right.createdAt?.toMillis?.() || 0) - (left.createdAt?.toMillis?.() || 0));
+    renderRoster();
+    renderCreatorAccounts();
+    renderStats();
+  } catch (error) {
+    console.error("Could not load creator account status:", error);
+    creatorAccounts = null;
+    profileOwnership = null;
+    renderRoster();
+    document.getElementById("verification-pending-total").textContent = "—";
+    document.getElementById("password-pending-total").textContent = "—";
+    document.getElementById("nav-verification-total").textContent = "—";
+    creatorAccountsElement.replaceChildren(el("p", "popular-empty", "Creator account status could not be loaded. Check Firestore rules and administrator access, then try again."));
+  } 
+}
+
+function renderDrafts() {
+  draftListElement.replaceChildren();
+  if (!profileDrafts.length) {
+    draftListElement.append(el("p", "draft-empty", "No drafts yet. Start or edit a profile; changes save here automatically until you publish them."));
+    return;
+  }
+  for (const draft of profileDrafts) {
+    const item = el("article", "draft-item");
+    const info = el("div", "draft-info");
+    const data = draft.formData || {};
+    info.append(el("strong", "", data.name || draft.profileName || "Untitled profile"));
+    const updatedAt = draft.updatedAt?.toDate?.() || draft.updatedAt;
+    const updatedLabel = updatedAt instanceof Date && !Number.isNaN(updatedAt.getTime())
+      ? new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium", timeStyle: "short" }).format(updatedAt)
+      : "Autosaved draft";
+    info.append(el("span", "", `${data.profileId ? "Editing saved profile" : "New profile"} · Updated ${updatedLabel}`));
+    const actions = el("div", "draft-actions");
+    const resumeButton = el("button", "button primary", "Continue");
+    resumeButton.type = "button";
+    resumeButton.addEventListener("click", () => {
+      const profile = profiles.find((item) => item.id === data.profileId) || null;
+      showScreen("profiles");
+      openEditor(profile, draft);
+    });
+    const deleteButton = el("button", "button danger", "Delete draft");
+    deleteButton.type = "button";
+    deleteButton.addEventListener("click", async () => {
+      if (!confirm(`Delete the draft for ${data.name || draft.profileName || "this profile"}?`)) return;
+      deleteButton.disabled = true;
+      try {
+        await deleteDoc(doc(db, "profileDrafts", draft.id));
+        profileDrafts = profileDrafts.filter((item) => item.id !== draft.id);
+        renderDrafts();
+        renderStats();
+        toast("Draft deleted.");
+      } catch (error) {
+        console.error("Could not delete profile draft:", error);
+        setNotice("Could not delete this draft. Check Firestore rules and administrator access, then try again.", "error");
+        deleteButton.disabled = false;
+      }
+    });
+    actions.append(resumeButton, deleteButton);
+    item.append(info, actions);
+    draftListElement.append(item);
+  }
+}
+
+async function loadDrafts() {
+  draftListElement.replaceChildren(el("div", "loading", "Loading drafts…"));
+  try {
+    const snapshot = await getDocs(query(collection(db, "profileDrafts"), orderBy("updatedAt", "desc")));
+    profileDrafts = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    renderDrafts();
+    renderStats();
+  } catch (error) {
+    console.error("Could not load profile drafts:", error);
+    profileDrafts = [];
+    document.getElementById("nav-drafts-total").textContent = "—";
+    draftListElement.replaceChildren(el("p", "draft-empty", "Drafts could not be loaded. Publish the admin-only profileDrafts Firestore rule, then refresh."));
+  } 
+}
+
+function renderPopularProfiles() {
+  const container = document.getElementById("popular-profiles");
+  container.replaceChildren();
+  const ranked = [...profiles].sort(sortProfilesByRewardAndViews).slice(0, 5);
+  const highest = ranked.length ? Math.max(...ranked.map((profile) => Number.isSafeInteger(profile.views) ? profile.views : 0)) : 0;
+  if (!highest) {
+    container.append(el("p", "popular-empty", "No view counts yet. Enable Anonymous Authentication, publish the Firestore rules and initialize view fields to start collecting profile visits."));
+    return;
+  }
+  for (const profile of ranked) {
+    const views = Number.isSafeInteger(profile.views) && profile.views > 0 ? profile.views : 0;
+    const exactViews = new Intl.NumberFormat("en-ZA").format(views);
+    const item = el("button", "popular-item");
+    item.type = "button";
+    item.setAttribute("aria-label", `Edit ${profile.name}, ${exactViews} profile views`);
+    const photo = el("span", "popular-photo");
+    photo.append(makeImage(profileImageUrl(profile.image || profile.gallery?.[0]), `${profile.name} cover photo`, () => {
+      photo.classList.add("broken");
+      photo.replaceChildren(el("i", "fa-solid fa-image"));
+    }));
+    const details = el("span", "popular-info");
+    details.append(el("span", "popular-name", profile.name || "Untitled profile"));
+    details.append(el("span", "popular-meta", `${profile.area || "Area not set"} · ${statusLabel(profile.status)}`));
+    const bar = el("span", "popular-bar");
+    const fill = el("span");
+    fill.style.setProperty("--view-share", `${Math.max(3, (views / highest) * 100)}%`);
+    bar.append(fill);
+    details.append(bar);
+    const count = el("span", "popular-count", formatViewCount(views));
+    count.title = `${exactViews} profile views`;
+    item.append(photo, details, count);
+    item.addEventListener("click", () => {
+      showScreen("profiles");
+      openEditor(profile);
+    });
+    container.append(item);
+  }
+}
+
+function renderRecentProfiles() {
+  const container = document.getElementById("recent-profiles");
+  container.replaceChildren();
+  const recent = [...profiles].sort((a, b) => (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0)).slice(0, 4);
+  if (!recent.length) {
+    container.append(el("p", "popular-empty", "Your recent profile activity will appear here."));
+    return;
+  }
+  for (const profile of recent) {
+    const item = el("button", "recent-item");
+    item.type = "button";
+    item.setAttribute("aria-label", `Edit ${profile.name}`);
+    const photo = el("span", "recent-photo");
+    photo.append(makeImage(profileImageUrl(profile.image || profile.gallery?.[0]), `${profile.name} cover photo`, () => {
+      photo.classList.add("broken");
+      photo.replaceChildren(el("i", "fa-solid fa-image"));
+    }));
+    const details = el("span", "recent-info");
+    details.append(el("span", "recent-name", profile.name || "Untitled profile"));
+    const updatedDate = profile.updatedAt?.toDate?.();
+    const updatedLabel = updatedDate && !Number.isNaN(updatedDate.getTime())
+      ? new Intl.DateTimeFormat("en-ZA", { day: "numeric", month: "short", year: "numeric" }).format(updatedDate)
+      : "No update date";
+    details.append(el("span", "recent-meta", `${profile.area || "Area not set"} · ${updatedLabel}`));
+    item.append(photo, details, el("span", `recent-status ${normalizeStatus(profile.status)}`, statusLabel(profile.status)));
+    item.addEventListener("click", () => {
+      showScreen("profiles");
+      openEditor(profile);
+    });
+    container.append(item);
+  }
+}
+
+function formatPayoutZar(amount) {
+  return new Intl.NumberFormat("en-ZA", { style: "currency", currency: "ZAR" }).format(amount);
+}
+
+async function recordCreatorPayout(creatorUid, profileIdValue, method, summary, amountInput, referenceInput, button) {
+  const amount = Number(amountInput.value);
+  if (!Number.isFinite(summary.pendingZar) || summary.pendingZar < PAYOUT_THRESHOLD_ZAR) {
+    setNotice("The creator has not reached the R1,000 payout threshold.", "error");
+    return;
+  }
+  if (!Number.isFinite(amount) || amount <= 0 || amount > summary.pendingZar) {
+    setNotice(`Enter a payout amount greater than R0 and no more than ${formatPayoutZar(summary.pendingZar)}.`, "error");
+    return;
+  }
+  button.disabled = true;
+  try {
+    await addDoc(collection(db, "creatorPayouts"), {
+      creatorUid,
+      profileId: profileIdValue,
+      amount: Math.round(amount * 100) / 100,
+      method,
+      reference: referenceInput.value.trim(),
+      paidAt: serverTimestamp(),
+      recordedAt: serverTimestamp(),
+      recordedBy: auth.currentUser?.uid || ""
+    });
+    toast("Creator payout recorded as sent.");
+    await loadCreatorPayments();
+  } catch (error) {
+    console.error("Could not record creator payout:", error);
+    setNotice("Could not record this payout. Check the creatorPayouts Firestore rule and administrator access.", "error");
+    button.disabled = false;
+  }
+}
+
+function addPaymentMethodDetail(list, label, value) {
+  const line = el("p", "", `${label}: ${value || "Not provided"}`);
+  list.append(line);
+}
+
+function renderCreatorPaymentCard(account, profile, earnings, settings, payouts, usdZarRate) {
+  const card = el("article", "creator-payment-card");
+  const summary = calculateCreatorPayoutSummary(profile?.views, earnings, payouts, usdZarRate);
+  const header = el("div", "creator-payment-head");
+  const identity = document.createElement("div");
+  identity.append(el("h2", "", profile?.name || account.displayName || account.creatorId || "Creator"));
+  identity.append(el("p", "creator-payment-meta", `${account.creatorId || "Creator"} · ${profile?.area || "Area unavailable"}`));
+  header.append(identity, el("strong", "creator-payment-total",
+    summary.pendingZar === null ? "FX unavailable" : formatPayoutZar(summary.pendingZar)));
+  card.append(header);
+
+  const bookedAmount = formatPayoutZar(summary.bookingEarningsZar);
+  const viewAmount = summary.viewEarningsZar === null
+    ? "Unavailable"
+    : `${formatPayoutZar(summary.viewEarningsZar)} (${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 4, maximumFractionDigits: 4 }).format(summary.viewEarningsUsd)})`;
+  card.append(el("p", "creator-payment-breakdown",
+    `Paid-booking share: ${bookedAmount} · Profile views: ${viewAmount} · Previously paid: ${formatPayoutZar(summary.payoutsSentZar)}`));
+
+  const progress = document.createElement("div");
+  progress.className = "creator-payment-progress";
+  const progressFill = document.createElement("span");
+  progressFill.style.width = summary.pendingZar === null
+    ? "0%"
+    : `${Math.min(100, Math.max(0, summary.pendingZar / PAYOUT_THRESHOLD_ZAR * 100))}%`;
+  progress.append(progressFill);
+  card.append(progress);
+  if (summary.pendingZar === null) {
+    card.append(el("p", "creator-payment-meta", "Pending amount and threshold progress require the latest USD/ZAR rate."));
+  } else if (summary.pendingZar >= PAYOUT_THRESHOLD_ZAR) {
+    card.append(el("p", "creator-payment-meta", "R1,000 threshold reached · payout can be recorded after it is sent."));
+  } else {
+    const remaining = PAYOUT_THRESHOLD_ZAR - summary.pendingZar;
+    const percentRemaining = Math.ceil(remaining / PAYOUT_THRESHOLD_ZAR * 100);
+    card.append(el("p", "creator-payment-meta",
+      `${percentRemaining}% left · ${formatPayoutZar(remaining)} to reach the R1,000 threshold.`));
+  }
+
+  const methodDetails = document.createElement("details");
+  methodDetails.className = "creator-payment-method";
+  methodDetails.append(el("summary", "",
+    settings?.method === "mobile-wallet" ? "Saved payment method · Mobile e-wallet" :
+      settings?.method === "bank-transfer" ? "Saved payment method · EFT / bank transfer" : "No payout method saved"));
+  if (settings?.method === "bank-transfer") {
+    addPaymentMethodDetail(methodDetails, "Account holder", settings.accountHolder);
+    addPaymentMethodDetail(methodDetails, "Bank", settings.bankName);
+    addPaymentMethodDetail(methodDetails, "Account type", settings.accountType);
+    addPaymentMethodDetail(methodDetails, "Account number", settings.accountNumber);
+    addPaymentMethodDetail(methodDetails, "Branch code", settings.branchCode);
+  } else if (settings?.method === "mobile-wallet") {
+    addPaymentMethodDetail(methodDetails, "Provider", settings.walletProvider);
+    addPaymentMethodDetail(methodDetails, "Mobile number", settings.walletNumber);
+  } else {
+    addPaymentMethodDetail(methodDetails, "Details", "The creator has not saved a payment method.");
+  }
+  card.append(methodDetails);
+
+  const form = document.createElement("form");
+  form.className = "creator-payout-form";
+  const amountField = document.createElement("div");
+  amountField.className = "field";
+  const amountLabel = el("label", "", "Amount sent (R)");
+  const amountInput = document.createElement("input");
+  amountInput.type = "number";
+  amountInput.min = "0.01";
+  amountInput.step = "0.01";
+  amountInput.max = summary.pendingZar === null ? "" : summary.pendingZar.toFixed(2);
+  amountInput.value = summary.pendingZar !== null && summary.pendingZar > 0 ? summary.pendingZar.toFixed(2) : "";
+  amountInput.required = true;
+  amountField.append(amountLabel, amountInput);
+  const referenceField = document.createElement("div");
+  referenceField.className = "field";
+  const referenceLabel = el("label", "", "Payment reference (optional)");
+  const referenceInput = document.createElement("input");
+  referenceInput.maxLength = 100;
+  referenceInput.autocomplete = "off";
+  referenceField.append(referenceLabel, referenceInput);
+  const payoutButton = el("button", "button primary", "Record sent payout");
+  payoutButton.type = "submit";
+  payoutButton.disabled = summary.pendingZar === null
+    || summary.pendingZar < PAYOUT_THRESHOLD_ZAR
+    || !settings?.method;
+  form.append(amountField, referenceField, payoutButton);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    recordCreatorPayout(account.id, account.profileId, settings?.method || "manual", summary,
+      amountInput, referenceInput, payoutButton);
+  });
+  card.append(form);
+  return card;
+}
+
+async function loadCreatorPayments() {
+  const list = document.getElementById("creator-payment-list");
+  const rateStatus = document.getElementById("admin-payout-rate");
+  list.replaceChildren(el("div", "loading", "Loading creator balances…"));
+  let usdZarRate = null;
+  try {
+    const exchange = await fetchLatestUsdZarRate();
+    usdZarRate = exchange.rate;
+    rateStatus.textContent = `Latest available USD/ZAR reference rate: 1 USD = ${formatPayoutZar(usdZarRate)} (${exchange.date}).`;
+  } catch (error) {
+    console.error("Could not load USD/ZAR rate for creator payouts:", error);
+    rateStatus.textContent = "USD/ZAR rate unavailable. Pending totals and payouts are disabled until the rate can be loaded.";
+  }
+
+  try {
+    const [accountsSnapshot, profilesSnapshot, earningsSnapshot, settingsSnapshot, payoutsSnapshot] = await Promise.all([
+      getDocs(collection(db, "creatorAccounts")),
+      getDocs(collection(db, "companions")),
+      getDocs(collection(db, "creatorEarnings")),
+      getDocs(collection(db, "creatorPayoutSettings")),
+      getDocs(collection(db, "creatorPayouts"))
+    ]);
+    const profilesById = new Map(profilesSnapshot.docs.map((entry) => [entry.id, entry.data()]));
+    const settingsByUid = new Map(settingsSnapshot.docs.map((entry) => [entry.id, entry.data()]));
+    const accounts = accountsSnapshot.docs
+      .map((entry) => ({ id: entry.id, ...entry.data() }))
+      .filter((account) => typeof account.profileId === "string" && account.profileId);
+    list.replaceChildren();
+    if (!accounts.length) {
+      list.append(el("p", "popular-empty", "No creator accounts with linked profiles were found."));
+      return;
+    }
+    accounts.sort((left, right) => String(left.displayName || left.creatorId || "").localeCompare(String(right.displayName || right.creatorId || "")));
+    accounts.forEach((account) => {
+      const earnings = earningsSnapshot.docs
+        .map((entry) => entry.data())
+        .filter((record) => record.profileId === account.profileId);
+      const payouts = payoutsSnapshot.docs
+        .map((entry) => entry.data())
+        .filter((record) => record.creatorUid === account.id || record.profileId === account.profileId);
+      list.append(renderCreatorPaymentCard(account, profilesById.get(account.profileId),
+        earnings, settingsByUid.get(account.id), payouts, usdZarRate));
+    });
+  } catch (error) {
+    console.error("Could not load creator payout management data:", error);
+    list.replaceChildren(el("p", "popular-empty", "Creator payout data could not be loaded. Check the latest Firestore rules and administrator access, then try again."));
+  }
+}
+
+function showScreen(name) {
+  const screens = {
+    overview: document.getElementById("overview-screen"),
+    profiles: document.getElementById("profiles-screen"),
+    inquiries: document.getElementById("inquiries-screen"),
+    verification: document.getElementById("verification-screen"),
+    payments: document.getElementById("payments-screen"),
+    drafts: document.getElementById("drafts-screen")
+  };
+  if (!screens[name]) return;
+  Object.entries(screens).forEach(([screen, element]) => { element.hidden = screen !== name; });
+  document.querySelectorAll(".nav-tab").forEach((tab) => {
+    const active = tab.dataset.screen === name;
+    tab.classList.toggle("active", active);
+    if (active) tab.setAttribute("aria-current", "page");
+    else tab.removeAttribute("aria-current");
+  });
+  history.replaceState(null, "", `#${name}`);
+  if (name === "payments") loadCreatorPayments();
+}
+
+function renderRoster() {
+  const search = document.getElementById("search").value.trim().toLowerCase();
+  const filter = document.getElementById("filter").value;
+  const sort = document.getElementById("sort").value;
+  const matching = profiles.filter((profile) => {
+    const status = normalizeStatus(profile.status);
+    return (filter === "all" || filter === status) &&
+      [profile.name, profile.area, profile.bio].some((value) => String(value || "").toLowerCase().includes(search));
+  });
+  matching.sort((a, b) => {
+    if (sort === "name") return String(a.name || "").localeCompare(String(b.name || ""));
+    if (sort === "area") return String(a.area || "").localeCompare(String(b.area || "")) || String(a.name || "").localeCompare(String(b.name || ""));
+    if (sort === "updated") return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
+    if (sort === "reward") return sortProfilesByRewardAndViews(a, b);
+    return Number(a.order || 0) - Number(b.order || 0);
+  });
+  rosterElement.replaceChildren();
+  if (!matching.length) {
+    rosterElement.append(el("div", "empty", profiles.length ? "No companions match this search." : "Your Firestore roster is empty. Import the current site roster to get started."));
+    return;
+  }
+  for (const profile of matching) {
+    const card = el("article", "profile-card");
+    const photo = el("div", "photo");
+    const image = makeImage(profileImageUrl(profile.image || profile.gallery?.[0]), `${profile.name} cover photo`, () => {
+      image.alt = "Image link could not be loaded";
+      image.classList.add("broken");
+    });
+    photo.append(image);
+    const count = el("span", "photo-count");
+    count.textContent = `${photoCount(profile)} photos`;
+    const views = el("span", "photo-views");
+    views.innerHTML = '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
+    const viewCount = Number.isSafeInteger(profile.views) && profile.views > 0 ? profile.views : 0;
+    const exactViews = new Intl.NumberFormat("en-ZA").format(viewCount);
+    views.append(document.createTextNode(formatViewCount(viewCount)));
+    views.setAttribute("aria-label", `${exactViews} profile views`);
+    views.title = `${exactViews} profile views`;
+    photo.append(count, views, el("h2", "photo-name", profile.name || "Untitled profile"));
+    const body = el("div", "profile-body");
+    const meta = el("div", "profile-meta");
+    const area = el("span");
+    area.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> ';
+    area.append(document.createTextNode(profile.area || "Area not set"));
+    const status = el("button", `status-pill ${normalizeStatus(profile.status)}`);
+    status.type = "button";
+    status.title = "Click to cycle status";
+    status.innerHTML = `<i class="dot ${normalizeStatus(profile.status)}"></i>${statusLabel(profile.status)}`;
+    status.addEventListener("click", () => cycleStatus(profile));
+    meta.append(area, status);
+    const rate = el("p", "rate");
+    rate.append(document.createTextNode(profile.rate || "Rate not set "));
+    rate.append(el("small", "", " · starting rate"));
+    const actions = el("div", "card-actions");
+    const edit = el("button", "small-button");
+    edit.type = "button";
+    edit.innerHTML = '<i class="fa-solid fa-pen" aria-hidden="true"></i> Edit profile';
+    edit.addEventListener("click", () => openEditor(profile));
+    const ownership = profileOwnership?.get(profile.id);
+    if (ownership?.status === "used") {
+      actions.append(el("span", "onboarding-state done", "Ownership assigned"));
+    } else {
+      const addOwnership = el("button", "small-button");
+      addOwnership.type = "button";
+      addOwnership.disabled = !profileOwnership;
+      addOwnership.innerHTML = `<i class="fa-solid fa-user-plus" aria-hidden="true"></i> ${ownership?.status === "pending" ? "Reissue setup link" : profileOwnership ? "Add ownership" : "Ownership unavailable"}`;
+      addOwnership.title = ownership?.status === "pending"
+        ? "Create a replacement setup link for this pending owner."
+        : "Assign this profile to a creator email and create a setup link.";
+      addOwnership.addEventListener("click", () => openOwnershipAssignment(profile));
+      actions.append(addOwnership);
+    }
+    const up = el("button", "small-button icon");
+    up.type = "button";
+    up.title = "Move up on the public roster";
+    up.setAttribute("aria-label", `Move ${profile.name} up`);
+    up.innerHTML = '<i class="fa-solid fa-arrow-up" aria-hidden="true"></i>';
+    up.addEventListener("click", () => moveProfile(profile, -1));
+    const down = el("button", "small-button icon");
+    down.type = "button";
+    down.title = "Move down on the public roster";
+    down.setAttribute("aria-label", `Move ${profile.name} down`);
+    up.disabled = down.disabled = sort !== "manual";
+    down.innerHTML = '<i class="fa-solid fa-arrow-down" aria-hidden="true"></i>';
+    down.addEventListener("click", () => moveProfile(profile, 1));
+    actions.append(edit, up, down);
+    const updatedDate = profile.updatedAt?.toDate?.();
+    const updated = updatedDate && !Number.isNaN(updatedDate.getTime())
+      ? `Updated ${new Intl.DateTimeFormat("en-ZA", { day: "numeric", month: "short" }).format(updatedDate)}`
+      : "Not updated yet";
+    rate.textContent = profileRate(profile);
+    body.append(meta, rate);
+    if (profile.bio) body.append(el("p", "profile-bio", profile.bio));
+    body.append(el("p", "profile-updated", updated), actions);
+    card.append(photo, body);
+    rosterElement.append(card);
+  }
+}
+
+async function loadRoster() {
+  setNotice("", "");
+  rosterElement.innerHTML = '<div class="loading">Loading roster…</div>';
+  try {
+    const snapshot = await getDocs(collection(db, "companions"));
+    profiles = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+      .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+    renderRoster();
+    renderBookings();
+    if (Array.isArray(creatorAccounts)) renderCreatorAccounts();
+    renderStats();
+  } catch (error) {
+    console.error("Could not load Firestore companions:", error);
+    profiles = [];
+    renderRoster();
+    renderBookings();
+    if (Array.isArray(creatorAccounts)) renderCreatorAccounts();
+    renderStats();
+    setNotice("Could not load companions from Firestore. Check the deployed Firestore rules and your admin access, then try again.", "error");
+  } 
+}
+
+async function loadBookings() {
+  bookingsElement.innerHTML = '<div class="loading">Loading inquiries…</div>';
+  try {
+    const [snapshot, responseSnapshot] = await Promise.all([
+      getDocs(query(collection(db, "bookings"), orderBy("createdAt", "desc"))),
+      getDocs(collection(db, "creatorBookingRequests"))
+    ]);
+    bookings = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    bookingResponses = new Map(responseSnapshot.docs.map((item) => [item.id, { id: item.id, ...item.data() }]));
+    renderBookings();
+    renderStats();
+  } catch (error) {
+    console.error("Could not load booking inquiries:", error);
+    bookingsElement.replaceChildren(el("div", "empty", "Could not load inquiries. Check the Firestore bookings rules and try refreshing."));
+  } 
+}
+
+function renderBookings() {
+  bookingsElement.replaceChildren();
+  if (!bookings.length) {
+    bookingsElement.append(el("div", "empty", "No booking requests yet. New Firestore booking documents will appear here."));
+    return;
+  }
+  const statuses = ["New Inquiry", "WhatsApp Sent", "Confirmed Outcall", "Completed"];
+  for (const booking of bookings) {
+    const row = el("article", "booking");
+    const details = el("div");
+    const title = [booking.name, booking.companion].filter(Boolean).join(" · ") || "Booking inquiry";
+    details.append(el("h3", "", title));
+    const info = [booking.area, booking.date, booking.time, booking.phone].filter(Boolean).join(" · ");
+    details.append(el("p", "", info || "No additional details"));
+    const creatorResponse = bookingResponses.get(booking.id);
+    if (creatorResponse) {
+      const response = el("span", `booking-response ${creatorResponse.status || "pending"}`, `Creator ${creatorResponse.status || "pending"}`);
+      details.append(response);
+    }
+
+    const controls = el("div", "booking-actions");
+    const statusSelect = document.createElement("select");
+    statusSelect.setAttribute("aria-label", `Status for ${title}`);
+    for (const value of statuses) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      option.selected = (booking.status || "New Inquiry") === value;
+      statusSelect.append(option);
+    }
+    statusSelect.addEventListener("change", async () => {
+      statusSelect.disabled = true;
+      try {
+        await updateDoc(doc(db, "bookings", booking.id), { status: statusSelect.value, updatedAt: serverTimestamp() });
+        booking.status = statusSelect.value;
+        toast("Inquiry status updated.");
+      } catch (error) {
+        console.error("Could not update inquiry status:", error);
+        statusSelect.value = booking.status || "New Inquiry";
+        setNotice("Could not update the booking. Check Firestore access and try again.", "error");
+      } finally {
+        statusSelect.disabled = false;
+      }
+    });
+    const statusControl = el("label", "booking-control");
+    statusControl.append(el("span", "", "Inquiry status"), statusSelect);
+    controls.append(statusControl);
+
+    const assignmentSelect = document.createElement("select");
+    assignmentSelect.setAttribute("aria-label", `Creator assignment for ${title}`);
+    const unassignedOption = document.createElement("option");
+    unassignedOption.value = "";
+    unassignedOption.textContent = "Not assigned";
+    assignmentSelect.append(unassignedOption);
+    profiles
+      .filter((profile) => profile.published === true && normalizeStatus(profile.status) !== "hidden")
+      .forEach((profile) => {
+        const option = document.createElement("option");
+        option.value = profile.id;
+        option.textContent = `${profile.name || "Creator"}${profile.area ? ` · ${profile.area}` : ""}`;
+        option.selected = booking.profileId === profile.id;
+        assignmentSelect.append(option);
+      });
+    const assignButton = el("button", "small-button", "Save assignment");
+    assignButton.type = "button";
+    assignButton.addEventListener("click", () => saveBookingAssignment(booking, assignmentSelect.value, assignButton));
+    const assignmentControl = el("label", "booking-control");
+    assignmentControl.append(el("span", "", "Assign creator"), assignmentSelect);
+    controls.append(assignmentControl, assignButton);
+
+    const amountInput = document.createElement("input");
+    amountInput.type = "number";
+    amountInput.min = "0.01";
+    amountInput.max = "1000000";
+    amountInput.step = "0.01";
+    amountInput.value = Number.isFinite(Number(booking.amount)) && Number(booking.amount) > 0 ? String(booking.amount) : "";
+    amountInput.setAttribute("aria-label", `Service amount for ${title}`);
+    const paymentSelect = document.createElement("select");
+    paymentSelect.setAttribute("aria-label", `Payment status for ${title}`);
+    [["unpaid", "Unpaid"], ["paid", "Paid"]].forEach(([value, label]) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      option.selected = (booking.paymentStatus || "unpaid") === value;
+      paymentSelect.append(option);
+    });
+    const paymentControl = el("label", "booking-control");
+    paymentControl.append(el("span", "", "Service amount"), amountInput);
+    const paymentAction = el("button", "small-button", "Save payment");
+    paymentAction.type = "button";
+    paymentAction.addEventListener("click", () => saveBookingPayment(booking, amountInput, paymentSelect, paymentAction));
+    const paymentStatusControl = el("label", "booking-control");
+    paymentStatusControl.append(el("span", "", "Payment"), paymentSelect);
+    controls.append(paymentControl, paymentStatusControl, paymentAction, el("span", "help", "Enter the service amount only. Creators receive 80%; exclude the R50 deposit and separately quoted driver/travel costs."));
+    if (booking.phone) {
+      const phone = String(booking.phone).replace(/[^\d]/g, "");
+      if (phone) {
+        const message = `Hi${booking.name ? ` ${booking.name}` : ""}, following up on your Red Room inquiry${booking.companion ? ` for ${booking.companion}` : ""}${booking.area ? ` in ${booking.area}` : ""}${booking.date ? ` on ${booking.date}` : ""}${booking.time ? ` at ${booking.time}` : ""}.`;
+        const whatsapp = document.createElement("a");
+        whatsapp.className = "small-button";
+        whatsapp.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        whatsapp.target = "_blank";
+        whatsapp.rel = "noopener noreferrer";
+        whatsapp.innerHTML = '<i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp';
+        controls.append(whatsapp);
+      }
+    }
+    row.append(details, controls);
+    bookingsElement.append(row);
+  }
+}
+
+async function saveBookingAssignment(booking, profileId, button) {
+  const previous = bookingResponses.get(booking.id);
+  const hasSameCreator = previous && previous.profileId === profileId;
+  button.disabled = true;
+  try {
+    const batch = writeBatch(db);
+    batch.update(doc(db, "bookings", booking.id), {
+      profileId: profileId || null,
+      updatedAt: serverTimestamp()
+    });
+    const requestRef = doc(db, "creatorBookingRequests", booking.id);
+    const earningsRef = doc(db, "creatorEarnings", booking.id);
+    if (profileId) {
+      const requestData = {
+        bookingId: booking.id,
+        profileId,
+        area: String(booking.area || ""),
+        date: String(booking.date || ""),
+        time: String(booking.time || ""),
+        status: hasSameCreator ? previous.status : "pending",
+        createdAt: hasSameCreator ? previous.createdAt : serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+      batch.set(requestRef, requestData);
+      if (booking.paymentStatus === "paid" && Number.isFinite(Number(booking.amount)) && Number(booking.amount) > 0) {
+        const paidAmount = Number(booking.amount);
+        batch.set(earningsRef, {
+          bookingId: booking.id,
+          profileId,
+          paidAmount,
+          creatorAmount: Math.round(paidAmount * 0.8 * 100) / 100,
+          sharePercent: 80,
+          paidAt: booking.paidAt || serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      } else if (previous && previous.profileId !== profileId) {
+        batch.delete(earningsRef);
+      }
+    } else {
+      batch.delete(requestRef);
+      batch.delete(earningsRef);
+    }
+    await batch.commit();
+    booking.profileId = profileId || null;
+    if (profileId) {
+      if (booking.paymentStatus === "paid" && !booking.paidAt) booking.paidAt = new Date();
+      bookingResponses.set(booking.id, {
+        ...previous,
+        id: booking.id,
+        ...{
+          bookingId: booking.id,
+          profileId,
+          area: String(booking.area || ""),
+          date: String(booking.date || ""),
+          time: String(booking.time || ""),
+          status: hasSameCreator ? previous.status : "pending"
+        }
+      });
+    } else {
+      bookingResponses.delete(booking.id);
+    }
+    renderBookings();
+    toast(profileId ? "Creator assignment saved." : "Booking unassigned.");
+  } catch (error) {
+    console.error("Could not save booking assignment:", error);
+    setNotice("Could not save the creator assignment. Check Firestore access and try again.", "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function saveBookingPayment(booking, amountInput, paymentSelect, button) {
+  const amountText = amountInput.value.trim();
+  const amount = amountText ? Number(amountText) : null;
+  const paymentStatus = paymentSelect.value;
+  if ((amount !== null && (!Number.isFinite(amount) || amount < 0 || amount > 1000000))
+    || (paymentStatus === "paid" && (!amount || amount <= 0))) {
+    setNotice(paymentStatus === "paid"
+      ? "Enter a booking amount greater than R0 and no more than R1,000,000."
+      : "Enter a valid booking amount from R0 to R1,000,000, or leave it blank.", "error");
+    return;
+  }
+  if (paymentStatus === "paid" && !booking.profileId) {
+    setNotice("Assign this booking to a creator before recording it as paid.", "error");
+    return;
+  }
+  button.disabled = true;
+  try {
+    const batch = writeBatch(db);
+    const hadPaidAt = booking.paymentStatus === "paid" && booking.paidAt;
+    const paidAt = paymentStatus === "paid"
+      ? hadPaidAt || serverTimestamp()
+      : null;
+    batch.update(doc(db, "bookings", booking.id), {
+      amount,
+      paymentStatus,
+      paidAt,
+      updatedAt: serverTimestamp()
+    });
+    const earningsRef = doc(db, "creatorEarnings", booking.id);
+    if (paymentStatus === "paid" && booking.profileId) {
+      const creatorAmount = Math.round(amount * 0.8 * 100) / 100;
+      batch.set(earningsRef, {
+        bookingId: booking.id,
+        profileId: booking.profileId,
+        paidAmount: amount,
+        creatorAmount,
+        sharePercent: 80,
+        paidAt,
+        updatedAt: serverTimestamp()
+      });
+    } else {
+      batch.delete(earningsRef);
+    }
+    await batch.commit();
+    booking.amount = amount;
+    booking.paymentStatus = paymentStatus;
+    booking.paidAt = paymentStatus === "paid" ? hadPaidAt || new Date() : null;
+    renderBookings();
+    toast(paymentStatus === "paid" ? "Payment saved and creator earnings updated." : "Payment marked unpaid.");
+  } catch (error) {
+    console.error("Could not save booking payment:", error);
+    setNotice("Could not save the payment. Check Firestore access and try again.", "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function cycleStatus(profile) {
+  const next = { check: "available", available: "hidden", hidden: "check" }[normalizeStatus(profile.status)];
+  try {
+    await updateDoc(doc(db, "companions", profile.id), { status: next, updatedAt: serverTimestamp() });
+    profile.status = next;
+    renderRoster();
+    renderStats();
+    toast(`${profile.name}: ${statusLabel(next)}.`);
+  } catch (error) {
+    console.error("Could not update companion status:", error);
+    setNotice("Status was not changed. Check Firestore rules and try again.", "error");
+  }
+}
+
+async function moveProfile(profile, direction) {
+  const ordered = [...profiles].sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+  const currentIndex = ordered.findIndex((item) => item.id === profile.id);
+  const otherIndex = currentIndex + direction;
+  if (currentIndex < 0 || otherIndex < 0 || otherIndex >= ordered.length) return;
+  const first = ordered[currentIndex];
+  const second = ordered[otherIndex];
+  const firstOrder = Number(first.order || currentIndex);
+  const secondOrder = Number(second.order || otherIndex);
+  try {
+    const batch = writeBatch(db);
+    batch.update(doc(db, "companions", first.id), { order: secondOrder, updatedAt: serverTimestamp() });
+    batch.update(doc(db, "companions", second.id), { order: firstOrder, updatedAt: serverTimestamp() });
+    await batch.commit();
+    first.order = secondOrder;
+    second.order = firstOrder;
+    profiles.sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+    renderRoster();
+  } catch (error) {
+    console.error("Could not reorder companions:", error);
+    setNotice("Could not save the roster order. Check Firestore access and try again.", "error");
+  }
+}
+
+function openEditor(profile, draft = null) {
+  activeDraftRef = draft ? doc(db, "profileDrafts", draft.id) : null;
+  form.reset();
+  document.getElementById("form-error").textContent = "";
+  document.getElementById("gallery-input-error").textContent = "";
+  document.getElementById("video-input-error").textContent = "";
+  document.getElementById("profile-id").value = profile?.id || "";
+  document.getElementById("editor-title").textContent = draft
+    ? `Continue draft: ${draft.profileName || "Untitled profile"}`
+    : profile ? `Edit ${profile.name}` : "New companion profile";
+  document.getElementById("name").value = profile?.name || "";
+  document.getElementById("area").value = profile?.area || "";
+  document.getElementById("rate").value = profile?.rateAmount || extractRateAmount(profile?.rate);
+  document.getElementById("whatsapp-number").value = profile?.whatsappNumber || "";
+  document.getElementById("status").value = normalizeStatus(profile?.status);
+  document.getElementById("profile-visibility").value = profile?.published === true ? "true" : "false";
+  document.getElementById("bio").value = profile?.bio || "";
+  document.getElementById("age").value = profile?.age || "";
+  document.getElementById("height").value = extractHeightCm(profile?.height);
+  document.getElementById("dress-size").value = profile?.dressSize || "";
+  document.getElementById("hair-colour").value = profile?.hairColor || "";
+  document.getElementById("eye-colour").value = profile?.eyeColor || "";
+  document.getElementById("languages").value = lineValues(profile?.languages);
+  document.getElementById("personality").value = profile?.personality || "";
+  document.getElementById("travel-areas").value = lineValues(profile?.travelAreas);
+  document.getElementById("preferred-venues").value = lineValues(profile?.preferredVenues);
+  document.getElementById("extended-rates").value = lineValues(profile?.extendedRates);
+  document.getElementById("services").value = lineValues(profile?.services);
+  editorVideos = profileVideos(profile);
+  document.getElementById("verified-photo").checked = profile?.verifiedPhoto === true;
+  const savedGallery = Array.isArray(profile?.gallery) && profile.gallery.length ? profile.gallery : [profile?.image];
+  editorGallery = savedGallery.map(profileImageUrl).filter(Boolean);
+  editorVipLockedImages = Array.isArray(profile?.vipLockedImages)
+    ? profile.vipLockedImages.map(profileImageUrl).filter((url) => editorGallery.includes(url))
+    : [];
+  if (draft && draft.formData) {
+    const data = draft.formData;
+    document.getElementById("profile-id").value = data.profileId || "";
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("area").value = data.area || "";
+    document.getElementById("rate").value = data.rate || "";
+    document.getElementById("status").value = normalizeStatus(data.status);
+    document.getElementById("profile-visibility").value = data.published === true ? "true" : "false";
+    document.getElementById("whatsapp-number").value = data.whatsappNumber || "";
+    document.getElementById("bio").value = data.bio || "";
+    document.getElementById("age").value = data.age || "";
+    document.getElementById("height").value = data.height || "";
+    document.getElementById("dress-size").value = data.dressSize || "";
+    document.getElementById("hair-colour").value = data.hairColor || "";
+    document.getElementById("eye-colour").value = data.eyeColor || "";
+    document.getElementById("languages").value = data.languages || "";
+    document.getElementById("personality").value = data.personality || "";
+    document.getElementById("travel-areas").value = data.travelAreas || "";
+    document.getElementById("preferred-venues").value = data.preferredVenues || "";
+    document.getElementById("extended-rates").value = data.extendedRates || "";
+    document.getElementById("services").value = data.services || "";
+    editorVideos = Array.isArray(data.videos) ? profileVideos({ videos: data.videos }) : profileVideos({ videoUrl: data.videoUrl });
+    document.getElementById("verified-photo").checked = data.verifiedPhoto === true;
+    editorGallery = Array.isArray(data.gallery) ? data.gallery.map(profileImageUrl).filter(Boolean) : [];
+    editorVipLockedImages = Array.isArray(data.vipLockedImages)
+      ? data.vipLockedImages.map(profileImageUrl).filter((url) => editorGallery.includes(url))
+      : [];
+  }
+  syncGalleryInput();
+  galleryUrlInput.value = "";
+  document.getElementById("delete-profile").hidden = !profile;
+  document.getElementById("draft-save-status").textContent = draft
+    ? "Draft loaded · further changes save automatically."
+    : "Changes autosave as a draft. Choose whether the profile should be public when you save it.";
+  editorBaseline = editorFingerprint();
+  lastDraftFingerprint = activeDraftRef ? editorBaseline : "";
+  renderGalleryManager();
+  renderVideoManager();
+  updatePreview();
+  editor.showModal();
+  document.getElementById("name").focus();
+}
+
+function syncGalleryInput() {
+  galleryInput.value = editorGallery.join("\n");
+}
+
+function renderGalleryManager() {
+  galleryManager.replaceChildren();
+  if (!editorGallery.length) {
+    galleryManager.append(el("div", "gallery-empty", "No photos added yet. Paste a link above and tap Add photo."));
+    return;
+  }
+  editorGallery.forEach((url, index) => {
+    const row = el("div", "gallery-row");
+    const thumb = el("div", "gallery-thumb");
+    const image = makeImage(url, `Photo ${index + 1}`, () => {
+      thumb.classList.add("broken");
+      thumb.replaceChildren(el("i", "fa-solid fa-triangle-exclamation"));
+      document.getElementById("gallery-input-error").textContent = `Photo ${index + 1} could not be loaded. Check that the link is public and points directly to an image.`;
+    });
+    thumb.append(image);
+    const copy = el("div", "gallery-copy");
+    const title = el("strong", "", `Photo ${index + 1}`);
+    if (index === 0) title.append(el("span", "cover-tag", "Cover"));
+    copy.append(title, el("code", "", url));
+    const controls = el("div", "gallery-controls");
+    const addControl = (icon, label, titleText, disabled, action, extraClass) => {
+      const button = el("button", `gallery-control${extraClass ? ` ${extraClass}` : ""}`);
+      button.type = "button";
+      button.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i>${label ? ` ${label}` : ""}`;
+      button.title = titleText;
+      button.setAttribute("aria-label", titleText);
+      button.disabled = disabled;
+      button.addEventListener("click", action);
+      controls.append(button);
+    };
+    addControl("fa-angles-up", "", "Move to first", index === 0, () => movePhoto(index, 0));
+    addControl("fa-chevron-up", "", "Move earlier", index === 0, () => movePhoto(index, index - 1));
+    addControl("fa-chevron-down", "", "Move later", index === editorGallery.length - 1, () => movePhoto(index, index + 1));
+    addControl("fa-angles-down", "", "Move to last", index === editorGallery.length - 1, () => movePhoto(index, editorGallery.length - 1));
+    if (index !== 0) addControl("fa-star", "Set cover", "Make this the cover photo", false, () => movePhoto(index, 0), "cover");
+    const vipLocked = editorVipLockedImages.includes(url);
+    addControl("fa-crown", vipLocked ? "VIP" : "", vipLocked ? "Remove VIP lock marker" : "Mark image as VIP", false, () => toggleVipLock(url), "cover");
+    addControl("fa-trash", "", "Remove photo", false, () => removePhoto(index), "remove");
+    row.append(thumb, copy, controls);
+    galleryManager.append(row);
+  });
+}
+
+function openVideoFramePicker(video) {
+  framePickerVideoItem = video;
+  document.getElementById("video-frame-error").textContent = "";
+  document.getElementById("video-frame-status").textContent = "Play or scrub to the frame you want, then select Use this frame.";
+  document.getElementById("use-video-frame").disabled = true;
+  framePickerVideo.pause();
+  framePickerVideo.crossOrigin = "anonymous";
+  framePickerVideo.src = video.url;
+  framePickerVideo.load();
+  videoFramePicker.showModal();
+}
+
+function saveSelectedVideoFrame() {
+  const errorElement = document.getElementById("video-frame-error");
+  const video = framePickerVideo;
+  const target = editorVideos.find((item) => item.id === framePickerVideoItem?.id);
+  if (!target || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA || !video.videoWidth || !video.videoHeight) {
+    errorElement.textContent = "Wait for the video frame to load, then try again.";
+    return;
+  }
+
+  try {
+    const scale = Math.min(1, 320 / video.videoWidth, 180 / video.videoHeight);
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+    canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Could not create a thumbnail image.");
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const thumbnail = canvas.toDataURL("image/jpeg", 0.68);
+    const otherThumbnailsSize = editorVideos
+      .filter((item) => item.id !== target.id && typeof item.thumbnail === "string" && item.thumbnail.startsWith("data:image/jpeg;base64,"))
+      .reduce((total, item) => total + item.thumbnail.length, 0);
+    if (thumbnail.length > 50 * 1024 || otherThumbnailsSize + thumbnail.length > 300 * 1024) {
+      errorElement.textContent = "This thumbnail is too large to save safely with the profile. Choose a simpler frame or remove other video thumbnails.";
+      return;
+    }
+
+    target.thumbnail = thumbnail;
+    scheduleDraftSave();
+    document.getElementById("video-input-error").textContent = "";
+    video.pause();
+    videoFramePicker.close();
+    renderVideoManager();
+    toast("Video thumbnail saved with the profile.");
+  } catch (error) {
+    console.error("Could not create thumbnail from the selected video frame:", error);
+    errorElement.textContent = "This video host blocks frame capture. Use a video URL that allows cross-origin frame access.";
+  }
+}
+
+function renderVideoManager() {
+  videoManager.replaceChildren();
+  if (!editorVideos.length) {
+    videoManager.append(el("div", "gallery-empty", "No videos added yet. Paste a direct HTTPS video link above."));
+    return;
+  }
+  editorVideos.forEach((video, index) => {
+    const row = el("div", "gallery-row");
+    const thumb = el("div", "gallery-thumb video");
+    thumb.innerHTML = '<i class="fa-solid fa-circle-play" aria-hidden="true"></i>';
+    if (video.thumbnail) {
+      const image = makeImage(video.thumbnail, `Video ${index + 1} thumbnail`, () => {
+        image.remove();
+      });
+      thumb.append(image);
+    }
+    const copy = el("div", "gallery-copy");
+    const seoFields = el("div", "video-seo-fields");
+    seoFields.append(el("span", "video-details-label", "Video details"));
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.maxLength = 100;
+    titleInput.placeholder = "Video title (optional)";
+    titleInput.setAttribute("aria-label", `SEO title for video ${index + 1}`);
+    titleInput.value = video.title || "";
+    titleInput.addEventListener("input", () => {
+      video.title = titleInput.value.trim();
+      scheduleDraftSave();
+    });
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.maxLength = 300;
+    descriptionInput.placeholder = "Short video description (optional)";
+    descriptionInput.setAttribute("aria-label", `SEO description for video ${index + 1}`);
+    descriptionInput.value = video.description || "";
+    descriptionInput.addEventListener("input", () => {
+      video.description = descriptionInput.value.trim();
+      scheduleDraftSave();
+    });
+    seoFields.append(titleInput, descriptionInput);
+    const actions = el("div", "video-thumb-actions");
+    const frameButton = el("button", "video-thumb-action", "");
+    frameButton.type = "button";
+    frameButton.innerHTML = `<i class="fa-solid fa-camera" aria-hidden="true"></i> ${video.thumbnail ? "Change preview frame" : "Select preview frame"}`;
+    frameButton.addEventListener("click", () => openVideoFramePicker(video));
+    actions.append(frameButton);
+    copy.append(el("strong", "", `Video ${index + 1}`), el("code", "", video.url), seoFields, actions);
+    const controls = el("div", "gallery-controls");
+    const addControl = (icon, title, disabled, action) => {
+      const button = el("button", "gallery-control");
+      button.type = "button";
+      button.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i>`;
+      button.title = title;
+      button.setAttribute("aria-label", title);
+      button.disabled = disabled;
+      button.addEventListener("click", action);
+      controls.append(button);
+    };
+    addControl("fa-chevron-up", "Move video earlier", index === 0, () => moveVideo(index, index - 1));
+    addControl("fa-chevron-down", "Move video later", index === editorVideos.length - 1, () => moveVideo(index, index + 1));
+    addControl("fa-trash", "Remove video", false, () => removeVideo(index));
+    row.append(thumb, copy, controls);
+    videoManager.append(row);
+  });
+}
+
+function moveVideo(from, to) {
+  if (to < 0 || to >= editorVideos.length || from === to) return;
+  const [video] = editorVideos.splice(from, 1);
+  editorVideos.splice(to, 0, video);
+  scheduleDraftSave();
+  renderVideoManager();
+}
+
+function removeVideo(index) {
+  editorVideos.splice(index, 1);
+  scheduleDraftSave();
+  document.getElementById("video-input-error").textContent = "";
+  renderVideoManager();
+}
+
+function addVideo() {
+  const error = document.getElementById("video-input-error");
+  const value = videoUrlInput.value.trim();
+  if (editorVideos.length >= 20) {
+    error.textContent = "A profile can have up to 20 videos.";
+    videoUrlInput.focus();
+    return;
+  }
+  if (!value) {
+    error.textContent = "Paste a direct video link first.";
+    videoUrlInput.focus();
+    return;
+  }
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "https:" || !/\.(mp4|webm|gif)$/i.test(parsed.pathname)) throw new Error("Unsupported video URL");
+    if (editorVideos.some((video) => video.url === parsed.href)) {
+      error.textContent = "That video link is already in this profile.";
+      videoUrlInput.focus();
+      return;
+    }
+    editorVideos.push({ id: createVideoId(), url: parsed.href, thumbnail: "", title: "", description: "" });
+  } catch (urlError) {
+    console.warn("Could not add video URL to the profile editor.", urlError);
+    error.textContent = "Use a direct HTTPS MP4, WebM, or GIF link.";
+    videoUrlInput.focus();
+    return;
+  }
+  scheduleDraftSave();
+  videoUrlInput.value = "";
+  error.textContent = "";
+  renderVideoManager();
+  videoUrlInput.focus();
+}
+
+function movePhoto(from, to) {
+  if (to < 0 || to >= editorGallery.length || from === to) return;
+  const [photo] = editorGallery.splice(from, 1);
+  editorGallery.splice(to, 0, photo);
+  syncGalleryInput();
+  scheduleDraftSave();
+  renderGalleryManager();
+  updatePreview();
+}
+
+function removePhoto(index) {
+  const [removedPhoto] = editorGallery.splice(index, 1);
+  editorVipLockedImages = editorVipLockedImages.filter((url) => url !== removedPhoto);
+  syncGalleryInput();
+  scheduleDraftSave();
+  document.getElementById("gallery-input-error").textContent = "";
+  renderGalleryManager();
+  updatePreview();
+}
+
+function toggleVipLock(url) {
+  editorVipLockedImages = editorVipLockedImages.includes(url)
+    ? editorVipLockedImages.filter((item) => item !== url)
+    : [...editorVipLockedImages, url];
+  scheduleDraftSave();
+  renderGalleryManager();
+}
+
+function addPhoto() {
+  const error = document.getElementById("gallery-input-error");
+  const value = galleryUrlInput.value.trim();
+  const safeUrl = profileImageUrl(value);
+  if (!value) {
+    error.textContent = "Paste an image link first.";
+    galleryUrlInput.focus();
+    return;
+  }
+  if (!safeUrl) {
+    error.textContent = "Use an HTTPS image URL or a file path like ximg/mane.webp.";
+    galleryUrlInput.focus();
+    return;
+  }
+  if (editorGallery.includes(safeUrl)) {
+    error.textContent = "That image link is already in this gallery.";
+    galleryUrlInput.focus();
+    return;
+  }
+  editorGallery.push(safeUrl);
+  syncGalleryInput();
+  scheduleDraftSave();
+  galleryUrlInput.value = "";
+  error.textContent = "";
+  renderGalleryManager();
+  updatePreview();
+  galleryUrlInput.focus();
+}
+
+function updatePreview() {
+  const urls = galleryUrls();
+  const invalid = urls.filter((value) => !profileImageUrl(value));
+  const cover = profileImageUrl(urls[0]);
+  const coverImage = document.getElementById("preview-cover");
+  coverImage.src = cover || "";
+  coverImage.hidden = !cover;
+  coverImage.onerror = () => {
+    document.getElementById("gallery-error").textContent = "The cover image could not be loaded. Check that the link is public and points directly to an image.";
+  };
+  document.getElementById("preview-name").textContent = document.getElementById("name").value.trim() || "Your companion";
+  document.getElementById("preview-area").textContent = document.getElementById("area").value.trim() || "Service area not listed";
+  document.getElementById("preview-rate").textContent = displayRate(document.getElementById("rate").value) || "Enter a starting price";
+  document.getElementById("preview-bio").textContent = document.getElementById("bio").value.trim();
+  document.getElementById("gallery-error").textContent = invalid.length ? `${invalid.length} invalid link${invalid.length === 1 ? "" : "s"} — use HTTPS image URLs or ximg/filename.` : "";
+  const gallery = document.getElementById("gallery-preview");
+  gallery.replaceChildren();
+  urls.forEach((url, index) => {
+    const item = el("div", "gallery-item");
+    const image = makeImage(url, `Gallery photo ${index + 1}`, () => {
+      item.classList.add("broken");
+      item.replaceChildren(el("i", "fa-solid fa-triangle-exclamation"));
+      document.getElementById("gallery-error").textContent = `Photo ${index + 1} could not be loaded. Check that the URL is publicly accessible.`;
+    });
+    item.append(image);
+    gallery.append(item);
+  });
+}
+
+async function saveProfile(event) {
+  event.preventDefault();
+  const errorElement = document.getElementById("form-error");
+  errorElement.textContent = "";
+  const name = document.getElementById("name").value.trim();
+  const area = document.getElementById("area").value.trim();
+  const rateAmount = Number(document.getElementById("rate").value);
+  const rate = displayRate(rateAmount);
+  const gallery = galleryUrls();
+  const safeGallery = gallery.map(profileImageUrl);
+  const ageValue = document.getElementById("age").value.trim();
+  const age = Number(ageValue);
+  const whatsappNumberInput = document.getElementById("whatsapp-number").value.trim();
+  const whatsappNumber = normalizeWhatsAppNumber(whatsappNumberInput);
+  const existingId = document.getElementById("profile-id").value;
+  if (!name || !area || !rate || !Number.isSafeInteger(rateAmount) || rateAmount < 500 || rateAmount > 1000000) {
+    errorElement.textContent = "Enter a name, area, and whole-number starting price from R500 to R1,000,000.";
+    return;
+  }
+  if (whatsappNumberInput && !whatsappNumber) {
+    errorElement.textContent = "Enter a valid WhatsApp number with 8 to 15 digits.";
+    document.getElementById("whatsapp-number").focus();
+    return;
+  }
+  if (!Number.isInteger(age) || age < 18 || age > 99) {
+    errorElement.textContent = "Enter an age from 18 to 99. Profiles must be adults.";
+    return;
+  }
+  if (!gallery.length || safeGallery.some((url) => !url)) {
+    errorElement.textContent = "Add at least one valid HTTPS image URL or ximg/filename.";
+    return;
+  }
+  const videos = editorVideos.map(({ id, url, thumbnail, title, description }) => ({
+    id,
+    url: profileVideos({ videos: [{ id, url }] })[0]?.url || "",
+    thumbnail: profileThumbnailUrl(thumbnail),
+    title: String(title || "").trim().slice(0, 100),
+    description: String(description || "").trim().slice(0, 300)
+  }));
+  if (videos.some((video) => !video.url) || new Set(videos.map((video) => video.id)).size !== videos.length) {
+    errorElement.textContent = "Remove invalid video links and ensure each profile video has a unique ID.";
+    return;
+  }
+  const thumbnailDataSize = videos
+    .filter((video) => video.thumbnail.startsWith("data:image/jpeg;base64,"))
+    .reduce((total, video) => total + video.thumbnail.length, 0);
+  if (thumbnailDataSize > 300 * 1024) {
+    errorElement.textContent = "Video thumbnails are too large to save with this profile. Choose smaller frames.";
+    return;
+  }
+  const id = existingId || profileId(name);
+  if (!id) {
+    errorElement.textContent = "Enter a valid profile name.";
+    return;
+  }
+  if (!existingId && profiles.some((profile) => profile.id === id)) {
+    errorElement.textContent = "A profile with this name already exists. Edit the existing profile instead.";
+    return;
+  }
+  const existing = profiles.find((profile) => profile.id === existingId);
+  const saveButton = document.getElementById("save-profile");
+  saveButton.disabled = true;
+  clearTimeout(draftSaveTimer);
+  try {
+    await draftWriteChain;
+  } catch (error) {
+    console.error("An autosave was not completed before publishing:", error);
+  }
+  try {
+    const record = {
+      name, area, rate,
+      rateAmount,
+      bio: document.getElementById("bio").value.trim(),
+      age,
+      height: document.getElementById("height").value.trim()
+        ? `${Number(document.getElementById("height").value)} cm`
+        : "",
+      dressSize: document.getElementById("dress-size").value.trim(),
+      hairColor: document.getElementById("hair-colour").value.trim(),
+      eyeColor: document.getElementById("eye-colour").value.trim(),
+      languages: readLineValues("languages"),
+      personality: document.getElementById("personality").value.trim(),
+      travelAreas: readLineValues("travel-areas"),
+      preferredVenues: readLineValues("preferred-venues"),
+      extendedRates: readLineValues("extended-rates"),
+      services: readLineValues("services"),
+      videoUrl: videos[0]?.url || "",
+      videos,
+      videoIds: videos.map((video) => video.id),
+      videoViews: Object.fromEntries(videos.map((video) => [
+        video.id,
+        Number.isSafeInteger(existing?.videoViews?.[video.id]) && existing.videoViews[video.id] >= 0
+          ? existing.videoViews[video.id]
+          : 0
+      ])),
+      verifiedPhoto: document.getElementById("verified-photo").checked,
+      whatsappNumber,
+      status: normalizeStatus(document.getElementById("status").value),
+      published: document.getElementById("profile-visibility").value === "true",
+      adminVisibilitySet: true,
+      image: safeGallery[0],
+      gallery: safeGallery,
+      vipLockedImages: editorVipLockedImages.filter((url) => safeGallery.includes(url)),
+      views: existing && Number.isSafeInteger(existing.views) && existing.views >= 0 ? existing.views : 0,
+      order: existing ? Number(existing.order || 0) : profiles.length,
+      updatedAt: serverTimestamp()
+    };
+    if (!existing) record.createdAt = serverTimestamp();
+    await setDoc(doc(db, "companions", id), record, { merge: Boolean(existing) });
+  } catch (error) {
+    console.error("Could not save companion:", error);
+    errorElement.textContent = "Could not save this profile. Check Firestore rules and try again.";
+    saveButton.disabled = false;
+    scheduleDraftSave();
+    return;
+  }
+
+  saveButton.disabled = false;
+  const savedDraftRef = activeDraftRef;
+  activeDraftRef = null;
+  lastDraftFingerprint = "";
+  editorBaseline = editorFingerprint();
+  if (savedDraftRef) {
+    try {
+      await deleteDoc(savedDraftRef);
+      profileDrafts = profileDrafts.filter((draft) => draft.id !== savedDraftRef.id);
+      renderDrafts();
+      document.getElementById("nav-drafts-total").textContent = String(profileDrafts.length);
+    } catch (error) {
+      console.error("Profile was saved, but its saved draft could not be removed:", error);
+      setNotice("Profile saved, but its draft could not be removed. Delete it from Drafts when convenient.", "error");
+    }
+  }
+  editor.close();
+  toast("Profile saved to Firestore.");
+  await loadRoster();
+}
+
+function openOwnershipAssignment(profile) {
+  ownershipForm.reset();
+  document.getElementById("ownership-profile-id").value = profile.id;
+  document.getElementById("ownership-profile-name").textContent =
+    `Add ownership for ${profile.name}. Enter the creator's email to generate a private password setup link.`;
+  document.getElementById("ownership-error").textContent = "";
+  document.getElementById("ownership-email").value = profileOwnership?.get(profile.id)?.email || "";
+  ownershipAssignment.showModal();
+  document.getElementById("ownership-email").focus();
+}
+
+async function assignOwnership(event) {
+  event.preventDefault();
+  const profileIdValue = document.getElementById("ownership-profile-id").value;
+  const profile = profiles.find((item) => item.id === profileIdValue);
+  const email = document.getElementById("ownership-email").value.trim().toLowerCase();
+  const button = document.getElementById("assign-ownership");
+  const errorElement = document.getElementById("ownership-error");
+  errorElement.textContent = "";
+  if (!profile) {
+    errorElement.textContent = "This profile is no longer in the roster. Refresh the page and try again.";
+    return;
+  }
+  button.disabled = true;
+  try {
+    const result = await issueCreatorInvite(profile.id, email, profile.name);
+    await loadCreatorAccounts();
+    document.getElementById("invite-link").value = creatorSetupUrl(result.token);
+    document.getElementById("invite-summary").textContent =
+      `Creator ID ${result.creatorId}. Copy this private setup link and send it directly to ${profile.name}.`;
+    document.getElementById("invite-expiry").textContent =
+      `Expires ${new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium", timeStyle: "short" }).format(result.expiresAt)}.`;
+    ownershipAssignment.close();
+    inviteResult.showModal();
+  } catch (error) {
+    console.error("Could not assign profile ownership:", error);
+    const message = error && error.message ? ` ${error.message}` : "";
+    errorElement.textContent = `Could not create the creator setup link.${message}`;
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function deleteProfile() {
+  const id = document.getElementById("profile-id").value;
+  const profile = profiles.find((item) => item.id === id);
+  if (!profile || !confirm(`Delete ${profile.name} from the live roster? This cannot be undone.`)) return;
+  try {
+    await deleteDoc(doc(db, "companions", id));
+    editor.close();
+    toast("Profile deleted.");
+    await loadRoster();
+  } catch (error) {
+    console.error("Could not delete companion:", error);
+    document.getElementById("form-error").textContent = "Could not delete this profile. Check Firestore rules and try again.";
+  }
+}
+
+async function seedRoster() {
+  if (profiles.length) {
+    setNotice("The Firestore roster already has profiles. Import is only available when the collection is empty.", "error");
+    return;
+  }
+  if (!confirm(`Import ${defaultProfiles.length} profiles from the current site into Firestore?`)) return;
+  try {
+    const batch = writeBatch(db);
+    defaultProfiles.forEach((profile, index) => {
+      const id = profileId(profile.name);
+      batch.set(doc(db, "companions", id), { ...profile, views: 0, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), order: index });
+    });
+    await batch.commit();
+    toast("Current site roster imported.");
+    await loadRoster();
+  } catch (error) {
+    console.error("Could not import the current roster:", error);
+    setNotice("Could not import the current roster. Check Firestore rules and try again.", "error");
+  }
+}
+
+async function initializeViewCounts() {
+  const missing = profiles.filter((profile) => !Number.isSafeInteger(profile.views) || profile.views < 0);
+  if (!missing.length) return;
+  if (!confirm(`Add views: 0 to ${missing.length} profile document${missing.length === 1 ? "" : "s"} that do not have a valid count? Existing counts will be preserved.`)) return;
+  const button = document.getElementById("initialize-views");
+  button.disabled = true;
+  try {
+    const batch = writeBatch(db);
+    missing.forEach((profile) => batch.update(doc(db, "companions", profile.id), { views: 0 }));
+    await batch.commit();
+    toast("View fields initialized in Firestore.");
+    await loadRoster();
+  } catch (error) {
+    console.error("Could not initialize profile view fields:", error);
+    setNotice("Could not initialize profile views. Check Firestore admin access and try again.", "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function exportHtml() {
+  const escape = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+  const cards = profiles.filter((profile) => normalizeStatus(profile.status) !== "hidden").map((profile) => {
+    const image = profileImageUrl(profile.image || profile.gallery?.[0]);
+    return `<article class="companion"><img src="${escape(image)}" alt="${escape(profile.name)}"><div><h2>${escape(profile.name)}</h2><p>${escape(profile.area)} · ${escape(profile.rate)}</p></div></article>`;
+  }).join("\n");
+  const html = `<!doctype html>\n<meta charset="utf-8"><title>Red Room roster export</title><style>body{margin:0;padding:24px;background:#0a0406;color:#f6e9e6;font:16px Arial}.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.companion{overflow:hidden;border:1px solid #56202d;border-radius:12px;background:#140a0e}.companion img{width:100%;height:260px;object-fit:cover}.companion div{padding:14px}.companion h2{margin:0 0 6px}.companion p{color:#b39aa0}</style><main class="roster">\n${cards}\n</main>`;
+  const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "red-room-roster.html";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("search").addEventListener("input", renderRoster);
+document.getElementById("filter").addEventListener("change", renderRoster);
+document.getElementById("sort").addEventListener("change", renderRoster);
+document.getElementById("add-profile").addEventListener("click", () => openEditor(null));
+document.querySelectorAll("[data-screen]").forEach((button) => {
+  button.addEventListener("click", () => showScreen(button.dataset.screen));
+});
+document.querySelectorAll('[data-command="add-profile"]').forEach((button) => {
+  button.addEventListener("click", () => {
+    showScreen("profiles");
+    openEditor(null);
+  });
+});
+document.getElementById("close-editor").addEventListener("click", () => editor.close());
+document.getElementById("close-video-frame-picker").addEventListener("click", () => videoFramePicker.close());
+document.getElementById("use-video-frame").addEventListener("click", saveSelectedVideoFrame);
+framePickerVideo.addEventListener("loadeddata", () => {
+  if (!framePickerVideoItem || !framePickerVideo.videoWidth) return;
+  const expectedUrl = new URL(framePickerVideoItem.url, location.href).href;
+  if (framePickerVideo.currentSrc !== expectedUrl) return;
+  document.getElementById("video-frame-status").textContent =
+    `Frame ready at ${framePickerVideo.currentTime.toFixed(1)} seconds. Scrub or pause the video to choose a different frame.`;
+  document.getElementById("use-video-frame").disabled = false;
+});
+framePickerVideo.addEventListener("timeupdate", () => {
+  if (!videoFramePicker.open || document.getElementById("use-video-frame").disabled) return;
+  document.getElementById("video-frame-status").textContent =
+    `Selected frame at ${framePickerVideo.currentTime.toFixed(1)} seconds. Scrub or pause to choose a different frame.`;
+});
+framePickerVideo.addEventListener("error", () => {
+  if (!videoFramePicker.open || !framePickerVideoItem) return;
+  const expectedUrl = new URL(framePickerVideoItem.url, location.href).href;
+  if (framePickerVideo.currentSrc && framePickerVideo.currentSrc !== expectedUrl) return;
+  document.getElementById("video-frame-status").textContent = "";
+  document.getElementById("video-frame-error").textContent =
+    "This video cannot be read here. Its host may block cross-origin access to frames.";
+  document.getElementById("use-video-frame").disabled = true;
+});
+videoFramePicker.addEventListener("close", () => framePickerVideo.pause());
+document.getElementById("close-ownership").addEventListener("click", () => ownershipAssignment.close());
+ownershipForm.addEventListener("submit", assignOwnership);
+document.getElementById("refresh-bookings").addEventListener("click", loadBookings);
+document.getElementById("seed").addEventListener("click", seedRoster);
+document.getElementById("initialize-views").addEventListener("click", initializeViewCounts);
+document.getElementById("refresh-creators").addEventListener("click", loadCreatorAccounts);
+document.getElementById("refresh-drafts").addEventListener("click", loadDrafts);
+document.getElementById("refresh-creator-payments").addEventListener("click", loadCreatorPayments);
+document.getElementById("export").addEventListener("click", exportHtml);
+document.getElementById("add-photo").addEventListener("click", addPhoto);
+document.getElementById("add-video").addEventListener("click", addVideo);
+document.getElementById("close-invite").addEventListener("click", () => inviteResult.close());
+document.getElementById("copy-invite").addEventListener("click", async () => {
+  const linkInput = document.getElementById("invite-link");
+  try {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard access is unavailable.");
+    await navigator.clipboard.writeText(linkInput.value);
+    toast("Creator setup link copied.");
+  } catch (error) {
+    console.error("Could not copy creator setup link:", error);
+    linkInput.focus();
+    linkInput.select();
+    let copied = false;
+    try {
+      copied = document.execCommand("copy");
+    } catch (copyError) {
+      console.error("Could not use the clipboard fallback:", copyError);
+    }
+    if (copied) toast("Creator setup link copied.");
+    else setNotice("Copy was blocked. The setup link is selected so you can copy it manually.", "error");
+  }
+});
+galleryUrlInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    addPhoto();
+  }
+});
+document.getElementById("sign-out").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    location.replace("login.html?role=admin");
+  } catch (error) {
+    console.error("Could not sign out:", error);
+    setNotice("Could not sign out. Please try again.", "error");
+  }
+});
+form.addEventListener("submit", saveProfile);
+document.getElementById("delete-profile").addEventListener("click", deleteProfile);
+[...document.querySelectorAll("#profile-form input:not([type=hidden]),#profile-form textarea,#profile-form select")].forEach((input) => {
+  input.addEventListener("input", () => {
+    updatePreview();
+    scheduleDraftSave();
+  });
+  input.addEventListener("change", () => {
+    updatePreview();
+    scheduleDraftSave();
+  });
+});
+editor.addEventListener("close", () => {
+  saveDraftNow()
+    .then(() => loadDrafts())
+    .catch(showDraftSaveError);
+});
+editor.addEventListener("click", (event) => {
+  if (event.target === editor) editor.close();
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && editor.open) {
+    saveDraftNow().catch(showDraftSaveError);
+  }
+});
+window.addEventListener("pagehide", () => {
+  if (editor.open) saveDraftNow().catch(showDraftSaveError);
+});
+inviteResult.addEventListener("click", (event) => {
+  if (event.target === inviteResult) inviteResult.close();
+});
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    location.replace("login.html?role=admin");
+    return;
+  }
+  try {
+    const { claims } = await user.getIdTokenResult(true);
+    if (claims.admin !== true && user.uid !== adminUid) {
+      await signOut(auth);
+      location.replace("login.html?role=admin");
+      return;
+    }
+    studio.hidden = false;
+    document.getElementById("admin-email").textContent = user.email || "Administrator";
+    await Promise.all([loadRoster(), loadBookings(), loadCreatorAccounts(), loadDrafts()]);
+    const initialScreen = location.hash.slice(1);
+    if (["profiles", "inquiries", "verification", "payments", "drafts"].includes(initialScreen)) showScreen(initialScreen);
+    window.RedRoomLoading.finishInitial();
+  } catch (error) {
+    console.error("Could not verify admin access:", error);
+    setNotice("Could not verify administrator access. Sign in again or contact the site administrator.", "error");
+  }
+});
+</script>
+</body>
+</html>

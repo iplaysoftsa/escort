@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creator dashboard — Red Room</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0406">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+:root{color-scheme:dark;--black:#0a0406;--panel:#170b10;--coal:#140a0e;--cream:#f6e9e6;--dim:#b39aa0;--rose:#ff2e4d;--red:#d90429;--line:rgba(255,46,77,.18);--green:#51d992;--gold:#edbd58}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(850px 460px at 85% -12%,rgba(217,4,41,.23),transparent 72%),var(--black);color:var(--cream);font:400 15px/1.6 "Inter","Helvetica Neue",Arial,sans-serif}
+body:not(.ready){visibility:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.app{min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr)}
+aside{height:100vh;position:sticky;top:0;padding:24px 16px;background:rgba(10,4,6,.94);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 26px;font:1.35rem Georgia,serif}
+.brand-mark,.top-mark{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,#ff6077,var(--red) 55%,#7d0015);box-shadow:0 0 20px #d904294d;color:#fff}
+.nav-label{margin:8px 10px 4px;color:#80666c;font-size:.67rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.nav-link,.logout{display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:9px;background:transparent;color:var(--dim);text-align:left;cursor:pointer;transition:background .2s,color .2s}
+.nav-link i,.logout i{width:18px;text-align:center}
+.nav-link:hover,.logout:hover,.nav-link.active{background:rgba(255,46,77,.12);color:#fff}
+.nav-link.active{box-shadow:inset 2px 0 var(--rose)}
+.side-note{margin-top:auto;padding:16px 10px;border-top:1px solid var(--line);color:var(--dim);font-size:.77rem}
+.side-note i{color:var(--green);margin-right:5px}
+main{min-width:0}
+.topbar{position:sticky;top:0;z-index:5;min-height:72px;padding:12px clamp(18px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(10,4,6,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.top-brand{display:none;align-items:center;gap:9px;font:1.05rem Georgia,serif}
+.user{display:flex;align-items:center;gap:11px}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,var(--rose),#730018);font-weight:800}
+.user-name{font-weight:700;font-size:.9rem}
+.user-email{display:block;color:var(--dim);font-size:.73rem;font-weight:400}
+.top-actions{display:flex;align-items:center;gap:10px}
+.mobile-menu{display:none}
+.mobile-menu[hidden]{display:none}
+.mobile-tabbar{display:none}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid rgba(255,143,163,.38);border-radius:999px;background:transparent;color:var(--cream);font-size:.76rem;font-weight:800;letter-spacing:.05em;cursor:pointer;transition:.2s}
+.button.mobile-menu-toggle{display:none}
+.button:hover{border-color:var(--rose);color:#fff;transform:translateY(-1px)}
+.button.primary{border:0;background:linear-gradient(180deg,var(--rose),var(--red));box-shadow:0 7px 22px #d9042940}
+.button[hidden]{display:none}
+.button:focus-visible,.nav-link:focus-visible,.logout:focus-visible{outline:2px solid #ff8fa3;outline-offset:3px}
+.content{padding:clamp(20px,4vw,46px);max-width:1450px;margin:auto}
+.screen[hidden]{display:none}
+.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+h1,h2,h3,p{margin-top:0}
+h1{margin-bottom:5px;font:clamp(2rem,4vw,3rem)/1.1 Georgia,serif;letter-spacing:-.02em}
+h2{font-size:1.05rem}
+.sub{margin:0;color:var(--dim);font-size:.91rem}
+.eyebrow{margin-bottom:9px;color:#ff8fa3;font-size:.69rem;font-weight:800;letter-spacing:.19em;text-transform:uppercase}
+.status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:#ffffff08;color:var(--dim);font-size:.72rem;font-weight:800}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.status.good{color:var(--green);border-color:#51d99255}.status.good::before{background:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-bottom:20px}
+.stat,.panel{background:linear-gradient(150deg,#1c0c12,var(--panel));border:1px solid var(--line);border-radius:14px}
+.stat{position:relative;overflow:hidden;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.16);transition:border-color .2s,transform .2s}
+.stat:hover{transform:translateY(-2px);border-color:rgba(255,46,77,.38)}
+.stat::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,var(--rose),transparent)}
+.stat-label{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:.76rem;font-weight:700}
+.stat-label i{color:#ff8498}
+.stat-value{margin:12px 0 4px;font:clamp(1.45rem,3vw,2rem)/1.1 Georgia,serif;overflow-wrap:anywhere}
+.stat-foot{color:var(--dim);font-size:.75rem}
+.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:17px}
+.payment-grid{grid-template-columns:minmax(0,1.3fr) minmax(320px,.85fr)}
+.panel{overflow:hidden;box-shadow:0 18px 42px rgba(0,0,0,.14)}
+.panel-head{padding:18px 20px;border-bottom:1px solid var(--line)}
+.panel-head h2{margin:0;font-size:.98rem}
+.panel-body{padding:20px}
+.profile-card{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:22px;align-items:center}
+.profile-photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;background:var(--coal);border:1px solid var(--line)}
+.profile-details h2{font:1.8rem/1.15 Georgia,serif;margin:0 0 4px}
+.muted{color:var(--dim)}
+.profile-meta{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.chip{padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--dim);font-size:.73rem}
+.detail-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.detail-list div{min-width:0}
+.detail-list dt{color:var(--dim);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.detail-list dd{margin:4px 0 0;overflow-wrap:anywhere}
+.note{margin:0;color:var(--dim);font-size:.82rem}
+.note i{color:#ff8498;margin-right:6px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,74px));gap:9px;margin-top:18px}
+.gallery img{width:100%;height:auto;aspect-ratio:74/88;object-fit:cover;border:1px solid var(--line);border-radius:8px}
+.profile-form{padding:20px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.profile-form-section{margin-bottom:12px;overflow:hidden;border:1px solid var(--line);border-radius:11px;background:#0d0508}
+.profile-form-section>summary{display:flex;align-items:center;gap:11px;padding:12px;cursor:pointer;list-style:none}
+.profile-form-section>summary::-webkit-details-marker{display:none}
+.profile-form-section>summary:focus-visible{outline:2px solid #ff8fa3;outline-offset:-2px}
+.profile-form-section>summary .section-number{width:30px;height:30px;flex:none;display:grid;place-items:center;border:1px solid rgba(255,143,163,.22);border-radius:10px;background:rgba(255,46,77,.09);color:#ff9aaa;font-size:.66rem;font-weight:800}
+.section-copy{min-width:0;flex:1}
+.section-copy strong,.section-copy small{display:block}
+.section-copy strong{color:var(--cream);font-size:.84rem}
+.section-copy small{color:var(--dim);font-size:.69rem}
+.profile-form-section>summary>i{color:var(--dim);font-size:.72rem;transition:transform .2s}
+.profile-form-section[open]>summary{margin-bottom:14px;border-bottom:1px solid var(--line)}
+.profile-form-section[open]>summary>i{transform:rotate(180deg)}
+.profile-form-section .fields{padding:0 13px 14px}
+.creator-video-details{display:grid;gap:10px;padding:0 13px 14px}
+.creator-video-card{display:grid;gap:9px;padding:12px;border:1px solid rgba(255,143,163,.14);border-radius:10px;background:rgba(255,255,255,.02)}
+.creator-video-card>strong{color:#ffb1be;font-size:.78rem}
+.creator-video-card .field-help{margin:0}
+.field{min-width:0}
+.field.full{grid-column:1/-1}
+.field label{display:block;margin-bottom:6px;color:#e6cdd3;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.field input,.field select,.field textarea{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;outline:none;background:rgba(7,3,5,.75);color:#fff;font:inherit}
+.field textarea{min-height:92px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--rose);box-shadow:0 0 0 3px #ff2e4d1f}
+.field-help{margin:5px 0 0;color:var(--dim);font-size:.72rem}
+.form-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+.save-message{min-height:22px;margin:0;color:var(--green);font-size:.8rem}
+.editor-photo{width:100%;max-height:360px;object-fit:cover;border:1px solid var(--line);border-radius:10px}
+.booking-list,.earning-list{display:grid;gap:11px}
+.booking-request{padding:15px;border:1px solid var(--line);border-radius:11px;background:#0d0508}
+.booking-request h3{margin:0 0 4px;font-size:.92rem}
+.booking-request p{margin:4px 0;color:var(--dim);font-size:.79rem}
+.booking-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.response{display:inline-flex;padding:5px 9px;border:1px solid var(--line);border-radius:99px;color:var(--dim);font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.response.accepted{color:var(--green);border-color:#51d99266}
+.response.declined{color:#ff9eaa;border-color:#ff2e4d66}
+.earning-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #ffffff0d}
+.earning-row:last-child{border-bottom:0}
+.earning-row span{color:var(--dim);font-size:.78rem}
+.earning-row strong{white-space:nowrap;color:var(--green);font-family:ui-monospace,monospace}
+.earning-model{margin-bottom:20px}
+.earning-model .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.earning-model .panel-head .status{flex:none;color:var(--gold);border-color:#edbd5855}
+.earning-model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin-top:15px}
+.earning-model-card{padding:14px;border:1px solid var(--line);border-radius:10px;background:#0d0508}
+.earning-model-card h3{margin:0 0 7px;font-size:.84rem}
+.earning-model-card p{margin:0;color:var(--dim);font-size:.75rem}
+.earning-model-card strong{display:block;margin-top:10px;color:var(--gold);font-size:.75rem}
+.earning-estimate{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:13px;border:1px solid #edbd5833;border-radius:9px;background:#edbd580a}
+.earning-estimate span{color:var(--dim);font-size:.77rem}
+.earning-estimate strong{color:var(--gold);font-size:.83rem}
+.earning-model-note{margin:13px 0 0!important;color:var(--dim);font-size:.75rem}
+.threshold-track{height:10px;margin-top:10px;overflow:hidden;border:1px solid #edbd5833;border-radius:20px;background:#0d0508}
+.threshold-track span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .35s ease}
+.threshold-copy{margin:9px 0 0;color:var(--gold);font-size:.78rem;font-weight:700}
+.payment-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.payment-breakdown div{padding:12px;border:1px solid rgba(255,255,255,.07);border-radius:9px;background:#0d0508}
+.payment-breakdown span,.payment-breakdown strong{display:block}
+.payment-breakdown span{color:var(--dim);font-size:.7rem}
+.payment-breakdown strong{margin-top:5px;font-size:.95rem}
+.payment-rate-line{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:15px}
+.payment-history{margin-top:18px}
+.payment-history h3{margin:0 0 8px;font-size:.84rem}
+.payout-save-message{min-height:22px;margin:12px 0 0;color:var(--green);font-size:.8rem}
+.payout-save-message.error{color:#ffb5c0}
+.payout-sensitive-note{padding:11px 12px;border:1px solid #edbd5833;border-radius:9px;background:#edbd580a;color:var(--dim);font-size:.74rem}
+.empty{padding:24px;border:1px dashed var(--line);border-radius:12px;color:var(--dim);text-align:center}
+.empty i{display:block;margin-bottom:10px;color:#ff8498;font-size:1.6rem}
+.message{margin-top:12px;color:#ffb5c0;font-size:.82rem}
+.message[hidden]{display:none}
+.footer{margin-top:27px;color:#80666c;font-size:.75rem;text-align:center}
+@keyframes mobileScreenIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes mobileCardIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:900px){.app{grid-template-columns:205px minmax(0,1fr)}aside{padding-inline:11px}.grid,.payment-grid{grid-template-columns:1fr}}
+@media(min-width:901px) and (max-width:1280px){#bank-payout-fields .fields,#wallet-payout-fields .fields{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){
+  .app{display:block}
+  aside{display:none}
+  .topbar{min-height:62px;padding:9px 14px;gap:9px}
+  .top-brand{display:flex;flex:none;font-size:1rem}
+  .user{display:none}
+  .top-actions{flex:none;gap:6px}
+  #public-profile-link,#top-sign-out{display:none}
+  .button.mobile-menu-toggle{display:inline-flex;width:42px;height:42px;padding:0}
+  .mobile-menu{position:absolute;top:calc(100% + 8px);right:14px;z-index:10;display:grid;gap:10px;width:min(280px,calc(100vw - 28px));padding:12px;border:1px solid var(--line);border-radius:14px;background:#170b10;box-shadow:0 18px 42px rgba(0,0,0,.45)}
+  .mobile-menu nav{display:grid;gap:4px}
+  .mobile-menu .nav-link{width:100%;min-height:48px;display:flex;align-items:center;gap:11px;padding:10px 12px;font-size:.82rem}
+  .mobile-menu .nav-link i{width:18px;text-align:center}
+  .mobile-menu-actions{display:grid;gap:7px;padding-top:10px;border-top:1px solid var(--line)}
+  .mobile-menu-actions .button{width:100%;min-height:46px;justify-content:flex-start;border-radius:10px}
+  .content{padding:22px 16px calc(112px + env(safe-area-inset-bottom))}
+  .screen:not([hidden]){animation:mobileScreenIn .38s cubic-bezier(.22,.61,.36,1) both}
+  .heading{position:relative;overflow:hidden;align-items:flex-start;margin:0 0 17px;padding:18px;border:1px solid rgba(255,143,163,.18);border-radius:18px;background:radial-gradient(ellipse at 100% 0,rgba(217,4,41,.25),transparent 58%),linear-gradient(145deg,#1d0c12,#10070a);box-shadow:0 16px 34px rgba(0,0,0,.2)}
+  .heading:after{position:absolute;right:-29px;bottom:-45px;width:120px;height:120px;border:1px solid rgba(255,143,163,.09);border-radius:50%;content:"";box-shadow:0 0 0 15px rgba(255,143,163,.025),0 0 0 31px rgba(255,143,163,.018);pointer-events:none}
+  .heading>div{position:relative;z-index:1;min-width:0}
+  .heading .eyebrow{margin-bottom:7px;font-size:.62rem}
+  .heading h1{font-size:clamp(1.75rem,8vw,2.35rem)}
+  .heading .sub{max-width:34ch;font-size:.8rem}
+  .heading>.status{position:relative;z-index:1;flex:none;margin-top:3px;padding:6px 8px;font-size:.6rem}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+  .stat{min-width:0;min-height:143px;padding:15px;border-radius:16px;animation:mobileCardIn .45s .06s both}
+  .stat:nth-child(2){animation-delay:.12s;background:linear-gradient(150deg,#241a0e,#170b10);border-color:rgba(237,189,88,.2)}
+  .stat:nth-child(2):before{background:linear-gradient(90deg,var(--gold),transparent)}
+  .stat-label{align-items:flex-start;font-size:.68rem}
+  .stat-value{margin:15px 0 5px;font-size:clamp(1.35rem,6vw,1.75rem)}
+  .stat-foot{font-size:.68rem;line-height:1.45}
+  .grid{grid-template-columns:minmax(0,1fr);gap:13px}
+  .panel{border-radius:16px}
+  .panel-head{padding:15px 16px}
+  .panel-body{padding:16px}
+  .earning-model-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:15px}
+  .earning-model-card{min-width:0;min-height:132px;padding:12px}
+  .earning-model-card:last-child{grid-column:1/-1;min-height:unset}
+  .earning-estimate{align-items:center;flex-direction:row;gap:10px}
+  .earning-estimate span{max-width:20ch;font-size:.72rem}
+  .earning-estimate strong{flex:none;font-size:.9rem}
+  .payment-rate-line{align-items:stretch}
+  .payment-rate-line .button{justify-content:center}
+  .payment-breakdown{gap:8px}
+  .payment-breakdown div{min-height:74px;padding:11px}
+  .payment-breakdown span{font-size:.65rem}
+  #screen-payments .payment-grid{gap:12px}
+  #screen-payments .payment-grid>section:first-child .panel-head{background:linear-gradient(100deg,rgba(237,189,88,.1),transparent)}
+  #screen-payments .payment-grid>section:first-child .earning-estimate{min-height:72px;border-radius:12px}
+  #screen-payments .threshold-copy{padding:8px 10px;border-radius:9px;background:rgba(237,189,88,.07);line-height:1.45}
+  #screen-payments .payment-breakdown div{display:flex;flex-direction:column;justify-content:center;min-height:78px;border-radius:12px}
+  #screen-payments .payment-rate-line{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+  #screen-payments .payment-rate-line .button{width:100%}
+  #screen-payments .payment-history{padding-top:14px;border-top:1px solid var(--line)}
+  #screen-payments #payout-settings-form>.fields{gap:12px}
+  #screen-payments #payout-settings-form .payout-sensitive-note{line-height:1.55}
+  .profile-card{grid-template-columns:96px minmax(0,1fr);gap:13px}
+  .profile-photo{height:124px;aspect-ratio:auto}
+  .profile-details h2{font-size:1.35rem}
+  .detail-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .profile-form{padding:16px}
+  #screen-profile .grid{gap:12px}
+  #screen-profile .profile-form-section{margin-bottom:10px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+  #screen-profile .profile-form-section>summary{min-height:60px;padding:11px}
+  #screen-profile .profile-form-section .fields{gap:12px;padding:0 12px 13px}
+  #screen-profile .profile-form-section .field.full textarea{min-height:98px}
+  #screen-profile .panel:nth-child(2) .panel-body{display:grid;grid-template-columns:88px minmax(0,1fr);align-items:center;gap:10px 13px}
+  #screen-profile .editor-photo{grid-row:1/span 2;width:88px;height:118px;max-height:none;object-fit:cover;border-radius:13px}
+  #screen-profile .panel:nth-child(2) .panel-body .note{grid-column:2;margin:0!important;font-size:.72rem;line-height:1.45}
+  #screen-profile .panel:nth-child(2) .panel-body p:last-child{grid-column:2;margin:0!important}
+  #screen-profile .panel:nth-child(2) .panel-body .button{width:100%;min-height:46px;padding:8px;border-radius:12px;font-size:.68rem;line-height:1.25}
+  #screen-bookings .panel-body{padding:13px}
+  #screen-bookings .booking-list{gap:11px}
+  #screen-bookings .booking-empty{min-height:220px;display:grid;align-content:center;justify-items:center;gap:9px;padding:24px 18px;border-color:rgba(255,143,163,.24);background:radial-gradient(ellipse at 50% 20%,rgba(217,4,41,.12),transparent 66%),#0d0508}
+  #screen-bookings .booking-empty i{width:54px;height:54px;display:grid;place-items:center;margin:0;border:1px solid rgba(255,143,163,.22);border-radius:18px;background:rgba(255,46,77,.1);color:#ff8fa3;font-size:1.2rem}
+  #screen-bookings .booking-empty strong{color:var(--cream);font:1.2rem/1.2 Georgia,serif}
+  #screen-bookings .booking-empty span{max-width:34ch;color:var(--dim);font-size:.76rem;line-height:1.5}
+  #screen-bookings .booking-request{padding:15px;border-radius:15px;background:linear-gradient(145deg,#180b10,#0d0508);animation:mobileCardIn .4s both}
+  #screen-bookings .booking-request:nth-child(2){animation-delay:.06s}
+  #screen-bookings .booking-request h3{font-size:.98rem}
+  #screen-bookings .booking-request p{font-size:.76rem;line-height:1.5}
+  #screen-bookings .booking-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #screen-bookings .booking-actions .button{width:100%;min-height:46px;padding:8px;border-radius:12px;font-size:.68rem}
+  .mobile-section-group{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  .mobile-tabbar{position:fixed;inset:auto 0 0;z-index:8;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,143,163,.2);background:rgba(13,5,9,.9);box-shadow:0 -12px 35px rgba(0,0,0,.3);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .mobile-tab{position:relative;min-width:0;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;border-radius:13px;background:transparent;color:#9e858c;font:inherit;font-size:.62rem;font-weight:700;line-height:1.1;cursor:pointer;transition:background .22s,color .22s,transform .22s}
+  .mobile-tab i{font-size:1rem;transition:transform .22s,color .22s}
+  .mobile-tab[aria-current=page]{background:linear-gradient(145deg,rgba(255,46,77,.18),rgba(217,4,41,.06));color:#fff}
+  .mobile-tab[aria-current=page]:before{position:absolute;top:0;left:50%;width:24px;height:2px;transform:translateX(-50%);border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--rose),#ff9aaa);content:""}
+  .mobile-tab[aria-current=page] i{transform:translateY(-1px);color:#ff8fa3;filter:drop-shadow(0 0 8px rgba(255,46,77,.42))}
+  .mobile-tab:active{transform:scale(.96)}
+  .mobile-tab:focus-visible{outline:2px solid #ff8fa3;outline-offset:2px}
+  .mobile-tab-badge{position:absolute;top:3px;left:calc(50% + 10px);min-width:16px;height:16px;display:grid;place-items:center;padding:0 4px;border:1px solid #13070b;border-radius:99px;background:var(--rose);color:#fff;font-size:.55rem;font-weight:900;line-height:1}
+  .mobile-tab-badge[hidden]{display:none}
+}
+@media(max-width:520px){
+  .field input,.field select,.field textarea{min-height:50px}
+  .field textarea{min-height:108px}
+  .form-actions{align-items:stretch;flex-direction:column;gap:8px}
+  .form-actions .button{width:100%;min-height:50px}
+  .form-actions .save-message,.form-actions .payout-save-message{text-align:center}
+}
+@media(max-width:420px){
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .profile-card{grid-template-columns:86px minmax(0,1fr);gap:11px}
+  .profile-photo{height:112px}
+  .profile-details h2{font-size:1.2rem}
+  .detail-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .field label{font-size:.65rem}
+}
+@media(max-width:360px){
+  .content{padding-inline:12px}
+  .heading{padding:15px}
+  .heading>.status{max-width:115px;white-space:normal}
+  .earning-model-grid{grid-template-columns:minmax(0,1fr)}
+  .earning-model-card:last-child{grid-column:auto}
+  .stat{min-height:134px;padding:10px}
+  .stat-label{font-size:.64rem}
+  .stat-value{font-size:1.28rem}
+  .profile-form .fields,#payout-settings-form .fields{grid-template-columns:minmax(0,1fr)}
+  .profile-card{grid-template-columns:78px minmax(0,1fr)}
+  .profile-photo{height:104px}
+}
+@media(prefers-reduced-motion:reduce){
+  .screen:not([hidden]),.stat,#screen-bookings .booking-request{animation:none!important}
+  .mobile-tab,.mobile-tab i{transition:none!important}
+}
+</style>
+<link rel="stylesheet" href="site-loading-screen.css">
+</head>
+<body>
+<div class="loading-screen" id="dashboard-loading" role="status" aria-live="polite" aria-label="Loading Red Room">
+  <div class="loader-card">
+    <div class="loader-copy">
+      <div class="loader-brand"><span class="loader-brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> RED ROOM</div>
+      <span class="loader-kicker">South Africa · Companion profiles</span>
+      <h2 id="loader-headline">You’re about to enter Red Room.</h2>
+      <p id="loader-detail">A little moment while we set the scene.</p>
+      <div class="loader-progress" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8"><span id="loader-progress-fill"></span></div>
+      <div class="loader-status"><span id="loader-status-text">Preparing the room</span><span id="loader-percent">08%</span></div>
+    </div>
+    <div class="loader-visual">
+      <img class="loader-photo is-active" src="ximg/mane.webp" alt="" fetchpriority="high">
+      <img class="loader-photo" src="ximg/1000200860.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/1000439607.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/Milly-Shades-4-768x1216.jpeg" alt="" loading="eager">
+    </div>
+  </div>
+</div>
+<div class="app">
+  <aside>
+    <a class="brand" href="public/index.html"><span class="brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> Red Room</a>
+    <div class="nav-label">Creator area</div>
+    <nav aria-label="Creator dashboard">
+      <button class="nav-link active" type="button" data-screen="overview"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Overview</button>
+      <button class="nav-link" type="button" data-screen="profile"><i class="fa-solid fa-id-card" aria-hidden="true"></i> My profile</button>
+      <button class="nav-link" type="button" data-screen="payments"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Payments</button>
+      <button class="nav-link" type="button" data-screen="bookings"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Booking requests <span id="booking-badge"></span></button>
+    </nav>
+    <button class="logout" id="sign-out" type="button"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Sign out</button>
+    <div class="side-note"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Your account and profile are private to you.</div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <a class="top-brand" href="public/index.html"><span class="top-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> Red Room</a>
+      <div class="user"><span class="avatar" id="creator-avatar">C</span><div><span class="user-name" id="creator-name">Creator</span><span class="user-email" id="creator-email"></span></div></div>
+      <div class="top-actions">
+        <a class="button" id="public-profile-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="View public profile" hidden><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i><span>View public profile</span></a>
+        <button class="button" type="button" id="top-sign-out" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Sign out</span></button>
+        <button class="button mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Open dashboard menu" aria-controls="mobile-menu" aria-expanded="false"><i class="fa-solid fa-bars" id="mobile-menu-icon" aria-hidden="true"></i></button>
+      </div>
+      <div class="mobile-menu" id="mobile-menu" hidden>
+        <nav aria-label="Mobile creator dashboard">
+          <button class="nav-link active" type="button" data-screen="overview"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Overview</button>
+          <button class="nav-link" type="button" data-screen="profile"><i class="fa-solid fa-id-card" aria-hidden="true"></i> My profile</button>
+          <button class="nav-link" type="button" data-screen="payments"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Payments</button>
+          <button class="nav-link" type="button" data-screen="bookings"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Booking requests</button>
+        </nav>
+        <div class="mobile-menu-actions">
+          <a class="button" id="mobile-public-profile-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="View public profile" hidden><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i><span>View public profile</span></a>
+          <button class="button" type="button" id="mobile-sign-out" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Sign out</span></button>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <section class="screen" id="screen-overview">
+        <div class="heading">
+          <div><div class="eyebrow">Creator dashboard</div><h1>Welcome, <span id="welcome-name">Creator</span>.</h1><p class="sub">A clear view of your Red Room profile and its recorded activity.</p></div>
+          <span class="status" id="profile-status">Loading profile</span>
+        </div>
+        <div class="stats">
+          <article class="stat"><div class="stat-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Total earnings</div><div class="stat-value" id="earnings-total">—</div><div class="stat-foot">Paid booking earnings plus profile views at $0.10 CPM, converted to rand</div></article>
+          <article class="stat"><div class="stat-label"><i class="fa-solid fa-eye" aria-hidden="true"></i> Total profile views</div><div class="stat-value" id="view-count">—</div><div class="stat-foot">All-time recorded profile views</div></article>
+        </div>
+        <section class="panel earning-model" aria-labelledby="earning-model-title">
+          <div class="panel-head"><h2 id="earning-model-title">Profile-view earnings · $0.10 CPM</h2><span class="status" id="cpm-rate-status">Loading rate</span></div>
+          <div class="panel-body">
+            <p class="note">Profile views earn $0.10 per 1,000 views ($0.00010 per view). The dashboard converts this amount to rand using the latest available USD/ZAR reference rate.</p>
+            <div class="earning-estimate"><span>Profile-view earnings at the latest exchange rate</span><strong id="view-earnings-estimate">—</strong></div>
+            <div class="earning-model-grid">
+              <article class="earning-model-card"><h3>Profile-view CPM</h3><p>All-time profile views are included in the running total. Views are counted at most once per browser account in 24 hours.</p><strong>$0.10 per 1,000 views · $0.00010 per view</strong></article>
+              <article class="earning-model-card"><h3>Exchange rate</h3><p id="exchange-rate-detail">Loading the latest available USD/ZAR reference rate.</p><strong id="exchange-rate-value">—</strong></article>
+              <article class="earning-model-card"><h3>Other view earnings</h3><p>Video and sponsored views are not included because tracking for those features is not available.</p><strong>Profile views only</strong></article>
+            </div>
+            <p class="earning-model-note">The rate uses the latest available reference exchange rate and may change. The R1,000 payout threshold and transfers are managed by Red Room; reaching the threshold does not automatically send a payment.</p>
+          </div>
+        </section>
+        <div class="grid mobile-section-group">
+          <section class="panel">
+            <div class="panel-head"><h2>Your profile</h2></div>
+            <div class="panel-body" id="overview-profile">
+              <div class="empty">Loading your profile…</div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Need to update your photos?</h2></div>
+            <div class="panel-body">
+              <p class="note">Send Red Room a request to update your profile images. The team will reply with instructions for sharing them securely.</p>
+              <p style="margin:18px 0 0"><a class="button primary" id="image-request" href="https://wa.me/27617250994" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Request an image update</a></p>
+              <p class="message" id="publish-message" hidden></p>
+            </div>
+          </section>
+        </div>
+        <div class="grid mobile-section-group" style="margin-top:17px">
+          <section class="panel">
+            <div class="panel-head"><h2>Recent paid bookings</h2></div>
+            <div class="panel-body"><p class="note">These records show your 80% share of the service amount on bookings marked paid by Red Room. The R50 booking deposit and separately quoted driver/travel charges are excluded. Profile-view earnings are included at $0.10 CPM and converted using the latest available USD/ZAR reference rate.</p><div class="earning-list" id="earning-list" style="margin-top:13px"><div class="empty">Loading earnings…</div></div></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Booking requests</h2></div>
+            <div class="panel-body"><p class="note">Admin-assigned booking requests appear here. Accept or decline each request; Red Room handles client contact.</p><p style="margin:15px 0 0"><button class="button primary" type="button" data-screen="bookings"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> View requests <span id="booking-count">0</span></button></p></div>
+          </section>
+        </div>
+      </section>
+      <section class="screen" id="screen-payments" hidden>
+        <div class="heading"><div><div class="eyebrow">Creator payments</div><h1>Payments.</h1><p class="sub">Track your pending balance, payout threshold and private payment method.</p></div><span class="status" id="payout-readiness">Loading payout status</span></div>
+        <div class="grid payment-grid">
+          <section class="panel">
+            <div class="panel-head"><h2>Pending from Red Room</h2></div>
+            <div class="panel-body">
+              <div class="earning-estimate"><span>Pending payout balance</span><strong id="pending-payout-total">—</strong></div>
+              <p class="message" id="payout-data-error" role="alert" hidden></p>
+              <div class="threshold-track" role="progressbar" aria-label="Progress toward the R1,000 payout threshold" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="threshold-progress"></span></div>
+              <p class="threshold-copy" id="threshold-copy">Loading threshold progress</p>
+              <div class="payment-breakdown">
+                <div><span>Paid-booking share</span><strong id="booking-earnings-total">—</strong></div>
+                <div><span>Profile-view earnings</span><strong id="view-earnings-total">—</strong></div>
+                <div><span>Payments already sent</span><strong id="payouts-sent-total">—</strong></div>
+                <div><span>Payout threshold</span><strong>R1,000.00</strong></div>
+              </div>
+              <div class="payment-rate-line"><p class="note" id="payment-rate-status">Exchange rate not loaded.</p><button class="button" id="refresh-exchange-rate" type="button"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh rate</button></div>
+              <div class="payment-history"><h3>Recent payments sent</h3><div class="earning-list" id="payout-history"><div class="empty">Loading payment history…</div></div></div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Your payment method</h2></div>
+            <form class="profile-form" id="payout-settings-form">
+              <div class="fields">
+                <div class="field full"><label for="payout-method">Payment method</label><select id="payout-method" required><option value="bank-transfer">EFT / bank transfer</option><option value="mobile-wallet">Mobile e-wallet</option></select></div>
+                <div class="field full" id="bank-payout-fields"><div class="fields">
+                  <div class="field"><label for="payout-account-holder">Account holder</label><input id="payout-account-holder" maxlength="80" autocomplete="name" required></div>
+                  <div class="field"><label for="payout-bank-name">Bank name</label><input id="payout-bank-name" maxlength="80" autocomplete="off" required></div>
+                  <div class="field"><label for="payout-account-type">Account type</label><select id="payout-account-type" required><option value="cheque">Cheque/current</option><option value="savings">Savings</option><option value="transmission">Transmission</option></select></div>
+                  <div class="field"><label for="payout-account-number">Account number</label><input id="payout-account-number" type="password" inputmode="numeric" pattern="[0-9]{6,20}" maxlength="20" autocomplete="off" required></div>
+                  <div class="field full"><label for="payout-branch-code">Branch code (optional)</label><input id="payout-branch-code" inputmode="numeric" pattern="[0-9]{0}|[0-9]{3,10}" maxlength="10" autocomplete="off"></div>
+                </div></div>
+                <div class="field full" id="wallet-payout-fields" hidden><div class="fields">
+                  <div class="field"><label for="payout-wallet-provider">Wallet provider</label><input id="payout-wallet-provider" maxlength="80" placeholder="FNB eWallet, Capitec Send Cash, etc." required></div>
+                  <div class="field"><label for="payout-wallet-number">Wallet mobile number</label><input id="payout-wallet-number" type="tel" inputmode="tel" pattern="(\+27|0)[0-9]{9}" maxlength="13" placeholder="e.g. 0821234567" autocomplete="tel" required></div>
+                </div></div>
+                <div class="field full"><p class="payout-sensitive-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> Payment details are private to your account and Red Room administrators. Account numbers are masked here. Never enter card details or your password.</p></div>
+              </div>
+              <div class="form-actions"><button class="button primary" id="save-payout-settings" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save payment method</button><p class="payout-save-message" id="payout-save-message" role="status" aria-live="polite"></p></div>
+            </form>
+          </section>
+        </div>
+      </section>
+      <section class="screen" id="screen-profile" hidden>
+        <div class="heading"><div><div class="eyebrow">Your listing</div><h1>My profile.</h1><p class="sub">Update your personal details, availability and starting rate. Profile photos stay managed by Red Room.</p></div><span class="status" id="profile-status-detail">Loading profile</span></div>
+        <div class="grid">
+          <section class="panel">
+            <div class="panel-head"><h2>Personal details</h2></div>
+            <form class="profile-form" id="profile-edit-form">
+              <details class="profile-form-section" open>
+                <summary><span class="section-number">01</span><span class="section-copy"><strong>Basics</strong><small>Name, area and availability</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                <div class="fields">
+                  <div class="field"><label for="profile-name">Display name</label><input id="profile-name" maxlength="60" required></div>
+                  <div class="field"><label for="profile-area">Service area</label><input id="profile-area" maxlength="80" required></div>
+                  <div class="field"><label for="profile-rate">Starting price (R/hour)</label><input id="profile-rate" type="number" min="500" max="1000000" step="1" required><p class="field-help">Minimum R500 per hour.</p></div>
+                  <div class="field"><label for="profile-status-select">Availability</label><select id="profile-status-select"><option value="available">Available</option><option value="check">Check availability</option><option value="hidden">Hidden by Red Room</option></select></div>
+                  <div class="field"><label for="profile-age">Age</label><input id="profile-age" type="number" min="18" max="99" step="1" required></div>
+                  <div class="field"><label for="profile-height">Height (cm)</label><input id="profile-height" type="number" min="1" max="300" step="1"></div>
+                </div>
+              </details>
+              <details class="profile-form-section" open>
+                <summary><span class="section-number">02</span><span class="section-copy"><strong>Appearance</strong><small>Details shown on your listing</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                <div class="fields">
+                  <div class="field"><label for="profile-dress-size">Dress size</label><input id="profile-dress-size" maxlength="30"></div>
+                  <div class="field"><label for="profile-hair">Hair colour</label><input id="profile-hair" maxlength="50"></div>
+                  <div class="field"><label for="profile-eyes">Eye colour</label><input id="profile-eyes" maxlength="50"></div>
+                </div>
+              </details>
+              <details class="profile-form-section" open>
+                <summary><span class="section-number">03</span><span class="section-copy"><strong>About you</strong><small>Bio, languages and interests</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                <div class="fields">
+                  <div class="field full"><label for="profile-bio">Short description</label><textarea id="profile-bio" maxlength="600"></textarea></div>
+                  <div class="field full"><label for="profile-languages">Languages (one per line)</label><textarea id="profile-languages" maxlength="500"></textarea></div>
+                  <div class="field full"><label for="profile-personality">Personality and interests</label><textarea id="profile-personality" maxlength="600"></textarea></div>
+                </div>
+              </details>
+              <details class="profile-form-section" open>
+                <summary><span class="section-number">04</span><span class="section-copy"><strong>Travel &amp; services</strong><small>Preferences and additional rates</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                <div class="fields">
+                  <div class="field full"><label for="profile-travel">Preferred travel areas (one per line)</label><textarea id="profile-travel" maxlength="800"></textarea></div>
+                  <div class="field full"><label for="profile-venues">Preferred venues (one per line)</label><textarea id="profile-venues" maxlength="800"></textarea></div>
+                  <div class="field full"><label for="profile-rates">Extended rates (one per line)</label><textarea id="profile-rates" maxlength="800"></textarea></div>
+                  <div class="field full"><label for="profile-services">Companionship options (one per line)</label><textarea id="profile-services" maxlength="800"></textarea></div>
+                </div>
+              </details>
+              <details class="profile-form-section" open>
+                <summary><span class="section-number">05</span><span class="section-copy"><strong>Video details</strong><small>Edit titles and descriptions for your videos</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                <p class="field-help" style="padding:0 13px">Video links and thumbnails are managed by Red Room. You can edit the public title and short description for each video.</p>
+                <div class="creator-video-details" id="creator-video-details" aria-live="polite"></div>
+              </details>
+              <div class="form-actions"><button class="button primary" id="save-profile" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save my details</button><p class="save-message" id="profile-save-message" role="status" aria-live="polite"></p></div>
+            </form>
+            <div id="full-profile" hidden></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Profile photo</h2></div>
+            <div class="panel-body">
+              <img class="editor-photo" id="profile-edit-cover" alt="Your current profile photo">
+              <p class="note" style="margin-top:13px">Photos cannot be changed here. Send the team an image-update request and they will help with the update.</p>
+              <p style="margin:15px 0 0"><a class="button primary" id="image-request-profile" href="https://wa.me/27617250994" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Request photo update</a></p>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="screen" id="screen-bookings" hidden>
+        <div class="heading"><div><div class="eyebrow">Your schedule</div><h1>Booking requests.</h1><p class="sub">Respond to admin-assigned requests. Client contact details remain with Red Room.</p></div><span class="status good" id="booking-screen-status">No requests</span></div>
+        <section class="panel"><div class="panel-body booking-list" id="creator-bookings"><div class="empty">Loading booking requests…</div></div></section>
+      </section>
+      <footer class="footer">Red Room · <a href="mailto:redroomescortsa@gmail.com">redroomescortsa@gmail.com</a> · Profile views count at most once per browser account in 24 hours.</footer>
+    </div>
+  </main>
+</div>
+<nav class="mobile-tabbar" aria-label="Creator dashboard tabs">
+  <button class="mobile-tab" type="button" data-screen="overview" aria-current="page"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i><span>Home</span></button>
+  <button class="mobile-tab" type="button" data-screen="profile"><i class="fa-solid fa-id-card" aria-hidden="true"></i><span>Profile</span></button>
+  <button class="mobile-tab" type="button" data-screen="payments"><i class="fa-solid fa-wallet" aria-hidden="true"></i><span>Payments</span></button>
+  <button class="mobile-tab" type="button" data-screen="bookings"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Requests</span><span class="mobile-tab-badge" id="mobile-booking-badge" hidden></span></button>
+</nav>
+<script src="site-loading-screen.js"></script>
+<script type="module">
+import { auth, db } from "./firebase-client.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+import { profileImageUrl, profileRate } from "./profiles.js";
+import { calculateCreatorPayoutSummary, fetchLatestUsdZarRate, PAYOUT_THRESHOLD_ZAR, PROFILE_VIEW_CPM_USD } from "./creator-payouts.js";
+
+const byId = (id) => document.getElementById(id);
+const escapeText = (value) => String(value ?? "");
+const publicProfileLink = byId("public-profile-link");
+const mobilePublicProfileLink = byId("mobile-public-profile-link");
+const mobileMenuToggle = byId("mobile-menu-toggle");
+const mobileMenu = byId("mobile-menu");
+const mobileMenuIcon = byId("mobile-menu-icon");
+const creatorVideoDetails = byId("creator-video-details");
+if (window.matchMedia("(max-width: 640px)").matches) {
+  document.querySelectorAll(".profile-form-section").forEach((section, index) => {
+    if (index > 0) section.open = false;
+  });
+}
+let profileData = null;
+let creatorAccount = null;
+let bookingRequests = [];
+let earningsRecords = [];
+let payoutRecords = [];
+let payoutSettings = null;
+let payoutDataAvailable = true;
+let usdZarRate = null;
+let usdZarRateDate = "";
+
+function setStatus(element, label, good = false) {
+  element.textContent = label;
+  element.classList.toggle("good", good);
+}
+
+function closeMobileMenu() {
+  mobileMenu.hidden = true;
+  mobileMenuToggle.setAttribute("aria-expanded", "false");
+  mobileMenuToggle.setAttribute("aria-label", "Open dashboard menu");
+  mobileMenuIcon.classList.remove("fa-xmark");
+  mobileMenuIcon.classList.add("fa-bars");
+}
+
+mobileMenuToggle.addEventListener("click", () => {
+  const isOpening = mobileMenu.hidden;
+  mobileMenu.hidden = !isOpening;
+  mobileMenuToggle.setAttribute("aria-expanded", String(isOpening));
+  mobileMenuToggle.setAttribute("aria-label", isOpening ? "Close dashboard menu" : "Open dashboard menu");
+  mobileMenuIcon.classList.toggle("fa-bars", !isOpening);
+  mobileMenuIcon.classList.toggle("fa-xmark", isOpening);
+});
+mobileMenu.addEventListener("click", (event) => {
+  if (event.target instanceof Element && event.target.closest("[data-screen], a, #mobile-sign-out")) {
+    closeMobileMenu();
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!mobileMenu.hidden && !mobileMenu.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+    closeMobileMenu();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !mobileMenu.hidden) {
+    closeMobileMenu();
+    mobileMenuToggle.focus();
+  }
+});
+
+function addDetail(list, label, value) {
+  const wrapper = document.createElement("div");
+  const term = document.createElement("dt");
+  const detail = document.createElement("dd");
+  term.textContent = label;
+  detail.textContent = value || "Not provided";
+  wrapper.append(term, detail);
+  list.append(wrapper);
+}
+
+function renderCreatorVideoDetails(profile) {
+  creatorVideoDetails.replaceChildren();
+  const videos = Array.isArray(profile?.videos) ? profile.videos : [];
+  if (videos.length > 20) {
+    const note = document.createElement("p");
+    note.className = "field-help";
+    note.textContent = "This profile has more than 20 videos. Contact Red Room to update video details.";
+    creatorVideoDetails.append(note);
+    return;
+  }
+  const validVideos = videos
+    .map((video, index) => ({ video, index }))
+    .filter(({ video }) => video && typeof video.url === "string");
+  if (!validVideos.length) {
+    const empty = document.createElement("p");
+    empty.className = "field-help";
+    empty.textContent = "No profile videos are available yet. Contact Red Room to add or replace a video.";
+    creatorVideoDetails.append(empty);
+    return;
+  }
+
+  validVideos.forEach(({ video, index }) => {
+    const card = document.createElement("article");
+    card.className = "creator-video-card";
+    card.dataset.videoIndex = String(index);
+    const heading = document.createElement("strong");
+    heading.textContent = video.title || `Video ${index + 1}`;
+    const titleField = document.createElement("div");
+    titleField.className = "field";
+    const titleLabel = document.createElement("label");
+    titleLabel.htmlFor = `creator-video-title-${index}`;
+    titleLabel.textContent = `Video ${index + 1} title`;
+    const titleInput = document.createElement("input");
+    titleInput.id = `creator-video-title-${index}`;
+    titleInput.type = "text";
+    titleInput.maxLength = 100;
+    titleInput.value = typeof video.title === "string" ? video.title : "";
+    titleField.append(titleLabel, titleInput);
+    const descriptionField = document.createElement("div");
+    descriptionField.className = "field";
+    const descriptionLabel = document.createElement("label");
+    descriptionLabel.htmlFor = `creator-video-description-${index}`;
+    descriptionLabel.textContent = `Video ${index + 1} description`;
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.id = `creator-video-description-${index}`;
+    descriptionInput.maxLength = 300;
+    descriptionInput.value = typeof video.description === "string" ? video.description : "";
+    descriptionField.append(descriptionLabel, descriptionInput);
+    card.append(heading, titleField, descriptionField);
+    creatorVideoDetails.append(card);
+  });
+}
+
+function renderProfile(profile) {
+  const accountName = profile?.name || creatorAccount.displayName || "Creator";
+  const area = profile?.area || "Area not set";
+  const rate = profile ? profileRate(profile) : "Rate not set";
+  const views = Number.isSafeInteger(profile?.views) && profile.views >= 0 ? profile.views : 0;
+  const published = profile?.published === true && profile?.status !== "hidden";
+  byId("creator-name").textContent = accountName;
+  byId("creator-email").textContent = creatorAccount.email || "";
+  byId("creator-avatar").textContent = accountName.trim().charAt(0).toUpperCase() || "C";
+  byId("welcome-name").textContent = accountName.split(/\s+/)[0] || "Creator";
+  byId("view-count").textContent = new Intl.NumberFormat("en-ZA").format(views);
+  setStatus(byId("profile-status"), published ? "Profile is public" : "Profile is not public", published);
+  setStatus(byId("profile-status-detail"), published ? "Profile is public" : "Profile is not public", published);
+
+  const overview = byId("overview-profile");
+  const full = byId("full-profile");
+  overview.replaceChildren();
+  full.replaceChildren();
+  if (!profile) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "Your profile details are not available yet. Contact Red Room for assistance.";
+    overview.append(empty);
+    full.append(empty.cloneNode(true));
+    publicProfileLink.hidden = true;
+    mobilePublicProfileLink.hidden = true;
+    renderCreatorVideoDetails(null);
+    byId("profile-edit-form").querySelectorAll("input,select,textarea,button").forEach((field) => { field.disabled = true; });
+    byId("profile-save-message").textContent = "Profile details are unavailable. Contact Red Room for help.";
+    return;
+  }
+  byId("profile-edit-form").querySelectorAll("input,select,textarea,button").forEach((field) => { field.disabled = false; });
+  byId("profile-save-message").textContent = "";
+
+  const imagePath = profileImageUrl(profile.image || profile.gallery?.[0]);
+  const imageUrl = imagePath && imagePath.startsWith("https://") ? imagePath : imagePath ? `./${imagePath}` : "";
+  const rateAmount = Number.isSafeInteger(profile.rateAmount)
+    ? profile.rateAmount
+    : Number(String(profile.rate || "").replace(/\D/g, "")) || 100;
+  const height = String(profile.height || "").match(/\d+/)?.[0] || "";
+  const fieldLines = (value) => Array.isArray(value) ? value.join("\n") : String(value || "");
+  byId("profile-name").value = profile.name || "";
+  byId("profile-area").value = profile.area || "";
+  byId("profile-rate").value = rateAmount;
+  byId("profile-status-select").value = profile.status === "hidden" ? "hidden" : profile.status === "available" ? "available" : "check";
+  byId("profile-status-select").disabled = profile.status === "hidden";
+  byId("profile-age").value = profile.age || "";
+  byId("profile-height").value = height;
+  byId("profile-dress-size").value = profile.dressSize || "";
+  byId("profile-hair").value = profile.hairColor || "";
+  byId("profile-eyes").value = profile.eyeColor || "";
+  byId("profile-bio").value = profile.bio || "";
+  byId("profile-languages").value = fieldLines(profile.languages);
+  byId("profile-personality").value = profile.personality || "";
+  byId("profile-travel").value = fieldLines(profile.travelAreas);
+  byId("profile-venues").value = fieldLines(profile.preferredVenues);
+  byId("profile-rates").value = fieldLines(profile.extendedRates);
+  byId("profile-services").value = fieldLines(profile.services);
+  renderCreatorVideoDetails(profile);
+  const cover = byId("profile-edit-cover");
+  cover.hidden = !imageUrl;
+  if (imageUrl) cover.src = imageUrl;
+  const profileUrl = `profile.html?id=${encodeURIComponent(creatorAccount.profileId)}`;
+  if (published) {
+    publicProfileLink.href = profileUrl;
+    publicProfileLink.hidden = false;
+    mobilePublicProfileLink.href = profileUrl;
+    mobilePublicProfileLink.hidden = false;
+  } else {
+    publicProfileLink.hidden = true;
+    mobilePublicProfileLink.hidden = true;
+  }
+  const message = `Hi Red Room, I am ${accountName}${creatorAccount.creatorId ? ` (${creatorAccount.creatorId})` : ""}. I would like to update the photos on my profile${profile.name ? `, ${profile.name}` : ""}${area ? ` in ${area}` : ""}. Please let me know how to send the new images securely.`;
+  byId("image-request").href = `https://wa.me/27617250994?text=${encodeURIComponent(message)}`;
+  byId("image-request-profile").href = `https://wa.me/27617250994?text=${encodeURIComponent(message)}`;
+
+  const card = document.createElement("div");
+  card.className = "profile-card";
+  if (imageUrl) {
+    const image = document.createElement("img");
+    image.className = "profile-photo";
+    image.src = imageUrl;
+    image.alt = `${escapeText(profile.name || accountName)} profile`;
+    image.loading = "lazy";
+    card.append(image);
+  }
+  const details = document.createElement("div");
+  const name = document.createElement("h2");
+  name.textContent = profile.name || accountName;
+  const location = document.createElement("p");
+  location.className = "muted";
+  location.textContent = area;
+  const chips = document.createElement("div");
+  chips.className = "profile-meta";
+  [rate, profile.status === "available" ? "Available" : profile.status === "hidden" ? "Hidden" : "Check availability"]
+    .forEach((value) => {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = value;
+      chips.append(chip);
+    });
+  details.append(name, location, chips);
+  card.append(details);
+  overview.append(card);
+
+  const list = document.createElement("dl");
+  list.className = "detail-list";
+  addDetail(list, "Creator ID", creatorAccount.creatorId);
+  addDetail(list, "Area", area);
+  addDetail(list, "Starting rate", rate);
+  addDetail(list, "Account verification", creatorAccount.verificationStatus === "verified" ? "Verified" : "Pending");
+  addDetail(list, "Public listing", published
+    ? creatorAccount.verificationStatus === "verified" ? "Public" : "Public · verification pending"
+    : profile.status === "hidden" ? "Hidden" : "Not public");
+  addDetail(list, "Age", profile.age ? `${profile.age} years` : "");
+  addDetail(list, "Height", profile.height || "");
+  addDetail(list, "Account status", creatorAccount.active ? "Active" : "Inactive");
+  const longCard = document.createElement("div");
+  longCard.className = "profile-card";
+  if (imageUrl) {
+    const image = document.createElement("img");
+    image.className = "profile-photo";
+    image.src = imageUrl;
+    image.alt = `${escapeText(profile.name || accountName)} profile`;
+    image.loading = "lazy";
+    longCard.append(image);
+  }
+  const profileDetails = document.createElement("div");
+  const title = document.createElement("h2");
+  title.textContent = profile.name || accountName;
+  const sub = document.createElement("p");
+  sub.className = "muted";
+  sub.textContent = area;
+  profileDetails.append(title, sub, list);
+  const services = Array.isArray(profile.services) ? profile.services.filter(Boolean).join(", ") : profile.services || "";
+  if (services) {
+    const serviceText = document.createElement("p");
+    serviceText.className = "note";
+    serviceText.style.marginTop = "18px";
+    serviceText.textContent = `Services: ${services}`;
+    profileDetails.append(serviceText);
+  }
+  const galleryItems = Array.isArray(profile.gallery) ? profile.gallery : [];
+  if (galleryItems.length > 1) {
+    const gallery = document.createElement("div");
+    gallery.className = "gallery";
+    galleryItems.forEach((value) => {
+      const path = profileImageUrl(value);
+      if (!path) return;
+      const image = document.createElement("img");
+      image.src = path.startsWith("https://") ? path : `./${path}`;
+      image.alt = `${escapeText(profile.name || accountName)} profile image`;
+      image.loading = "lazy";
+      gallery.append(image);
+    });
+    profileDetails.append(gallery);
+  }
+  longCard.append(profileDetails);
+  full.append(longCard);
+}
+
+function formatZar(amount) {
+  return new Intl.NumberFormat("en-ZA", { style: "currency", currency: "ZAR" }).format(amount);
+}
+
+function formatUsd(amount, digits = 4) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  }).format(amount);
+}
+
+function requestDate(value) {
+  if (value && typeof value.toDate === "function") return value.toDate();
+  const parsed = value ? new Date(value) : null;
+  return parsed && !Number.isNaN(parsed.getTime()) ? parsed : null;
+}
+
+function currentPayoutSummary() {
+  return calculateCreatorPayoutSummary(profileData?.views, earningsRecords, payoutRecords, usdZarRate);
+}
+
+function renderEarnings() {
+  const list = byId("earning-list");
+  list.replaceChildren();
+  const summary = currentPayoutSummary();
+  byId("earnings-total").textContent = summary.totalEarningsZar === null ? "Unavailable" : formatZar(summary.totalEarningsZar);
+  byId("view-earnings-estimate").textContent = summary.viewEarningsZar === null
+    ? "Unavailable"
+    : `${formatZar(summary.viewEarningsZar)} (${formatUsd(summary.viewEarningsUsd)})`;
+  if (!earningsRecords.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No paid bookings have been recorded for your profile yet.";
+    list.append(empty);
+    return;
+  }
+  const recent = [...earningsRecords]
+    .sort((left, right) => (requestDate(right.paidAt)?.getTime() || 0) - (requestDate(left.paidAt)?.getTime() || 0))
+    .slice(0, 6);
+  recent.forEach((record) => {
+    const row = document.createElement("div");
+    row.className = "earning-row";
+    const details = document.createElement("span");
+    const paidDate = requestDate(record.paidAt);
+    details.textContent = paidDate
+      ? `Paid ${new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium" }).format(paidDate)}`
+      : `Booking ${String(record.bookingId || "").slice(0, 8)}`;
+    const amount = document.createElement("strong");
+    amount.textContent = formatZar(Number(record.creatorAmount) || 0);
+    row.append(details, amount);
+    list.append(row);
+  });
+}
+
+function renderPayoutHistory() {
+  const list = byId("payout-history");
+  list.replaceChildren();
+  if (!payoutDataAvailable) {
+    const error = document.createElement("div");
+    error.className = "empty";
+    error.textContent = "Payment history is unavailable until payment records can be loaded.";
+    list.append(error);
+    return;
+  }
+  const recent = [...payoutRecords]
+    .sort((left, right) => (requestDate(right.paidAt)?.getTime() || 0) - (requestDate(left.paidAt)?.getTime() || 0))
+    .slice(0, 5);
+  if (!recent.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No payments have been recorded yet.";
+    list.append(empty);
+    return;
+  }
+  recent.forEach((record) => {
+    const row = document.createElement("div");
+    row.className = "earning-row";
+    const details = document.createElement("span");
+    const paidDate = requestDate(record.paidAt);
+    details.textContent = paidDate
+      ? `Payment sent ${new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium" }).format(paidDate)}`
+      : "Payment sent";
+    const amount = document.createElement("strong");
+    amount.textContent = formatZar(Number(record.amount) || 0);
+    row.append(details, amount);
+    list.append(row);
+  });
+}
+
+function renderPayoutSummary() {
+  const summary = currentPayoutSummary();
+  const totalElement = byId("pending-payout-total");
+  const progress = document.getElementById("threshold-progress");
+  const progressTrack = progress.parentElement;
+  const copy = byId("threshold-copy");
+  const status = byId("payout-readiness");
+  const exchangeInfo = byId("payment-rate-status");
+  const available = payoutDataAvailable && summary.pendingZar !== null;
+
+  totalElement.textContent = available ? formatZar(summary.pendingZar) : "Unavailable";
+  byId("booking-earnings-total").textContent = formatZar(summary.bookingEarningsZar);
+  byId("view-earnings-total").textContent = summary.viewEarningsZar === null
+    ? "Unavailable"
+    : `${formatZar(summary.viewEarningsZar)} (${formatUsd(summary.viewEarningsUsd)})`;
+  byId("payouts-sent-total").textContent = payoutDataAvailable ? formatZar(summary.payoutsSentZar) : "Unavailable";
+  byId("payout-data-error").hidden = payoutDataAvailable;
+  if (!available) {
+    progress.style.width = "0%";
+    progressTrack.setAttribute("aria-valuenow", "0");
+    copy.textContent = payoutDataAvailable
+      ? "Threshold progress is unavailable until the USD/ZAR exchange rate loads."
+      : "Threshold progress is unavailable until payment records load.";
+    setStatus(status, payoutDataAvailable ? "Exchange rate unavailable" : "Payment data unavailable");
+    exchangeInfo.textContent = !payoutDataAvailable
+      ? "Payment records could not be loaded. Contact Red Room to check the latest Firestore rules."
+      : "The pending balance needs a USD/ZAR rate. Refresh the rate to calculate it.";
+  } else {
+    const progressPercent = Math.min(100, summary.pendingZar / PAYOUT_THRESHOLD_ZAR * 100);
+    const remaining = Math.max(0, PAYOUT_THRESHOLD_ZAR - summary.pendingZar);
+    const remainingPercent = Math.ceil(remaining / PAYOUT_THRESHOLD_ZAR * 100);
+    progress.style.width = `${progressPercent}%`;
+    progressTrack.setAttribute("aria-valuenow", String(Math.round(progressPercent)));
+    copy.textContent = summary.pendingZar >= PAYOUT_THRESHOLD_ZAR
+      ? "Threshold reached · 0% left · Red Room will record the payout when sent."
+      : `${remainingPercent}% left · ${formatZar(remaining)} to reach the R1,000 threshold.`;
+    setStatus(status, summary.pendingZar >= PAYOUT_THRESHOLD_ZAR ? "Threshold reached" : "Building toward threshold",
+      summary.pendingZar >= PAYOUT_THRESHOLD_ZAR);
+    exchangeInfo.textContent = `Latest USD/ZAR reference: 1 USD = ${formatZar(usdZarRate)} (${usdZarRateDate}).`;
+  }
+  renderPayoutHistory();
+}
+
+function updatePayoutMethodFields() {
+  const isBankTransfer = byId("payout-method").value === "bank-transfer";
+  byId("bank-payout-fields").hidden = !isBankTransfer;
+  byId("wallet-payout-fields").hidden = isBankTransfer;
+  ["payout-account-holder", "payout-bank-name", "payout-account-type", "payout-account-number"]
+    .forEach((id) => { byId(id).required = isBankTransfer; });
+  ["payout-wallet-provider", "payout-wallet-number"]
+    .forEach((id) => { byId(id).required = !isBankTransfer; });
+}
+
+function renderPayoutSettings(settings) {
+  byId("payout-method").value = settings?.method === "mobile-wallet" ? "mobile-wallet" : "bank-transfer";
+  byId("payout-account-holder").value = settings?.accountHolder || "";
+  byId("payout-bank-name").value = settings?.bankName || "";
+  byId("payout-account-type").value = settings?.accountType || "cheque";
+  byId("payout-account-number").value = settings?.accountNumber || "";
+  byId("payout-branch-code").value = settings?.branchCode || "";
+  byId("payout-wallet-provider").value = settings?.walletProvider || "";
+  byId("payout-wallet-number").value = settings?.walletNumber || "";
+  updatePayoutMethodFields();
+}
+
+async function savePayoutSettings(event) {
+  event.preventDefault();
+  if (!auth.currentUser || !creatorAccount?.profileId) {
+    byId("payout-save-message").textContent = "Your creator profile is not linked. Contact Red Room to update your payment details.";
+    byId("payout-save-message").classList.add("error");
+    return;
+  }
+  const method = byId("payout-method").value;
+  const isBankTransfer = method === "bank-transfer";
+  const settings = {
+    profileId: creatorAccount.profileId,
+    method,
+    accountHolder: isBankTransfer ? byId("payout-account-holder").value.trim() : "",
+    bankName: isBankTransfer ? byId("payout-bank-name").value.trim() : "",
+    accountType: isBankTransfer ? byId("payout-account-type").value : "",
+    accountNumber: isBankTransfer ? byId("payout-account-number").value.trim() : "",
+    branchCode: isBankTransfer ? byId("payout-branch-code").value.trim() : "",
+    walletProvider: isBankTransfer ? "" : byId("payout-wallet-provider").value.trim(),
+    walletNumber: isBankTransfer ? "" : byId("payout-wallet-number").value.trim(),
+    updatedAt: serverTimestamp()
+  };
+  const button = byId("save-payout-settings");
+  const message = byId("payout-save-message");
+  button.disabled = true;
+  message.classList.remove("error");
+  message.textContent = "Saving your private payment details…";
+  try {
+    await setDoc(doc(db, "creatorPayoutSettings", auth.currentUser.uid), settings);
+    payoutSettings = settings;
+    message.textContent = "Your payment method was saved securely.";
+  } catch (error) {
+    console.error("Could not save creator payout settings:", error);
+    message.textContent = "Could not save your payment details. Check your connection and Firestore rules, then try again.";
+    message.classList.add("error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function refreshExchangeRate() {
+  const button = byId("refresh-exchange-rate");
+  button.disabled = true;
+  byId("payment-rate-status").textContent = "Loading the latest USD/ZAR reference rate…";
+  byId("exchange-rate-detail").textContent = "Loading the latest available USD/ZAR reference rate.";
+  byId("cpm-rate-status").textContent = "Loading rate";
+  try {
+    const result = await fetchLatestUsdZarRate();
+    usdZarRate = result.rate;
+    usdZarRateDate = result.date;
+    byId("cpm-rate-status").textContent = "Rate loaded";
+    byId("cpm-rate-status").classList.add("good");
+    byId("exchange-rate-detail").textContent = `Latest available USD/ZAR reference rate dated ${result.date}.`;
+    byId("exchange-rate-value").textContent =
+      `1 USD = ${formatZar(result.rate)} · $0.10 CPM = ${formatZar(PROFILE_VIEW_CPM_USD * result.rate)}`;
+    renderEarnings();
+    renderPayoutSummary();
+  } catch (error) {
+    console.error("Could not load the latest USD/ZAR rate:", error);
+    usdZarRate = null;
+    usdZarRateDate = "";
+    byId("cpm-rate-status").textContent = "Rate unavailable";
+    byId("cpm-rate-status").classList.remove("good");
+    byId("exchange-rate-detail").textContent = "The latest USD/ZAR rate could not be loaded.";
+    byId("exchange-rate-value").textContent = "Unavailable";
+    renderEarnings();
+    renderPayoutSummary();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function renderBookingRequests() {
+  const list = byId("creator-bookings");
+  list.replaceChildren();
+  const pending = bookingRequests.filter((request) => request.status === "pending").length;
+  const requestCount = bookingRequests.length;
+  byId("booking-badge").textContent = pending ? String(pending) : "";
+  byId("booking-count").textContent = String(requestCount);
+  const mobileBadge = byId("mobile-booking-badge");
+  mobileBadge.hidden = pending === 0;
+  mobileBadge.textContent = pending > 9 ? "9+" : String(pending);
+  setStatus(byId("booking-screen-status"), pending ? `${pending} awaiting` : requestCount ? "Up to date" : "No requests", pending === 0);
+  if (!requestCount) {
+    const empty = document.createElement("div");
+    empty.className = "empty booking-empty";
+    const icon = document.createElement("i");
+    icon.className = "fa-solid fa-calendar-check";
+    icon.setAttribute("aria-hidden", "true");
+    const heading = document.createElement("strong");
+    heading.textContent = "Your schedule is clear";
+    const message = document.createElement("span");
+    message.textContent = "New requests assigned by Red Room will appear here, ready for your response.";
+    empty.append(icon, heading, message);
+    list.append(empty);
+    return;
+  }
+  bookingRequests.forEach((request) => {
+    const card = document.createElement("article");
+    card.className = "booking-request";
+    const title = document.createElement("h3");
+    title.textContent = request.name || "Booking request";
+    const details = document.createElement("p");
+    details.textContent = [request.area, request.date, request.time, request.package].filter(Boolean).join(" · ") || "Booking details will be confirmed by Red Room.";
+    const note = document.createElement("p");
+    note.textContent = "Red Room handles client contact and confirms the booking details.";
+    const response = document.createElement("span");
+    response.className = `response${request.status === "accepted" ? " accepted" : request.status === "declined" ? " declined" : ""}`;
+    response.textContent = request.status === "accepted" ? "Accepted" : request.status === "declined" ? "Declined" : "Needs your response";
+    card.append(title, details, note, response);
+    if (request.status === "pending") {
+      const actions = document.createElement("div");
+      actions.className = "booking-actions";
+      [["accepted", "Accept request", "fa-check"], ["declined", "Decline", "fa-xmark"]].forEach(([status, label, icon]) => {
+        const button = document.createElement("button");
+        button.className = `button${status === "accepted" ? " primary" : ""}`;
+        button.type = "button";
+        button.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i> ${label}`;
+        button.addEventListener("click", () => respondToBooking(request, status, button));
+        actions.append(button);
+      });
+      card.append(actions);
+    }
+    list.append(card);
+  });
+}
+
+async function respondToBooking(request, status, button) {
+  button.disabled = true;
+  try {
+    await updateDoc(doc(db, "creatorBookingRequests", request.id), {
+      status,
+      responseAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    request.status = status;
+    renderBookingRequests();
+  } catch (error) {
+    console.error("Could not save your booking response:", error);
+    button.disabled = false;
+    const message = document.createElement("p");
+    message.className = "message";
+    message.textContent = "Your response was not saved. Please try again or contact Red Room.";
+    byId("creator-bookings").prepend(message);
+  }
+}
+
+byId("profile-edit-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const message = byId("profile-save-message");
+  const rateAmount = Number(byId("profile-rate").value);
+  const age = Number(byId("profile-age").value);
+  const heightValue = byId("profile-height").value.trim();
+  const height = heightValue ? Number(heightValue) : null;
+  if (!Number.isSafeInteger(rateAmount) || rateAmount < 500 || rateAmount > 1000000) {
+    message.textContent = "Starting price must be a whole amount from R500 to R1,000,000 per hour.";
+    return;
+  }
+  if (!Number.isInteger(age) || age < 18 || age > 99) {
+    message.textContent = "Age must be between 18 and 99.";
+    return;
+  }
+  if (heightValue && (!Number.isInteger(height) || height < 1 || height > 300)) {
+    message.textContent = "Height must be a whole number between 1 and 300 cm.";
+    return;
+  }
+  const saveButton = byId("save-profile");
+  saveButton.disabled = true;
+  message.textContent = "Saving your details…";
+  const lines = (id) => byId(id).value.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+  const videos = Array.isArray(profileData.videos)
+    ? profileData.videos.map((video, index) => {
+      const card = creatorVideoDetails.querySelector(`[data-video-index="${index}"]`);
+      if (!card) return video;
+      const [titleInput, descriptionInput] = card.querySelectorAll("input,textarea");
+      return {
+        ...video,
+        title: titleInput.value.trim(),
+        description: descriptionInput.value.trim()
+      };
+    })
+    : null;
+  const changes = {
+    name: byId("profile-name").value.trim(),
+    area: byId("profile-area").value.trim(),
+    rateAmount,
+    status: profileData.status === "hidden" ? "hidden" : byId("profile-status-select").value,
+    age,
+    height: height ? `${height} cm` : "",
+    dressSize: byId("profile-dress-size").value.trim(),
+    hairColor: byId("profile-hair").value.trim(),
+    eyeColor: byId("profile-eyes").value.trim(),
+    bio: byId("profile-bio").value.trim(),
+    languages: lines("profile-languages"),
+    personality: byId("profile-personality").value.trim(),
+    travelAreas: lines("profile-travel"),
+    preferredVenues: lines("profile-venues"),
+    extendedRates: lines("profile-rates"),
+    services: lines("profile-services"),
+    updatedAt: serverTimestamp()
+  };
+  if (videos) changes.videos = videos;
+  try {
+    await updateDoc(doc(db, "companions", creatorAccount.profileId), changes);
+    profileData = { ...profileData, ...changes, updatedAt: new Date() };
+    renderProfile(profileData);
+    byId("profile-save-message").textContent = "Your profile details were saved.";
+  } catch (error) {
+    console.error("Could not save creator profile details:", error);
+    message.textContent = "Could not save your details. Please check your connection and try again.";
+  } finally {
+    saveButton.disabled = false;
+  }
+});
+byId("payout-method").addEventListener("change", updatePayoutMethodFields);
+byId("payout-settings-form").addEventListener("submit", savePayoutSettings);
+byId("refresh-exchange-rate").addEventListener("click", refreshExchangeRate);
+
+document.querySelectorAll("[data-screen]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav-link[data-screen]").forEach((item) => item.classList.toggle("active", item.dataset.screen === button.dataset.screen));
+    document.querySelectorAll(".mobile-tab[data-screen]").forEach((item) => {
+      if (item.dataset.screen === button.dataset.screen) item.setAttribute("aria-current", "page");
+      else item.removeAttribute("aria-current");
+    });
+    document.querySelectorAll(".screen").forEach((screen) => { screen.hidden = screen.id !== `screen-${button.dataset.screen}`; });
+  });
+});
+
+async function logout() {
+  await signOut(auth);
+  location.replace("login.html?role=creator");
+}
+byId("sign-out").addEventListener("click", logout);
+byId("top-sign-out").addEventListener("click", logout);
+byId("mobile-sign-out").addEventListener("click", logout);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    location.replace("login.html?role=creator");
+    return;
+  }
+  try {
+    const [{ claims }, accountSnapshot] = await Promise.all([
+      user.getIdTokenResult(true),
+      getDoc(doc(db, "creatorAccounts", user.uid))
+    ]);
+    creatorAccount = accountSnapshot.exists() ? accountSnapshot.data() : {};
+    if (claims.creator !== true && !(creatorAccount?.active === true && creatorAccount.passwordStatus === "created")) {
+      await signOut(auth);
+      location.replace("login.html?role=creator");
+      return;
+    }
+
+    if (creatorAccount?.profileId) {
+      const assignedRequests = query(
+        collection(db, "creatorBookingRequests"),
+        where("profileId", "==", creatorAccount.profileId)
+      );
+      const creatorPayments = query(
+        collection(db, "creatorEarnings"),
+        where("profileId", "==", creatorAccount.profileId)
+      );
+      const [profileSnapshot, requestSnapshot, earningsSnapshot] = await Promise.all([
+        getDoc(doc(db, "companions", creatorAccount.profileId)),
+        getDocs(assignedRequests),
+        getDocs(creatorPayments)
+      ]);
+      profileData = profileSnapshot.exists() ? { id: profileSnapshot.id, ...profileSnapshot.data() } : null;
+      bookingRequests = requestSnapshot.docs.map((entry) => ({ id: entry.id, ...entry.data() }))
+        .sort((left, right) => (requestDate(right.createdAt)?.getTime() || 0) - (requestDate(left.createdAt)?.getTime() || 0));
+      earningsRecords = earningsSnapshot.docs.map((entry) => ({ id: entry.id, ...entry.data() }));
+      try {
+        const creatorPayouts = query(
+          collection(db, "creatorPayouts"),
+          where("profileId", "==", creatorAccount.profileId)
+        );
+        const [payoutSettingsSnapshot, payoutSnapshot] = await Promise.all([
+          getDoc(doc(db, "creatorPayoutSettings", user.uid)),
+          getDocs(creatorPayouts)
+        ]);
+        payoutSettings = payoutSettingsSnapshot.exists() ? payoutSettingsSnapshot.data() : null;
+        payoutRecords = payoutSnapshot.docs.map((entry) => ({ id: entry.id, ...entry.data() }));
+      } catch (error) {
+        console.error("Could not load creator payout records or settings:", error);
+        payoutDataAvailable = false;
+        byId("payout-data-error").textContent = "Payment data could not be loaded. Red Room may need to deploy the latest Firestore rules.";
+      }
+      if (profileData && profileData.published !== true && profileData.adminVisibilitySet !== true
+        && creatorAccount.active === true && creatorAccount.passwordStatus === "created") {
+        try {
+          await updateDoc(doc(db, "companions", creatorAccount.profileId), {
+            published: true,
+            updatedAt: serverTimestamp()
+          });
+          profileData.published = true;
+        } catch (error) {
+          console.error("Could not publish the completed creator profile:", error);
+          const message = byId("publish-message");
+          message.textContent = "Your account is active, but the profile could not be published. Contact Red Room to check the latest Firestore rules.";
+          message.hidden = false;
+        }
+      }
+    }
+    renderProfile(profileData);
+    renderBookingRequests();
+    renderPayoutSettings(payoutSettings);
+    renderEarnings();
+    renderPayoutSummary();
+    await refreshExchangeRate();
+    document.body.classList.add("ready");
+    window.RedRoomLoading.finishInitial();
+  } catch (error) {
+    console.error("Could not verify or load creator dashboard data:", error);
+    location.replace("login.html?role=creator");
+  }
+});
+</script>
+</body>
+</html>

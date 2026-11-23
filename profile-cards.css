@@ -1,0 +1,71 @@
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
+.card{
+  position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.09);
+  border-radius:12px;background:#160b0f;
+  transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s,box-shadow .35s;
+}
+.card:hover{transform:translateY(-4px);border-color:rgba(255,46,77,.55);box-shadow:0 20px 42px rgba(0,0,0,.4)}
+.card .ph{position:relative;aspect-ratio:4/4.5;overflow:hidden;background:#1d0d13}
+.card .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:saturate(.92);transition:transform .8s cubic-bezier(.22,.61,.36,1),filter .4s}
+.card:hover .ph img{transform:scale(1.04);filter:saturate(1.04)}
+.vip-card-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:radial-gradient(ellipse at center,rgba(139,0,22,.35),transparent 65%),#12080c;color:#ffd27b;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.vip-card-placeholder>i{font-size:1.6rem}
+.vip-card-badge{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px;border:1px solid rgba(246,211,145,.45);border-radius:inherit;background:linear-gradient(145deg,rgba(63,43,16,.76),rgba(29,23,14,.7) 52%,rgba(63,43,16,.76));box-shadow:inset 0 0 48px rgba(255,219,152,.15);backdrop-filter:blur(2px);color:#f7d994;font-size:.75rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;pointer-events:none}
+.vip-card-badge i{width:52px;height:52px;display:grid;place-items:center;border:1px solid rgba(255,226,169,.7);border-radius:50%;background:linear-gradient(145deg,rgba(255,231,183,.2),rgba(145,96,31,.28));box-shadow:0 0 22px rgba(239,190,105,.24),inset 0 1px rgba(255,255,255,.25);font-size:1.5rem;text-shadow:0 2px 8px rgba(255,204,120,.5)}
+.vip-card-badge:before{position:absolute;inset:12px;border:1px solid rgba(246,211,145,.32);border-radius:12px;content:""}
+.card .ph:after{position:absolute;inset:25% 0 0;background:linear-gradient(180deg,transparent 15%,rgba(10,4,6,.76));content:"";pointer-events:none}
+.profile-view-count{position:absolute;z-index:2;top:11px;right:11px;display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid rgba(255,255,255,.2);border-radius:24px;background:rgba(10,4,6,.72);color:#fff;font-size:.66rem;font-weight:800;backdrop-filter:blur(8px)}
+.profile-view-count i{color:#ff9bab;font-size:.68rem}
+.new-profile-badge{position:absolute;z-index:3;top:11px;left:11px;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid rgba(255,143,163,.58);border-radius:24px;background:linear-gradient(135deg,rgba(217,4,41,.92),rgba(139,0,22,.92));color:#fff;font-size:.62rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 8px 20px rgba(217,4,41,.28);backdrop-filter:blur(8px)}
+.new-profile-badge i{font-size:.58rem}
+.card-photo-caption{position:absolute;z-index:1;right:18px;bottom:16px;left:18px}
+.card-photo-caption h3{color:#fff;font:700 1.68rem/1.1 "Playfair Display",Georgia,serif}
+.card .body{padding:14px 16px 16px}
+.card-location{display:flex;align-items:center;gap:8px;color:#d9c6cb;font-size:.73rem;font-weight:600;line-height:1.35}
+.card-location i{color:#ff7187;font-size:.76rem}
+.card .foot{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:0;padding:0}
+.card .rate{color:#fff;font:700 .96rem "Playfair Display",Georgia,serif;white-space:nowrap}
+.card .rate small{color:var(--dim,#b39aa0);font:500 .6rem "Inter",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.card .book{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(37,211,102,.42);border-radius:50%;background:rgba(37,211,102,.1);color:#53dc89;font-size:1.02rem;transition:background .2s,transform .2s}
+.card .book:hover{transform:scale(1.06);background:rgba(37,211,102,.2)}
+.availability-chip{display:inline-flex;align-items:center;gap:7px;color:#b9c9c0;font-size:.61rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.availability-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#697177;box-shadow:0 0 0 3px rgba(105,113,119,.14)}
+.availability-chip.check .availability-dot{background:#ffbd59;box-shadow:0 0 0 3px rgba(255,189,89,.15)}
+.availability-chip.available{color:#b4edc8}
+.availability-chip.available .availability-dot{background:#53dc89;box-shadow:0 0 0 3px rgba(83,220,137,.14)}
+.card .details{width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:11px;padding:10px 11px;border:1px solid rgba(255,46,77,.24);border-radius:6px;background:rgba(255,46,77,.06);color:#ff9bab;font:800 .62rem "Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s}
+.card .details:hover{border-color:var(--rose,#ff2e4d);background:rgba(255,46,77,.17)}
+.card .details:focus-visible,.card .book:focus-visible{outline:2px solid var(--rose,#ff2e4d);outline-offset:3px}
+.roster-empty{grid-column:1/-1;padding:40px 18px;border:1px dashed var(--line,rgba(255,46,77,.18));border-radius:10px;color:var(--dim,#b39aa0);text-align:center}
+.roster-empty i{display:block;margin-bottom:12px;color:var(--rose,#ff2e4d);font-size:1.4rem}
+@media(max-width:1050px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+@media(max-width:620px){
+  .grid3{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{display:block;width:100%;min-width:0;min-height:0}
+  .card .ph{height:auto;min-height:0;aspect-ratio:4/5}
+  .card .ph img{position:absolute;inset:0}
+  .card .ph:after{inset:28% 0 0;background:linear-gradient(180deg,transparent 12%,rgba(10,4,6,.78))}
+  .profile-view-count{top:7px;right:7px;padding:5px 6px;font-size:.52rem}
+  .profile-view-count i{font-size:.55rem}
+  .card-photo-caption{right:8px;bottom:9px;left:8px}
+  .card-photo-caption h3{font-size:clamp(.92rem,4.3vw,1.12rem);line-height:1.05}
+  .card .body{display:flex;flex-direction:column;gap:7px;padding:9px 8px 8px}
+  .card-location{min-width:0;font-size:.59rem;line-height:1.2}
+  .card-location span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .card .foot{display:grid;grid-template-columns:minmax(0,1fr) 44px;grid-template-areas:"rate whatsapp" "availability whatsapp";align-items:center;justify-content:initial;gap:4px 5px}
+  .card .rate{grid-area:rate;justify-self:start;min-width:0;font-size:.76rem;line-height:1.1;white-space:normal}
+  .card .rate small{display:block;font-size:.48rem}
+  .availability-chip{grid-area:availability;min-width:0;gap:4px;font-size:.48rem;line-height:1.1;white-space:normal}
+  .availability-dot{width:6px;height:6px}
+  .card .book{grid-area:whatsapp;width:44px;height:44px;font-size:.92rem}
+  .card .details{min-height:44px;margin-top:0;padding:8px 6px;font-size:.48rem;letter-spacing:.06em;text-align:left}
+  .card .details i{flex:none}
+}
+@media(max-width:380px){
+  .grid3{gap:8px}
+  .card .body{padding-inline:7px}
+  .card .rate{font-size:.7rem}
+  .card-location{font-size:.54rem}
+  .card-photo-caption h3{font-size:.96rem}
+}
+@media(prefers-reduced-motion:reduce){.card,.card .ph img,.card .book{transition:none!important}}

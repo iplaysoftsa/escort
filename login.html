@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0406">
+<meta name="robots" content="noindex,nofollow">
+<title>Sign in — Red Room</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+:root{--black:#0a0406;--coal:#140a0e;--panel:#1b0b11;--cream:#f6e9e6;--dim:#b39aa0;--red:#d90429;--rose:#ff2e4d;--blush:#ff8fa3;--line:rgba(255,46,77,.2);--ease:cubic-bezier(.22,.61,.36,1)}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--black)}
+body{min-height:100vh;margin:0;color:var(--cream);font:400 14.5px/1.6 "Inter","Helvetica Neue",Arial,sans-serif;background:linear-gradient(rgba(8,3,5,.5),rgba(8,3,5,.5)),url("ximg/mane.webp") center 34%/cover fixed,radial-gradient(950px 550px at 85% -5%,rgba(217,4,41,.22),transparent 70%),var(--black);overflow-x:hidden}
+*{scrollbar-color:#60202d var(--black)}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.glow{position:fixed;inset:auto -12vw -42vw auto;width:65vw;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(217,4,41,.15),transparent 68%);filter:blur(8px);pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(-9vw,-10vh) scale(1.12)}}
+.site-header{position:relative;z-index:2;border-bottom:1px solid var(--line);background:rgba(10,4,6,.48);backdrop-filter:blur(14px)}
+.site-header-inner{width:min(1040px,calc(100% - 44px));height:62px;display:flex;align-items:center;justify-content:space-between;margin:auto}
+.site-header .brand{gap:10px;font-size:1.16rem}
+.site-header .brand-mark{width:36px;height:36px}
+.shell{width:min(1040px,calc(100% - 44px));min-height:calc(100vh - 96px);margin:auto;display:grid;grid-template-columns:1.04fr .96fr;align-items:center;gap:clamp(32px,6.5vw,88px);padding:38px 0}
+.story{position:relative;animation:rise .75s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.brand{display:inline-flex;align-items:center;gap:12px;font:700 1.28rem Georgia,serif;letter-spacing:.01em}
+.brand-mark{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,143,163,.45);border-radius:50%;background:radial-gradient(circle at 32% 28%,#ff5470,var(--red) 55%,#8b0016);color:#fff;box-shadow:0 0 25px rgba(217,4,41,.35)}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:30px 0 15px;color:var(--blush);font-size:.65rem;font-weight:800;letter-spacing:.23em;text-transform:uppercase}
+.eyebrow:before{content:"";width:26px;height:1px;background:currentColor}
+h1{max-width:12ch;margin:0;color:#fff;font:700 clamp(2.65rem,5.8vw,5rem)/.98 Georgia,"Times New Roman",serif;letter-spacing:-.045em}
+h1 span{display:block;color:var(--blush);font-style:italic}
+.story-copy{max-width:46ch;margin:24px 0 0;color:#d9c6cb;font-size:1rem}
+.features{display:grid;gap:14px;margin:32px 0 0;padding:0;list-style:none}
+.features li{display:flex;align-items:center;gap:12px;color:#e5d6d9;font-size:.84rem}
+.features i{width:18px;color:var(--rose);text-align:center}
+.card-wrap{position:relative;animation:rise .8s .08s var(--ease) both}
+.card-wrap:before,.card-wrap:after{content:"";position:absolute;inset:-1px;border-radius:22px;border:1px solid rgba(255,143,163,.1);pointer-events:none}
+.card-wrap:after{inset:-12px;border-color:rgba(255,143,163,.045);animation:ring 5s ease-in-out infinite}
+@keyframes ring{50%{transform:scale(1.012);opacity:.5}}
+.card{position:relative;z-index:1;padding:clamp(23px,3.7vw,38px);border:1px solid rgba(255,143,163,.28);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.07),transparent 42%),rgba(20,10,14,.68);box-shadow:0 28px 90px rgba(0,0,0,.48);backdrop-filter:blur(16px)}
+.role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:5px;border:1px solid rgba(255,255,255,.07);border-radius:40px;background:rgba(0,0,0,.22)}
+.role-tabs a{display:flex;justify-content:center;align-items:center;gap:7px;min-height:39px;border-radius:30px;color:var(--dim);font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;transition:background .22s,color .22s,transform .22s}
+.role-tabs a:hover{color:#fff;transform:translateY(-1px)}
+.role-tabs a[aria-current="page"]{background:linear-gradient(180deg,var(--rose),var(--red));color:white;box-shadow:0 6px 20px rgba(217,4,41,.28)}
+.card-head{margin:29px 0 24px}
+.card-head .kicker{color:var(--blush);font-size:.65rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+h2{margin:8px 0 8px;color:#fff;font:700 clamp(1.7rem,3vw,2.2rem)/1.1 Georgia,serif}
+.card-head p{margin:0;color:var(--dim);font-size:.83rem}
+.field{margin:0 0 16px}
+.field label{display:block;margin:0 0 7px;color:#e6cdd3;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.input-wrap{position:relative}
+.input-wrap>i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#a87985;font-size:.88rem}
+.input-wrap input{width:100%;height:48px;padding:0 46px 0 43px;border:1px solid rgba(255,143,163,.2);border-radius:9px;outline:none;background:rgba(7,3,5,.62);color:#fff;transition:border-color .2s,box-shadow .2s}
+.input-wrap input::placeholder{color:#806870}
+.input-wrap input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(255,46,77,.12)}
+.toggle-password{position:absolute;right:9px;top:50%;width:34px;height:34px;transform:translateY(-50%);border:0;border-radius:50%;background:transparent;color:var(--dim);cursor:pointer}
+.toggle-password:hover{color:#fff}
+.form-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 20px;font-size:.74rem}
+.remember{display:flex;align-items:center;gap:8px;color:var(--dim);cursor:pointer}
+.remember input{accent-color:var(--rose)}
+.text-button{padding:0;border:0;background:none;color:var(--blush);font-size:.74rem;cursor:pointer}
+.text-button:hover{color:#fff;text-decoration:underline}
+.submit{width:100%;min-height:51px;display:flex;justify-content:center;align-items:center;gap:10px;border:0;border-radius:40px;background:linear-gradient(180deg,var(--rose),var(--red));color:#fff;font-weight:800;font-size:.73rem;letter-spacing:.13em;text-transform:uppercase;box-shadow:0 12px 30px rgba(217,4,41,.3);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.submit:hover{transform:translateY(-2px);box-shadow:0 17px 36px rgba(217,4,41,.42)}
+.submit:disabled{opacity:.6;cursor:wait;transform:none}
+.message{min-height:22px;margin:12px 0 0;color:var(--blush);font-size:.76rem}
+.message.success{color:#88dda9}
+.security{display:flex;align-items:flex-start;gap:10px;margin:8px 0 0;padding:13px;border:1px solid rgba(255,143,163,.12);border-radius:9px;background:rgba(255,255,255,.025);color:var(--dim);font-size:.7rem;line-height:1.5}
+.security i{margin-top:2px;color:var(--rose)}
+.back-link{display:inline-flex;align-items:center;gap:8px;margin-top:24px;color:var(--dim);font-size:.76rem}
+.back-link:hover{color:#fff}
+.footer{margin-top:24px;color:#806870;font-size:.67rem;letter-spacing:.05em}
+@media(max-width:850px){.shell{grid-template-columns:1fr;max-width:520px;gap:26px;padding:26px 0}.story{text-align:center}.brand{justify-content:center}.eyebrow{justify-content:center;margin:20px 0 11px}h1{margin:auto;max-width:15ch;font-size:clamp(2.35rem,9.5vw,3.8rem)}.story-copy{margin:15px auto 0}.features{display:none}}
+@media(max-width:480px){.site-header-inner{width:calc(100% - 28px);height:58px}.shell{width:min(100% - 28px,480px);min-height:calc(100vh - 90px);padding:20px 0}.eyebrow{margin-top:17px}.card{padding:20px 17px}.role-tabs{gap:2px;padding:4px}.role-tabs a{gap:5px;font-size:.58rem}.form-row{font-size:.7rem}}
+@media(max-width:850px){body{background-position:center 25%;background-attachment:scroll}.ticker{background:rgba(139,0,22,.72);backdrop-filter:blur(10px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+<link rel="stylesheet" href="site-ticker.css">
+<link rel="stylesheet" href="responsive-polish.css">
+<link rel="stylesheet" href="site-loading-screen.css">
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<div class="loading-screen" id="auth-loading" role="status" aria-live="polite" aria-label="Loading Red Room">
+  <div class="loader-card">
+    <div class="loader-copy">
+      <div class="loader-brand"><span class="loader-brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> RED ROOM</div>
+      <span class="loader-kicker">South Africa · Companion profiles</span>
+      <h2 id="loader-headline">You’re about to enter Red Room.</h2>
+      <p id="loader-detail">A little moment while we set the scene.</p>
+      <div class="loader-progress" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8"><span id="loader-progress-fill"></span></div>
+      <div class="loader-status"><span id="loader-status-text">Preparing the room</span><span id="loader-percent">08%</span></div>
+    </div>
+    <div class="loader-visual">
+      <img class="loader-photo is-active" src="ximg/mane.webp" alt="" fetchpriority="high">
+      <img class="loader-photo" src="ximg/1000200860.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/1000439607.jpg" alt="" loading="eager">
+      <img class="loader-photo" src="ximg/Milly-Shades-4-768x1216.jpeg" alt="" loading="eager">
+    </div>
+  </div>
+</div>
+<header class="site-header">
+  <div class="site-header-inner"><a class="brand" href="public/index.html"><span class="brand-mark"><i class="fa-solid fa-moon" aria-hidden="true"></i></span> Red Room</a></div>
+</header>
+<div class="ticker" aria-hidden="true"><div class="ticker-track">
+  <span><i class="fa-solid fa-circle"></i> Confirm availability before booking</span><span><i class="fa-solid fa-circle"></i> Check the profile's service area and rate</span>
+  <span><i class="fa-solid fa-circle"></i> Ask us to confirm travel and arrival details</span><span><i class="fa-solid fa-circle"></i> Browse Red Room profiles across South Africa</span>
+  <span><i class="fa-solid fa-circle"></i> Confirm availability before booking</span><span><i class="fa-solid fa-circle"></i> Check the profile's service area and rate</span>
+  <span><i class="fa-solid fa-circle"></i> Ask us to confirm travel and arrival details</span><span><i class="fa-solid fa-circle"></i> Browse Red Room profiles across South Africa</span>
+</div></div>
+<main class="shell">
+  <section class="story" aria-labelledby="story-title">
+    <div class="eyebrow" id="story-eyebrow">A private welcome</div>
+    <h1 id="story-title">The room is <span>yours.</span></h1>
+    <p class="story-copy" id="story-copy">Sign in to manage your Red Room experience. Your account is private and access is by invitation.</p>
+    <ul class="features" aria-label="Account features">
+      <li><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Private, invitation-only access</li>
+      <li><i class="fa-solid fa-lock" aria-hidden="true"></i> Secure sign-in powered by Firebase</li>
+      <li><i class="fa-solid fa-heart" aria-hidden="true"></i> A discreet space, wherever you are</li>
+    </ul>
+  </section>
+
+  <section class="card-wrap" aria-label="Sign in">
+    <div class="card">
+      <nav class="role-tabs" aria-label="Choose account type">
+        <a href="login.html?role=user" data-role="user"><i class="fa-solid fa-user" aria-hidden="true"></i> Guest</a>
+        <a href="login.html?role=creator" data-role="creator"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Creator</a>
+        <a href="login.html?role=admin" data-role="admin"><i class="fa-solid fa-key" aria-hidden="true"></i> Admin</a>
+      </nav>
+      <header class="card-head">
+        <span class="kicker" id="role-kicker">Guest access</span>
+        <h2 id="form-title">Welcome back</h2>
+        <p id="form-description">Sign in with the email linked to your invitation.</p>
+      </header>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <div class="input-wrap"><i class="fa-regular fa-envelope" aria-hidden="true"></i><input id="email" name="email" type="email" autocomplete="username" placeholder="you@example.com" required></div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap"><i class="fa-solid fa-lock" aria-hidden="true"></i><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button class="toggle-password" id="toggle-password" type="button" aria-label="Show password"><i class="fa-regular fa-eye" aria-hidden="true"></i></button></div>
+        </div>
+        <div class="form-row">
+          <label class="remember"><input id="remember" type="checkbox" checked> Keep me signed in</label>
+          <button class="text-button" id="forgot-password" type="button">Forgot password?</button>
+        </div>
+        <button class="submit" id="submit" type="submit"><span>Sign in securely</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        <p class="message" id="message" role="status" aria-live="polite"></p>
+        <div class="security"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Accounts are invitation-only. If you need access, contact the Red Room team. We never ask for your password over WhatsApp.</span></div>
+      </form>
+      <a class="back-link" href="public/index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Red Room</a>
+    </div>
+    <p class="footer">RED ROOM · PRIVATE ACCESS · 18+</p>
+  </section>
+</main>
+  <script src="site-loading-screen.js"></script>
+<script type="module">
+import { auth, db } from "./firebase-client.js";
+import { adminUid } from "./firebase-config.js";
+import { sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+const params = new URLSearchParams(location.search);
+const requestedRole = params.get("role");
+const role = ["user", "creator", "admin"].includes(requestedRole) ? requestedRole : "user";
+const roleDetails = {
+  user: { label: "Guest access", title: "Welcome back", description: "Sign in with the email linked to your invitation.", story: "A private welcome", copy: "Sign in to manage your Red Room experience. Your account is private and access is by invitation." },
+  creator: { label: "Creator studio", title: "Your studio awaits", description: "Sign in to manage your profile and creator account.", story: "Your space. Your pace.", copy: "A discreet creator space to manage your Red Room profile. Creator access is invitation-only." },
+  admin: { label: "Administrator access", title: "Welcome to the studio", description: "Sign in with your authorized administrator account.", story: "Behind the velvet rope.", copy: "Manage the Red Room roster and enquiries from one private studio. Administrator access is restricted." }
+};
+const details = roleDetails[role];
+document.title = `${details.label} — Red Room`;
+document.getElementById("role-kicker").textContent = details.label;
+document.getElementById("form-title").textContent = details.title;
+document.getElementById("form-description").textContent = details.description;
+document.getElementById("story-eyebrow").textContent = details.story;
+document.getElementById("story-copy").textContent = details.copy;
+document.querySelector(`[data-role="${role}"]`).setAttribute("aria-current", "page");
+
+const form = document.getElementById("login-form");
+const message = document.getElementById("message");
+const submit = document.getElementById("submit");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const showMessage = (text, success) => {
+  message.textContent = text;
+  message.classList.toggle("success", Boolean(success));
+};
+const setAuthLoading = (loading) => {
+  document.body.setAttribute("aria-busy", String(loading));
+};
+
+document.getElementById("toggle-password").addEventListener("click", (event) => {
+  const button = event.currentTarget;
+  const visible = passwordInput.type === "text";
+  passwordInput.type = visible ? "password" : "text";
+  button.setAttribute("aria-label", visible ? "Show password" : "Hide password");
+  button.innerHTML = `<i class="fa-regular fa-eye${visible ? "" : "-slash"}" aria-hidden="true"></i>`;
+});
+
+document.getElementById("forgot-password").addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  if (!email) {
+    showMessage("Enter your email address first, then choose Forgot password.", false);
+    emailInput.focus();
+    return;
+  }
+  setAuthLoading(true);
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showMessage("If an invited account uses that address, a password reset email has been sent.", true);
+  } catch (error) {
+    console.error("Password reset request failed:", error);
+    showMessage("We could not send the reset email. Check the address and try again.", false);
+  } finally {
+    setAuthLoading(false);
+  }
+});
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+  submit.disabled = true;
+  showMessage("Checking your invitation…", false);
+  setAuthLoading(true);
+  let redirectStarted = false;
+  try {
+    await setPersistence(auth, document.getElementById("remember").checked ? browserLocalPersistence : browserSessionPersistence);
+    const credential = await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+    const token = await credential.user.getIdTokenResult(true);
+    const claims = token.claims;
+    let authorized;
+    if (role === "admin") {
+      authorized = claims.admin === true || credential.user.uid === adminUid;
+    } else if (role === "creator") {
+      const accountSnapshot = await getDoc(doc(db, "creatorAccounts", credential.user.uid));
+      const account = accountSnapshot.exists() ? accountSnapshot.data() : null;
+      authorized = claims.creator === true
+        || Boolean(account && account.active === true && account.passwordStatus === "created");
+    } else {
+      authorized = claims.admin !== true && claims.creator !== true && credential.user.uid !== adminUid;
+    }
+    if (!authorized) {
+      await signOut(auth);
+      throw new Error("role/unauthorized");
+    }
+    setAuthLoading(true);
+    location.replace(role === "admin" ? "admin.html" : role === "creator" ? "dashboard.html" : "public/index.html");
+    redirectStarted = true;
+  } catch (error) {
+    console.error("Sign-in failed:", error);
+    showMessage(error.message === "role/unauthorized"
+      ? "This account is not authorized for that sign-in area. Choose the correct account type or contact the Red Room team."
+      : "We could not sign you in. Check your email and password, then try again.", false);
+  } finally {
+    if (!redirectStarted) {
+      submit.disabled = false;
+      setAuthLoading(false);
+    }
+  }
+});
+
+window.RedRoomLoading.finishInitial();
+</script>
+</body>
+</html>

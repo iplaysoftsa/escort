@@ -1,0 +1,9 @@
+.ticker{overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1);background:#8b0016;color:#ffd9df;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.ticker-track{display:flex;width:max-content;gap:40px;padding:8px 0;white-space:nowrap;animation:siteTickerMove 30s linear infinite}
+.ticker-track span{flex:none}
+.ticker-track i{margin-right:8px;color:#fff;font-size:.55rem}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes siteTickerMove{to{transform:translateX(-50%)}}
+@media(max-width:480px){.ticker{font-size:.58rem;letter-spacing:.1em}.ticker-track{gap:26px;padding:7px 0;animation-duration:36s}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}}
+@media print{.ticker{display:none!important}}
