@@ -96,6 +96,9 @@ main{min-height:55vh}
 .video-player{position:relative;overflow:hidden;aspect-ratio:16/10;border:1px solid rgba(255,143,163,.18);border-radius:13px;background:#050304;box-shadow:0 18px 48px rgba(0,0,0,.4)}
 .video-player .fluid_video_wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;padding:0!important}
 .video-player .fluid_video_wrapper video{width:100%!important;height:100%!important}
+.video-player.is-ad-playing .fluid_video_wrapper{background:#000!important}
+.video-player.is-ad-playing .fluid_pseudo_poster{display:none!important}
+.video-player.is-ad-playing .fluid_video_wrapper video{object-fit:contain!important;object-position:center center!important;background:#000!important}
 .video-player.is-ad-playing .fluid_controls_container,
 .video-player.is-ad-playing .fluid_initial_play_button_container,
 .video-player.is-ad-playing .fluid_player_skip_offset,
@@ -517,8 +520,6 @@ function setupProfileVideos(profile) {
     video.controls = false;
     if (typeof window.fluidPlayer !== "function") {
       video.controls = true;
-      videoAdStatus.textContent = "VAST ads are unavailable; this video is using standard player controls.";
-      videoAdStatus.hidden = false;
       console.error("Fluid Player did not load; profile video is playing without VAST ads.");
       return null;
     }
@@ -531,12 +532,12 @@ function setupProfileVideos(profile) {
         Promise.resolve().then(() => {
           if (activeVideo !== item) return;
           if (fluidPlayerInstance === instance) destroyFluidPlayer();
+          video.pause();
           video.hidden = false;
           video.controls = true;
           player.classList.remove("is-ad-playing");
-          videoAdStatus.textContent = "No ad available. Playing video.";
-          videoAdStatus.hidden = false;
-          playSelectedVideo();
+          videoAdStatus.textContent = "";
+          videoAdStatus.hidden = true;
         });
       };
       instance = window.fluidPlayer("profile-video", {
@@ -573,8 +574,6 @@ function setupProfileVideos(profile) {
     } catch (error) {
       player.classList.remove("is-ad-playing");
       video.controls = true;
-      videoAdStatus.textContent = "VAST ads are unavailable; this video is using standard player controls.";
-      videoAdStatus.hidden = false;
       console.error("Could not initialize Fluid Player; profile video is playing without VAST ads.", error);
       return null;
     }
@@ -705,7 +704,7 @@ function setupProfileVideos(profile) {
       video.load();
       if (!videosPanel.hidden) {
         fluidPlayerInstance = createFluidPlayer(item);
-        if (shouldPlay) playSelectedVideo();
+        if (shouldPlay && fluidPlayerInstance) playSelectedVideo();
       }
     } else if (countGifView) {
       recordView(item);
@@ -727,7 +726,7 @@ function setupProfileVideos(profile) {
       else if (activeVideo.isGif) recordView(activeVideo);
       else {
         if (!fluidPlayerInstance) fluidPlayerInstance = createFluidPlayer(activeVideo);
-        if (video.paused) playSelectedVideo();
+        if (fluidPlayerInstance && video.paused) playSelectedVideo();
       }
       syncMobilePreview();
     } else if (showVideos === false) {

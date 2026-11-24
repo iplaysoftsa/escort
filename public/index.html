@@ -241,9 +241,10 @@ section{padding:86px 0;position:relative}
 .booking-policy p{font-size:.77rem;line-height:1.5;color:var(--dim);margin-top:5px}
 @media(max-width:760px){.booking-policy{grid-template-columns:1fr}}
 @media(max-width:620px){.roster-tools{align-items:stretch}.roster-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.roster-search{grid-column:1/-1;width:100%!important}.roster-location,.roster-more{min-width:0}.roster-location select,.roster-more select{font-size:16px}}
-.roster-ad{display:flex;justify-content:center;align-items:center;margin:0;padding:0;overflow:hidden}
-.roster-ad.is-displayed{margin:20px auto 24px;padding:8px}
+.roster-ad{width:min(100%,728px);display:flex;justify-content:center;align-items:center;margin:0 auto;padding:0;overflow:hidden}
+.roster-ad.is-displayed{margin:20px auto 24px;padding:0}
 .roster-ad ins{max-width:100%}
+@media(max-width:920px){.roster-ad{width:100%}}
 .age-dialog{
   position:fixed;inset:0;width:min(480px,calc(100% - 32px));max-height:calc(100vh - 32px);margin:auto;
   overflow-y:auto;text-align:center;padding:42px 34px;border:1px solid rgba(255,143,163,.3);border-radius:16px;
