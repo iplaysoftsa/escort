@@ -1,8 +1,11 @@
 {
+  "type": "module",
   "scripts": {
-    "build": "node scripts/prepare-cloudflare-assets.mjs"
+    "build": "node scripts/prepare-cloudflare-assets.mjs",
+    "test": "node --test"
   },
   "dependencies": {
-    "firebase": "^13.4.0"
+    "firebase": "^13.4.0",
+    "jose": "^6.2.18"
   }
 }

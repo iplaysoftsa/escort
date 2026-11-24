@@ -439,6 +439,10 @@ h1{margin:8px 0 6px;font:700 clamp(2.2rem,4vw,3.55rem)/1.02 Georgia,serif;letter
         <div class="field full">
           <label for="gallery-url">Photo gallery</label>
           <div class="gallery-adder"><input id="gallery-url" type="text" inputmode="url" autocomplete="off" placeholder="Paste an HTTPS image link or ximg/filename"><button class="button primary" id="add-photo" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add photo</button></div>
+          <label for="gallery-files">Upload photos to R2</label>
+          <div class="gallery-adder"><input id="gallery-files" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" multiple><button class="button" id="upload-photos" type="button">Upload selected</button></div>
+          <p class="help">Uploads are public and limited to 15 MB per image.</p>
+          <p class="gallery-input-error" id="gallery-upload-status" role="status" aria-live="polite"></p>
           <p class="help">Add links one at a time. Use the arrows to reorder; the first photo is the cover shown on the site. VIP locks are saved as labels only and do not restrict access to image URLs.</p>
           <p class="gallery-input-error" id="gallery-input-error" role="status"></p>
           <div class="gallery-manager" id="gallery-manager" aria-live="polite"></div>
@@ -512,6 +516,9 @@ const form = document.getElementById("profile-form");
 const ownershipForm = document.getElementById("ownership-form");
 const galleryInput = document.getElementById("gallery-input");
 const galleryUrlInput = document.getElementById("gallery-url");
+const galleryFilesInput = document.getElementById("gallery-files");
+const uploadPhotosButton = document.getElementById("upload-photos");
+const galleryUploadStatus = document.getElementById("gallery-upload-status");
 const galleryManager = document.getElementById("gallery-manager");
 const videoUrlInput = document.getElementById("video-url");
 const videoManager = document.getElementById("video-manager");
@@ -1731,6 +1738,7 @@ function openEditor(profile, draft = null) {
   form.reset();
   document.getElementById("form-error").textContent = "";
   document.getElementById("gallery-input-error").textContent = "";
+  galleryUploadStatus.textContent = "";
   document.getElementById("video-input-error").textContent = "";
   document.getElementById("profile-id").value = profile?.id || "";
   document.getElementById("editor-title").textContent = draft
@@ -2074,6 +2082,84 @@ function addPhoto() {
   galleryUrlInput.focus();
 }
 
+async function uploadSelectedPhotos() {
+  const error = document.getElementById("gallery-input-error");
+  const files = Array.from(galleryFilesInput.files || []);
+  error.textContent = "";
+  galleryUploadStatus.textContent = "";
+  if (!files.length) {
+    error.textContent = "Choose one or more images to upload.";
+    return;
+  }
+
+  const targetId = document.getElementById("profile-id").value || profileId(document.getElementById("name").value.trim());
+  if (!/^[a-z0-9](?:[a-z0-9-]{0,126}[a-z0-9])?$/.test(targetId)) {
+    error.textContent = "Enter a profile name before uploading images.";
+    return;
+  }
+
+  const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"]);
+  const invalidFile = files.find((file) => !allowedTypes.has(file.type));
+  if (invalidFile) {
+    error.textContent = `${invalidFile.name} is not a supported image type.`;
+    return;
+  }
+  const oversizedFile = files.find((file) => file.size > 15 * 1024 * 1024);
+  if (oversizedFile) {
+    error.textContent = `${oversizedFile.name} exceeds the 15 MB limit.`;
+    return;
+  }
+  if (!auth.currentUser) {
+    error.textContent = "Sign in as an administrator before uploading images.";
+    return;
+  }
+
+  uploadPhotosButton.disabled = true;
+  try {
+    const token = await auth.currentUser.getIdToken();
+    for (let index = 0; index < files.length; index += 1) {
+      const file = files[index];
+      galleryUploadStatus.textContent = `Uploading ${index + 1} of ${files.length}…`;
+      const response = await fetch(`/api/profile-images?profileId=${encodeURIComponent(targetId)}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": file.type
+        },
+        body: file,
+        credentials: "same-origin"
+      });
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        console.error("R2 upload endpoint returned invalid JSON:", parseError);
+        throw new Error("The image upload service returned an invalid response.");
+      }
+      if (!result || typeof result !== "object" || Array.isArray(result)) {
+        throw new Error("The image upload service returned an invalid response.");
+      }
+      if (!response.ok) {
+        throw new Error(typeof result.error === "string" ? result.error : `Image upload failed (${response.status}).`);
+      }
+      const safeUrl = profileImageUrl(result.url);
+      if (!safeUrl) throw new Error("The image upload service returned an invalid public URL.");
+      if (!editorGallery.includes(safeUrl)) editorGallery.push(safeUrl);
+      syncGalleryInput();
+      scheduleDraftSave();
+      renderGalleryManager();
+      updatePreview();
+    }
+    galleryUploadStatus.textContent = `Uploaded ${files.length} image${files.length === 1 ? "" : "s"} to R2.`;
+  } catch (uploadError) {
+    console.error("Could not upload profile images to R2:", uploadError);
+    error.textContent = uploadError instanceof Error ? uploadError.message : "Could not upload images to R2.";
+  } finally {
+    uploadPhotosButton.disabled = false;
+    galleryFilesInput.value = "";
+  }
+}
+
 function updatePreview() {
   const urls = galleryUrls();
   const invalid = urls.filter((value) => !profileImageUrl(value));
@@ -2404,6 +2490,7 @@ document.getElementById("refresh-drafts").addEventListener("click", loadDrafts);
 document.getElementById("refresh-creator-payments").addEventListener("click", loadCreatorPayments);
 document.getElementById("export").addEventListener("click", exportHtml);
 document.getElementById("add-photo").addEventListener("click", addPhoto);
+uploadPhotosButton.addEventListener("click", uploadSelectedPhotos);
 document.getElementById("add-video").addEventListener("click", addVideo);
 document.getElementById("close-invite").addEventListener("click", () => inviteResult.close());
 document.getElementById("copy-invite").addEventListener("click", async () => {
@@ -2443,7 +2530,7 @@ document.getElementById("sign-out").addEventListener("click", async () => {
 });
 form.addEventListener("submit", saveProfile);
 document.getElementById("delete-profile").addEventListener("click", deleteProfile);
-[...document.querySelectorAll("#profile-form input:not([type=hidden]),#profile-form textarea,#profile-form select")].forEach((input) => {
+[...document.querySelectorAll("#profile-form input:not([type=hidden]):not([type=file]),#profile-form textarea,#profile-form select")].forEach((input) => {
   input.addEventListener("input", () => {
     updatePreview();
     scheduleDraftSave();
