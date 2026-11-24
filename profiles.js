@@ -47,12 +47,17 @@ export const defaultProfiles = sourceProfiles.map((profile, index) => {
   };
 });
 
+const R2_PROFILE_IMAGE_BASE = "https://pub-db389dd5f7f34f0dba7af1f11313f7e4.r2.dev/escort/ximg";
+
 export const profileImageUrl = (value) => {
   if (typeof value !== "string" || !value.trim()) return "";
   const image = value.trim();
+  const legacyImage = image.match(/^https:\/\/redvelvetdurban\.co\.za\/ximg\/([A-Za-z0-9._-]+)$/i);
+  if (legacyImage) return `${R2_PROFILE_IMAGE_BASE}/${legacyImage[1]}`;
   if (/^https:\/\/[^\s"'<>]+$/i.test(image)) return image;
-  if (/^ximg\/[A-Za-z0-9._-]+$/.test(image)) return image;
-  if (/^[A-Za-z0-9._-]+$/.test(image)) return `ximg/${image}`;
+  const profileImage = image.match(/^ximg\/([A-Za-z0-9._-]+)$/);
+  if (profileImage) return `${R2_PROFILE_IMAGE_BASE}/${profileImage[1]}`;
+  if (/^[A-Za-z0-9._-]+$/.test(image)) return `${R2_PROFILE_IMAGE_BASE}/${image}`;
   return "";
 };
 
