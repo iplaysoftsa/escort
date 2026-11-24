@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const publicDirectory = resolve(root, "public");
-const publicFiles = new Set([".css", ".html", ".js"]);
+const publicFiles = new Set([".css", ".html", ".js", ".pdf"]);
 
 for (const entry of readdirSync(root, { withFileTypes: true })) {
   if (!entry.isFile() || !publicFiles.has(extname(entry.name))) continue;
