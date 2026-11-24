@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "node scripts/prepare-cloudflare-assets.mjs"
+  },
   "dependencies": {
     "firebase": "^13.4.0"
   }
