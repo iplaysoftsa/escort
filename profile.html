@@ -96,9 +96,14 @@ main{min-height:55vh}
 .video-player{position:relative;overflow:hidden;aspect-ratio:16/10;border:1px solid rgba(255,143,163,.18);border-radius:13px;background:#050304;box-shadow:0 18px 48px rgba(0,0,0,.4)}
 .video-player .fluid_video_wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;padding:0!important}
 .video-player .fluid_video_wrapper video{width:100%!important;height:100%!important}
+.video-player .fluid_video_wrapper .fluid_nonLinear_bottom{bottom:8px!important}
+.video-player .fluid_video_wrapper .fluid_nonLinear_ad .close_button{top:0!important;right:0!important;z-index:9999!important;display:block!important;visibility:visible!important;opacity:1!important}
 .video-player.is-ad-playing .fluid_video_wrapper{background:#000!important}
 .video-player.is-ad-playing .fluid_pseudo_poster{display:none!important}
 .video-player.is-ad-playing .fluid_video_wrapper video{object-fit:contain!important;object-position:center center!important;background:#000!important}
+.video-player.is-overlay-ad-playing .fluid_video_wrapper{background:#000!important}
+.video-player.is-overlay-ad-playing .fluid_pseudo_poster,
+.video-player.is-overlay-ad-playing .fluid_video_wrapper video{visibility:hidden!important}
 .video-player.is-ad-playing .fluid_controls_container,
 .video-player.is-ad-playing .fluid_initial_play_button_container,
 .video-player.is-ad-playing .fluid_player_skip_offset,
@@ -310,7 +315,7 @@ main{min-height:55vh}
         </div>
         <section class="media-panel video-panel" id="videos-panel" role="tabpanel" aria-labelledby="videos-tab" hidden>
           <div class="video-player" id="video-player">
-            <video id="profile-video" playsinline preload="metadata" hidden></video>
+            <video id="profile-video" playsinline preload="metadata" hidden><source id="profile-video-source"></video>
             <img id="profile-video-gif" alt="" hidden>
             <div class="video-loading" id="video-loading" role="status" aria-label="Loading video" hidden><span class="video-spinner" aria-hidden="true"></span><span>Loading video</span></div>
             <span class="video-view-count" aria-live="polite"><i class="fa-solid fa-eye" aria-hidden="true"></i><span id="video-view-count">0 views</span></span>
@@ -493,6 +498,7 @@ function setupProfileVideos(profile) {
   const videosPanel = document.getElementById("videos-panel");
   const player = document.getElementById("video-player");
   const video = document.getElementById("profile-video");
+  const videoSource = document.getElementById("profile-video-source");
   const gif = document.getElementById("profile-video-gif");
   const videoLoading = document.getElementById("video-loading");
   const videoAdStatus = document.getElementById("video-ad-status");
@@ -501,6 +507,7 @@ function setupProfileVideos(profile) {
   let playerIsLoading = false;
   let activeVideo = null;
   let fluidPlayerInstance = null;
+  let fluidAdLayerObserver = null;
   const videoViewsBadge = document.getElementById("video-views-badge");
   const videoViewsLabel = document.getElementById("profile-video-views");
   const setVideoLoading = (isLoading) => {
@@ -533,6 +540,9 @@ function setupProfileVideos(profile) {
           if (activeVideo !== item) return;
           if (fluidPlayerInstance === instance) destroyFluidPlayer();
           video.pause();
+          video.removeAttribute("src");
+          video.load();
+          video.pause();
           video.hidden = false;
           video.controls = true;
           player.classList.remove("is-ad-playing");
@@ -561,6 +571,12 @@ function setupProfileVideos(profile) {
           }
         }
       });
+      const updateOverlayAdState = () => {
+        player.classList.toggle("is-overlay-ad-playing", Boolean(player.querySelector(".fluid_nonLinear_ad")));
+      };
+      fluidAdLayerObserver = new MutationObserver(updateOverlayAdState);
+      fluidAdLayerObserver.observe(player, { childList: true, subtree: true });
+      updateOverlayAdState();
       instance.on("play", (additionalInfo) => {
         const mediaSourceType = additionalInfo?.mediaSourceType;
         const isAd = ["preRoll", "midRoll", "postRoll"].includes(mediaSourceType);
@@ -672,10 +688,13 @@ function setupProfileVideos(profile) {
   const shareStatus = document.getElementById("video-share-status");
   const destroyFluidPlayer = () => {
     if (!fluidPlayerInstance) return;
+    fluidAdLayerObserver?.disconnect();
+    fluidAdLayerObserver = null;
     fluidPlayerInstance.destroy();
     fluidPlayerInstance = null;
     player.prepend(video);
     player.classList.remove("is-ad-playing");
+    player.classList.remove("is-overlay-ad-playing");
   };
   const loadVideo = (item, shouldPlay = false, countGifView = false) => {
     activeVideo = item;
@@ -691,6 +710,8 @@ function setupProfileVideos(profile) {
     setVideoLoading(!gifAlreadyLoaded);
     if (isGif) {
       video.removeAttribute("src");
+      videoSource.removeAttribute("src");
+      videoSource.removeAttribute("type");
       video.load();
       gif.src = item.url;
     } else {
@@ -698,7 +719,9 @@ function setupProfileVideos(profile) {
     }
     gif.alt = isGif ? `${profile.name} video ${profile.videos.indexOf(item) + 1}` : "";
     if (!isGif) {
-      video.src = item.url;
+      video.removeAttribute("src");
+      videoSource.src = item.url;
+      videoSource.type = /\.webm$/i.test(new URL(item.url).pathname) ? "video/webm" : "video/mp4";
       video.poster = profile.image;
       video.muted = true;
       video.load();
