@@ -410,14 +410,8 @@ footer a{overflow-wrap:anywhere}
     window.setTimeout(() => {
       if (loader.isConnected) loader.remove();
       const ageGate = document.getElementById("age-gate");
-      if (ageGate && typeof ageGate.showModal === "function" && !ageGate.open) {
-        try {
-          if (sessionStorage.getItem("rv-age-confirmed") !== "yes") ageGate.showModal();
-        } catch (error) {
-          console.error("Could not read the age-confirmation state.", error);
-          ageGate.showModal();
-        }
-      }
+      if (ageGate && typeof ageGate.showModal === "function" && !ageGate.open
+        && typeof window.showAgeGate === "function") window.showAgeGate();
     }, 700);
   };
 
@@ -436,6 +430,39 @@ footer a{overflow-wrap:anywhere}
   </div>
   <p class="age-note">By continuing, you confirm that you are at least 18 years old.</p>
 </dialog>
+<script>
+(() => {
+  const ageGate = document.getElementById("age-gate");
+  if (!ageGate) return;
+
+  let ageConfirmed = false;
+  const hasAgeConfirmation = () => {
+    if (ageConfirmed) return true;
+    try {
+      ageConfirmed = sessionStorage.getItem("rv-age-confirmed") === "yes";
+    } catch (error) {
+      console.error("Could not read the age-confirmation state.", error);
+    }
+    return ageConfirmed;
+  };
+  window.showAgeGate = () => {
+    if (!hasAgeConfirmation() && !ageGate.open) ageGate.showModal();
+  };
+  document.getElementById("age-confirm").addEventListener("click", () => {
+    ageConfirmed = true;
+    try {
+      sessionStorage.setItem("rv-age-confirmed", "yes");
+    } catch (error) {
+      console.error("Could not save the age-confirmation state.", error);
+    }
+    ageGate.close();
+  });
+  document.getElementById("age-exit").addEventListener("click", () => {
+    window.location.replace("https://www.google.com/");
+  });
+  ageGate.addEventListener("cancel", (event) => event.preventDefault());
+})();
+</script>
 
 <header>
   <div class="wrap nav">
@@ -866,32 +893,6 @@ rosterMore.addEventListener('change',(event)=>{
   else window.location.href=destination;
 });
 
-const ageGate=document.getElementById('age-gate');
-const hasAgeConfirmation=()=>{
-  try {
-    return sessionStorage.getItem('rv-age-confirmed')==='yes';
-  } catch(error) {
-    console.error('Could not read the age-confirmation state.',error);
-    return false;
-  }
-};
-const saveAgeConfirmation=()=>{
-  try {
-    sessionStorage.setItem('rv-age-confirmed','yes');
-  } catch(error) {
-    console.error('Could not save the age-confirmation state.',error);
-  }
-};
-const showAgeGate=()=>{
-  if(!hasAgeConfirmation()&&!ageGate.open)ageGate.showModal();
-};
-document.getElementById('age-confirm').addEventListener('click',()=>{
-  saveAgeConfirmation();
-  ageGate.close();
-});
-document.getElementById('age-exit').addEventListener('click',()=>window.location.replace('https://www.google.com/'));
-ageGate.addEventListener('cancel',(event)=>event.preventDefault());
-
 const siteLoader=document.getElementById('site-loader');
 if(siteLoader){
   const loaderPhotos=[...siteLoader.querySelectorAll('.loader-photo')];
@@ -950,7 +951,7 @@ if(siteLoader){
       siteLoader.setAttribute('aria-hidden','true');
       window.setTimeout(()=>{
         siteLoader.remove();
-        showAgeGate();
+        if(typeof window.showAgeGate==='function')window.showAgeGate();
       },700);
     },Math.max(0,minimumDuration-(Date.now()-pageStartedAt)));
   };
@@ -959,7 +960,7 @@ if(siteLoader){
   }
   if(document.readyState==='complete')dismissLoader();
   else window.addEventListener('load',dismissLoader,{once:true});
-}else showAgeGate();
+}else if(typeof window.showAgeGate==='function')window.showAgeGate();
 
 const observeReveals=()=>{
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
