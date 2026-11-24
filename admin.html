@@ -214,6 +214,28 @@ h1{margin:8px 0 6px;font:700 clamp(2.2rem,4vw,3.55rem)/1.02 Georgia,serif;letter
 .help{margin:5px 0 0;color:#8f737b;font-size:.64rem}
 .gallery-adder{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
 .gallery-adder .button{align-self:stretch}
+.gallery-upload-card{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:82px;margin-top:12px;padding:12px;border:1px dashed rgba(255,143,163,.26);border-radius:11px;background:linear-gradient(120deg,rgba(255,46,77,.075),rgba(255,255,255,.018));transition:border-color .2s,box-shadow .2s}
+.gallery-upload-card:hover,.gallery-upload-card:focus-within{border-color:rgba(255,46,77,.55);box-shadow:0 0 0 3px rgba(255,46,77,.07)}
+.gallery-upload-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgba(255,46,77,.13);color:#ff9bab;font-size:1.05rem}
+.gallery-upload-copy{min-width:0}
+.gallery-upload-copy strong,.gallery-upload-copy span{display:block;overflow:hidden;text-overflow:ellipsis}
+.gallery-upload-copy strong{color:#fff;font-size:.73rem}
+.gallery-upload-copy span{margin-top:3px;color:var(--dim);font-size:.64rem;white-space:nowrap}
+.gallery-upload-trigger{cursor:pointer;white-space:nowrap}
+.gallery-upload-trigger:focus-visible{outline:2px solid var(--blush);outline-offset:3px}
+.gallery-file-input{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
+.gallery-upload-actions{display:flex;justify-content:flex-end;margin-top:8px}
+.gallery-upload-progress{margin-top:9px;padding:11px 12px;border:1px solid rgba(255,143,163,.16);border-radius:10px;background:linear-gradient(130deg,rgba(255,46,77,.075),rgba(255,255,255,.015))}
+.gallery-upload-progress[hidden]{display:none}
+.gallery-upload-progress-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;color:#e8d7dc;font-size:.64rem}
+.gallery-upload-progress-head strong{color:#ffb1be;font-size:.68rem}
+.gallery-upload-progress-track{height:7px;overflow:hidden;border-radius:20px;background:rgba(255,255,255,.09)}
+.gallery-upload-progress-bar{position:relative;width:0;height:100%;overflow:hidden;border-radius:inherit;background:linear-gradient(90deg,var(--red),var(--rose),var(--blush));transition:width .25s ease}
+.gallery-upload-progress-bar:after{position:absolute;top:0;bottom:0;left:-45%;width:45%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.66),transparent);content:"";animation:uploadShimmer 1.15s ease-in-out infinite}
+.gallery-upload-progress[data-state=complete] .gallery-upload-progress-bar:after{animation:none}
+.gallery-upload-progress[data-state=error]{border-color:rgba(255,113,135,.4)}
+.gallery-upload-progress[data-state=error] .gallery-upload-progress-head strong{color:#ff9eaa}
+@keyframes uploadShimmer{to{transform:translateX(320%)}}
 .gallery-manager{display:grid;gap:8px;margin-top:11px}
 .gallery-row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.025)}
 .gallery-thumb{position:relative;width:64px;height:64px;overflow:hidden;border-radius:7px;background:#0b0507}
@@ -268,7 +290,7 @@ h1{margin:8px 0 6px;font:700 clamp(2.2rem,4vw,3.55rem)/1.02 Georgia,serif;letter
 @media(max-width:980px){.roster{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){.overview-grid{grid-template-columns:1fr}.recent-panel{grid-column:auto}}
 @media(max-width:720px){.wrap{width:calc(100% - 28px);padding-top:25px}.editor{grid-template-columns:1fr}.preview{position:static}.preview-cover{max-height:330px}.booking{grid-template-columns:1fr}.booking-actions{grid-template-columns:1fr}}
-@media(max-width:520px){.roster{grid-template-columns:1fr}.topbar{gap:9px;padding:10px 13px}.brand{font-size:1rem}.brand-mark{width:33px;height:33px}.user-email{display:none}.button{padding:8px 11px;font-size:.61rem}.intro{align-items:flex-start}.stats{width:100%}.toolbar .search{max-width:none;flex-basis:100%}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.modal-head{padding:15px 17px}.editor{padding:16px;max-height:calc(92vh - 66px)}.invite-content{padding:16px}.invite-link-row{grid-template-columns:1fr}.booking-actions{grid-template-columns:1fr}.small-button{font-size:.6rem}.gallery-adder{grid-template-columns:1fr}.gallery-row{grid-template-columns:52px minmax(0,1fr);gap:8px}.gallery-thumb{width:52px;height:52px}.gallery-controls{grid-column:1/-1;justify-content:flex-start}.gallery-control{width:32px;height:32px}.wrap{width:calc(100% - 24px);padding-top:20px}.studio-nav{margin:0 0 20px}.nav-tab{flex:none;justify-content:center;padding:8px 10px;font-size:.64rem}.overview-panel{padding:15px}.overview-actions{width:100%}.overview-actions .button{flex:1}.popular-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px}.popular-photo{width:44px;height:50px}.onboarding-item{grid-template-columns:1fr 1fr;gap:8px}.onboarding-identity,.onboarding-action{grid-column:1/-1}.onboarding-state{justify-self:start}.draft-item{align-items:flex-start;flex-direction:column}.draft-actions{width:100%}.draft-actions .button{flex:1}.page-heading{align-items:flex-start}.page-heading>.button{width:100%}}
+@media(max-width:520px){.roster{grid-template-columns:1fr}.topbar{gap:9px;padding:10px 13px}.brand{font-size:1rem}.brand-mark{width:33px;height:33px}.user-email{display:none}.button{padding:8px 11px;font-size:.61rem}.intro{align-items:flex-start}.stats{width:100%}.toolbar .search{max-width:none;flex-basis:100%}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.modal-head{padding:15px 17px}.editor{padding:16px;max-height:calc(92vh - 66px)}.invite-content{padding:16px}.invite-link-row{grid-template-columns:1fr}.booking-actions{grid-template-columns:1fr}.small-button{font-size:.6rem}.gallery-adder{grid-template-columns:1fr}.gallery-upload-card{grid-template-columns:36px minmax(0,1fr);gap:10px;padding:10px}.gallery-upload-icon{width:36px;height:36px}.gallery-upload-trigger{grid-column:2;justify-self:start;min-height:34px}.gallery-upload-actions .button{width:100%}.gallery-row{grid-template-columns:52px minmax(0,1fr);gap:8px}.gallery-thumb{width:52px;height:52px}.gallery-controls{grid-column:1/-1;justify-content:flex-start}.gallery-control{width:32px;height:32px}.wrap{width:calc(100% - 24px);padding-top:20px}.studio-nav{margin:0 0 20px}.nav-tab{flex:none;justify-content:center;padding:8px 10px;font-size:.64rem}.overview-panel{padding:15px}.overview-actions{width:100%}.overview-actions .button{flex:1}.popular-item{grid-template-columns:44px minmax(0,1fr) auto;gap:9px}.popular-photo{width:44px;height:50px}.onboarding-item{grid-template-columns:1fr 1fr;gap:8px}.onboarding-identity,.onboarding-action{grid-column:1/-1}.onboarding-state{justify-self:start}.draft-item{align-items:flex-start;flex-direction:column}.draft-actions{width:100%}.draft-actions .button{flex:1}.page-heading{align-items:flex-start}.page-heading>.button{width:100%}}
 @media(max-width:520px){.creator-payment-head{flex-direction:column}.creator-payment-total{font-size:1.05rem}.creator-payout-form{grid-template-columns:1fr}.creator-payout-form button{width:100%}}
 @media(max-width:720px){
   .studio-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:visible;margin:0 0 16px;padding:8px;border-radius:16px;scrollbar-width:none}
@@ -439,9 +461,18 @@ h1{margin:8px 0 6px;font:700 clamp(2.2rem,4vw,3.55rem)/1.02 Georgia,serif;letter
         <div class="field full">
           <label for="gallery-url">Photo gallery</label>
           <div class="gallery-adder"><input id="gallery-url" type="text" inputmode="url" autocomplete="off" placeholder="Paste an HTTPS image link or ximg/filename"><button class="button primary" id="add-photo" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add photo</button></div>
-          <label for="gallery-files">Upload photos to R2</label>
-          <div class="gallery-adder"><input id="gallery-files" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" multiple><button class="button" id="upload-photos" type="button">Upload selected</button></div>
-          <p class="help">Uploads are public and limited to 15 MB per image.</p>
+          <div class="gallery-upload-card">
+            <span class="gallery-upload-icon" aria-hidden="true"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+            <div class="gallery-upload-copy"><strong>Add photos</strong><span id="gallery-file-selection" role="status" aria-live="polite">JPG, PNG, WebP, AVIF or GIF · up to 15 MB each</span></div>
+            <label class="button gallery-upload-trigger" for="gallery-files"><i class="fa-regular fa-images" aria-hidden="true"></i> Choose images</label>
+            <input class="gallery-file-input" id="gallery-files" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" multiple aria-describedby="gallery-file-selection gallery-upload-help">
+          </div>
+          <div class="gallery-upload-actions"><button class="button primary" id="upload-photos" type="button"><i class="fa-solid fa-upload" aria-hidden="true"></i><span id="upload-photos-label">Start upload</span></button></div>
+          <div class="gallery-upload-progress" id="gallery-upload-progress" data-state="uploading" hidden>
+            <div class="gallery-upload-progress-head"><span id="gallery-upload-progress-label">Getting images ready</span><strong id="gallery-upload-progress-value">0%</strong></div>
+            <div class="gallery-upload-progress-track" id="gallery-upload-progress-track" role="progressbar" aria-label="Image upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Not started"><div class="gallery-upload-progress-bar" id="gallery-upload-progress-bar"></div></div>
+          </div>
+          <p class="help" id="gallery-upload-help">Choose images up to 15 MB each. They will be added to this profile when the upload finishes.</p>
           <p class="gallery-input-error" id="gallery-upload-status" role="status" aria-live="polite"></p>
           <p class="help">Add links one at a time. Use the arrows to reorder; the first photo is the cover shown on the site. VIP locks are saved as labels only and do not restrict access to image URLs.</p>
           <p class="gallery-input-error" id="gallery-input-error" role="status"></p>
@@ -517,8 +548,15 @@ const ownershipForm = document.getElementById("ownership-form");
 const galleryInput = document.getElementById("gallery-input");
 const galleryUrlInput = document.getElementById("gallery-url");
 const galleryFilesInput = document.getElementById("gallery-files");
+const galleryFileSelection = document.getElementById("gallery-file-selection");
 const uploadPhotosButton = document.getElementById("upload-photos");
+const uploadPhotosLabel = document.getElementById("upload-photos-label");
 const galleryUploadStatus = document.getElementById("gallery-upload-status");
+const galleryUploadProgress = document.getElementById("gallery-upload-progress");
+const galleryUploadProgressLabel = document.getElementById("gallery-upload-progress-label");
+const galleryUploadProgressValue = document.getElementById("gallery-upload-progress-value");
+const galleryUploadProgressTrack = document.getElementById("gallery-upload-progress-track");
+const galleryUploadProgressBar = document.getElementById("gallery-upload-progress-bar");
 const galleryManager = document.getElementById("gallery-manager");
 const videoUrlInput = document.getElementById("video-url");
 const videoManager = document.getElementById("video-manager");
@@ -1739,6 +1777,8 @@ function openEditor(profile, draft = null) {
   document.getElementById("form-error").textContent = "";
   document.getElementById("gallery-input-error").textContent = "";
   galleryUploadStatus.textContent = "";
+  galleryUploadProgress.hidden = true;
+  updateGalleryFileSelection();
   document.getElementById("video-input-error").textContent = "";
   document.getElementById("profile-id").value = profile?.id || "";
   document.getElementById("editor-title").textContent = draft
@@ -2082,6 +2122,65 @@ function addPhoto() {
   galleryUrlInput.focus();
 }
 
+function updateGalleryFileSelection() {
+  const files = Array.from(galleryFilesInput.files || []);
+  if (!files.length) {
+    galleryFileSelection.textContent = "JPG, PNG, WebP, AVIF or GIF · up to 15 MB each";
+    galleryFileSelection.removeAttribute("title");
+    return;
+  }
+  const shownNames = files.slice(0, 3).map((file) => file.name);
+  const remainingCount = files.length - shownNames.length;
+  const names = `${shownNames.join(", ")}${remainingCount ? `, +${remainingCount} more` : ""}`;
+  galleryFileSelection.textContent = files.length === 1 ? `Selected: ${names}` : `${files.length} images selected: ${names}`;
+  galleryFileSelection.title = names;
+}
+
+function updateGalleryUploadProgress(label, percentage, state = "uploading") {
+  const progress = Math.max(0, Math.min(100, Math.round(percentage)));
+  galleryUploadProgress.hidden = false;
+  galleryUploadProgress.dataset.state = state;
+  galleryUploadProgressLabel.textContent = label;
+  galleryUploadProgressValue.textContent = `${progress}%`;
+  galleryUploadProgressBar.style.width = `${progress}%`;
+  galleryUploadProgressTrack.setAttribute("aria-valuenow", String(progress));
+  galleryUploadProgressTrack.setAttribute("aria-valuetext", `${label}: ${progress}%`);
+}
+
+function uploadProfileImage(file, token, targetId, onProgress) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", `/api/profile-images?profileId=${encodeURIComponent(targetId)}`);
+    request.setRequestHeader("Authorization", `Bearer ${token}`);
+    request.setRequestHeader("Content-Type", file.type);
+    request.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) onProgress(event.loaded / event.total);
+    });
+    request.addEventListener("load", () => {
+      let result;
+      try {
+        result = JSON.parse(request.responseText);
+      } catch (parseError) {
+        console.error("Image upload endpoint returned invalid JSON:", parseError);
+        reject(new Error("The image upload service returned an invalid response."));
+        return;
+      }
+      if (!result || typeof result !== "object" || Array.isArray(result)) {
+        reject(new Error("The image upload service returned an invalid response."));
+        return;
+      }
+      if (request.status < 200 || request.status >= 300) {
+        reject(new Error(typeof result.error === "string" ? result.error : `Image upload failed (${request.status}).`));
+        return;
+      }
+      resolve(result);
+    });
+    request.addEventListener("error", () => reject(new Error("The upload could not reach the server. Check your connection and try again.")));
+    request.addEventListener("abort", () => reject(new Error("The upload was cancelled.")));
+    request.send(file);
+  });
+}
+
 async function uploadSelectedPhotos() {
   const error = document.getElementById("gallery-input-error");
   const files = Array.from(galleryFilesInput.files || []);
@@ -2114,34 +2213,23 @@ async function uploadSelectedPhotos() {
     return;
   }
 
+  const totalBytes = files.reduce((total, file) => total + file.size, 0);
+  let completedBytes = 0;
   uploadPhotosButton.disabled = true;
+  uploadPhotosLabel.textContent = "Uploading…";
+  updateGalleryUploadProgress("Preparing upload", 0);
   try {
     const token = await auth.currentUser.getIdToken();
     for (let index = 0; index < files.length; index += 1) {
       const file = files[index];
       galleryUploadStatus.textContent = `Uploading ${index + 1} of ${files.length}…`;
-      const response = await fetch(`/api/profile-images?profileId=${encodeURIComponent(targetId)}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": file.type
-        },
-        body: file,
-        credentials: "same-origin"
+      const result = await uploadProfileImage(file, token, targetId, (fileProgress) => {
+        const activeProgress = Math.min(fileProgress, 0.99);
+        const percentage = totalBytes
+          ? ((completedBytes + file.size * activeProgress) / totalBytes) * 100
+          : ((index + activeProgress) / files.length) * 100;
+        updateGalleryUploadProgress(`Uploading image ${index + 1} of ${files.length}`, percentage);
       });
-      let result;
-      try {
-        result = await response.json();
-      } catch (parseError) {
-        console.error("R2 upload endpoint returned invalid JSON:", parseError);
-        throw new Error("The image upload service returned an invalid response.");
-      }
-      if (!result || typeof result !== "object" || Array.isArray(result)) {
-        throw new Error("The image upload service returned an invalid response.");
-      }
-      if (!response.ok) {
-        throw new Error(typeof result.error === "string" ? result.error : `Image upload failed (${response.status}).`);
-      }
       const safeUrl = profileImageUrl(result.url);
       if (!safeUrl) throw new Error("The image upload service returned an invalid public URL.");
       if (!editorGallery.includes(safeUrl)) editorGallery.push(safeUrl);
@@ -2149,14 +2237,23 @@ async function uploadSelectedPhotos() {
       scheduleDraftSave();
       renderGalleryManager();
       updatePreview();
+      completedBytes += file.size;
+      const percentage = totalBytes
+        ? (completedBytes / totalBytes) * 100
+        : ((index + 1) / files.length) * 100;
+      updateGalleryUploadProgress(`Uploaded ${index + 1} of ${files.length}`, percentage);
     }
-    galleryUploadStatus.textContent = `Uploaded ${files.length} image${files.length === 1 ? "" : "s"} to R2.`;
+    galleryUploadStatus.textContent = `${files.length} image${files.length === 1 ? "" : "s"} uploaded successfully.`;
+    updateGalleryUploadProgress("Upload complete", 100, "complete");
   } catch (uploadError) {
-    console.error("Could not upload profile images to R2:", uploadError);
-    error.textContent = uploadError instanceof Error ? uploadError.message : "Could not upload images to R2.";
+    console.error("Could not upload profile images:", uploadError);
+    error.textContent = uploadError instanceof Error ? uploadError.message : "Could not upload images.";
+    updateGalleryUploadProgress("Upload stopped. Try again.", Number.parseInt(galleryUploadProgressValue.textContent, 10) || 0, "error");
   } finally {
     uploadPhotosButton.disabled = false;
+    uploadPhotosLabel.textContent = "Start upload";
     galleryFilesInput.value = "";
+    updateGalleryFileSelection();
   }
 }
 
@@ -2490,6 +2587,11 @@ document.getElementById("refresh-drafts").addEventListener("click", loadDrafts);
 document.getElementById("refresh-creator-payments").addEventListener("click", loadCreatorPayments);
 document.getElementById("export").addEventListener("click", exportHtml);
 document.getElementById("add-photo").addEventListener("click", addPhoto);
+galleryFilesInput.addEventListener("change", () => {
+  galleryUploadProgress.hidden = true;
+  galleryUploadStatus.textContent = "";
+  updateGalleryFileSelection();
+});
 uploadPhotosButton.addEventListener("click", uploadSelectedPhotos);
 document.getElementById("add-video").addEventListener("click", addVideo);
 document.getElementById("close-invite").addEventListener("click", () => inviteResult.close());

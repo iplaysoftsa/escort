@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Delegate-CH" content="Sec-CH-UA https://s.magsrv.com; Sec-CH-UA-Mobile https://s.magsrv.com; Sec-CH-UA-Arch https://s.magsrv.com; Sec-CH-UA-Model https://s.magsrv.com; Sec-CH-UA-Platform https://s.magsrv.com; Sec-CH-UA-Platform-Version https://s.magsrv.com; Sec-CH-UA-Bitness https://s.magsrv.com; Sec-CH-UA-Full-Version-List https://s.magsrv.com; Sec-CH-UA-Full-Version https://s.magsrv.com;">
+<meta http-equiv="Delegate-CH" content="Sec-CH-UA https://s.pemsrv.com; Sec-CH-UA-Mobile https://s.pemsrv.com; Sec-CH-UA-Arch https://s.pemsrv.com; Sec-CH-UA-Model https://s.pemsrv.com; Sec-CH-UA-Platform https://s.pemsrv.com; Sec-CH-UA-Platform-Version https://s.pemsrv.com; Sec-CH-UA-Bitness https://s.pemsrv.com; Sec-CH-UA-Full-Version-List https://s.pemsrv.com; Sec-CH-UA-Full-Version https://s.pemsrv.com;">
+<script>document.addEventListener("creativeDisplayed-6106074",()=>{document.querySelectorAll('[data-ad-zone="6106074"]').forEach((slot)=>{slot.classList.add("is-displayed");});},false);</script>
 <base href="/">
 <title>Adult Escort Profile | Red Room South Africa</title>
 <meta name="description" content="View an adult companion profile in South Africa with Red Room. Confirm location, availability, rates and travel details with our booking team.">
@@ -24,7 +27,10 @@
 <meta name="twitter:image:alt" content="Red Room adult companion profile">
 <script id="profile-structured-data" type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Adult Companion Profile | Red Room","description":"View an adult companion profile in South Africa with Red Room.","url":"https://redvelvetdurban.co.za/profile.html"}</script>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://s.magsrv.com">
+<link rel="preconnect" href="https://cdn.fluidplayer.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js" defer></script>
 <style>
 :root{--blood:#8b0016;--red:#d90429;--rose:#ff2e4d;--blush:#ff8fa3;--black:#0a0406;--coal:#140a0e;--velvet:#1d0d13;--cream:#f6e9e6;--dim:#b39aa0;--line:rgba(255,46,77,.18);--max:1160px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -88,6 +94,13 @@ main{min-height:55vh}
 .media-panel[hidden]{display:none}
 .video-panel{animation:profileEnter .35s ease both}
 .video-player{position:relative;overflow:hidden;aspect-ratio:16/10;border:1px solid rgba(255,143,163,.18);border-radius:13px;background:#050304;box-shadow:0 18px 48px rgba(0,0,0,.4)}
+.video-player .fluid_video_wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;padding:0!important}
+.video-player .fluid_video_wrapper video{width:100%!important;height:100%!important}
+.video-player.is-ad-playing .fluid_controls_container,
+.video-player.is-ad-playing .fluid_initial_play_button_container,
+.video-player.is-ad-playing .fluid_player_skip_offset,
+.video-player.is-ad-playing .fluid_context_menu,
+.video-player.is-ad-playing .video-view-count{display:none!important}
 .video-player:fullscreen{width:100%;height:100%;aspect-ratio:auto;border:0;border-radius:0}
 .video-player:fullscreen video,.video-player:fullscreen>img{width:100%;height:100%;object-fit:contain}
 .video-player video,.video-player>img{width:100%;height:100%;object-fit:contain;background:#050304}
@@ -95,30 +108,25 @@ main{min-height:55vh}
 .video-loading{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(5,3,4,.58);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;pointer-events:none}
 .video-spinner{width:42px;height:42px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--blush);border-right-color:var(--rose);border-radius:50%;box-shadow:0 0 25px rgba(255,46,77,.25);animation:videoSpinner .8s linear infinite}
 @keyframes videoSpinner{to{transform:rotate(360deg)}}
-.video-play-main{position:absolute;top:50%;left:50%;z-index:2;width:70px;height:70px;display:grid;place-items:center;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.48);border-radius:50%;background:rgba(217,4,41,.82);color:white;font-size:1.35rem;box-shadow:0 0 0 10px rgba(255,255,255,.08),0 12px 35px rgba(0,0,0,.4);cursor:pointer;transition:opacity .2s,transform .2s,background .2s}
-.video-play-main:hover{transform:translate(-50%,-50%) scale(1.08);background:var(--rose)}
-.video-player.is-playing .video-play-main{opacity:0;pointer-events:none}
-.video-player:hover .video-play-main,.video-player:focus-within .video-play-main{opacity:1;pointer-events:auto}
-.video-player.is-playing:hover .video-play-main{opacity:.82}
-.video-view-count{position:absolute;top:12px;left:12px;z-index:2;display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.18);border-radius:30px;background:rgba(9,4,6,.72);color:#fff;font-size:.67rem;font-weight:800;backdrop-filter:blur(12px)}
+.video-view-count{position:absolute;top:12px;left:12px;z-index:5;display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.18);border-radius:30px;background:rgba(9,4,6,.72);color:#fff;font-size:.67rem;font-weight:800;backdrop-filter:blur(12px)}
 .video-view-count i{color:#ff9bab}
-.video-controls{position:absolute;right:0;bottom:0;left:0;z-index:2;display:grid;grid-template-columns:auto minmax(35px,1fr) auto auto auto auto;align-items:center;gap:10px;padding:32px 12px 11px;background:linear-gradient(transparent,rgba(0,0,0,.88))}
-.video-control{width:33px;height:33px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25);border-radius:50%;background:rgba(10,4,6,.58);color:#fff;cursor:pointer;transition:.18s}
-.video-control:hover{border-color:var(--blush);background:rgba(217,4,41,.65)}
-.video-share-status:not(:empty){position:absolute;right:12px;bottom:58px;z-index:4;max-width:calc(100% - 24px);padding:7px 10px;border:1px solid rgba(255,143,163,.25);border-radius:8px;background:rgba(10,4,6,.88);color:#fff;font-size:.62rem;line-height:1.4;box-shadow:0 8px 22px rgba(0,0,0,.3)}
-.video-progress{width:100%;height:4px;accent-color:var(--rose);cursor:pointer}
-.video-time{color:#fff;font-size:.61rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.video-ad-status{margin:9px 0 0;padding:9px 11px;border:1px solid rgba(255,143,163,.2);border-radius:8px;color:var(--dim);font-size:.68rem;line-height:1.45}
+.video-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px}
+.video-share-control{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(10,4,6,.58);color:#fff;font-size:.68rem;cursor:pointer;transition:.18s}
+.video-share-control:hover{border-color:var(--blush);background:rgba(217,4,41,.65)}
+.video-share-status{margin:0;color:var(--dim);font-size:.62rem;line-height:1.4;text-align:right}
+.video-share-status:empty{display:none}
 .video-playlist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
-.video-tile{position:relative;aspect-ratio:1;overflow:hidden;padding:0;border:1px solid rgba(255,143,163,.2);border-radius:13px;background:linear-gradient(145deg,rgba(217,4,41,.2),transparent 65%),#12080c;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.18);transition:transform .25s,border-color .25s,box-shadow .25s}
-.video-tile:after{position:absolute;inset:35% 0 0;z-index:1;background:linear-gradient(transparent,rgba(7,3,5,.82));content:"";pointer-events:none}
-.video-tile:hover{transform:translateY(-4px);border-color:var(--rose);box-shadow:0 16px 30px rgba(0,0,0,.34),0 0 0 1px rgba(255,46,77,.12)}
+.video-tile{position:relative;aspect-ratio:16/10;overflow:hidden;padding:0;border:1px solid rgba(255,143,163,.18);border-radius:11px;background:#080507;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.18);transition:transform .25s,border-color .25s,box-shadow .25s}
+.video-tile:after{position:absolute;inset:25% 0 0;z-index:1;background:linear-gradient(transparent,rgba(7,3,5,.76));content:"";pointer-events:none}
+.video-tile:hover{transform:translateY(-3px);border-color:var(--rose);box-shadow:0 14px 26px rgba(0,0,0,.3),0 0 0 1px rgba(255,46,77,.12)}
 .video-tile[aria-current=true]{border:2px solid var(--rose);box-shadow:0 0 22px rgba(255,46,77,.26)}
 .video-tile>img,.video-tile>video{width:100%;height:100%;object-fit:cover;opacity:.9;transition:transform .4s,opacity .35s}
 .video-tile:hover>img,.video-tile:hover>video{transform:scale(1.055);opacity:1}
-.video-tile-play{position:absolute;top:50%;left:50%;z-index:2;width:46px;height:46px;display:grid;place-items:center;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(12,5,8,.55);color:#fff;font-size:1rem;text-shadow:0 2px 8px #000;box-shadow:0 0 0 7px rgba(255,255,255,.08),0 8px 22px rgba(0,0,0,.32);backdrop-filter:blur(8px);pointer-events:none;transition:background .22s,box-shadow .22s}
+.video-tile-play{position:absolute;top:50%;left:50%;z-index:2;width:38px;height:38px;display:grid;place-items:center;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(12,5,8,.5);color:#fff;font-size:.82rem;text-shadow:0 2px 8px #000;box-shadow:0 6px 18px rgba(0,0,0,.32);backdrop-filter:blur(7px);pointer-events:none;transition:background .22s,box-shadow .22s}
 .video-tile:hover .video-tile-play{background:rgba(217,4,41,.88);box-shadow:0 0 0 8px rgba(255,46,77,.16),0 10px 26px rgba(0,0,0,.38)}
-.video-tile-title{position:absolute;right:8px;bottom:8px;left:8px;z-index:2;overflow:hidden;padding:8px 9px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:rgba(8,3,5,.55);font-size:.62rem;font-weight:800;text-align:left;text-overflow:ellipsis;white-space:nowrap;backdrop-filter:blur(10px)}
-.video-tile-views{position:absolute;top:8px;right:8px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid rgba(255,255,255,.16);border-radius:30px;background:rgba(8,3,5,.68);color:#fff;font-size:.56rem;font-weight:800;backdrop-filter:blur(10px)}
+.video-tile-title{position:absolute;right:8px;bottom:7px;left:8px;z-index:2;overflow:hidden;padding:3px 1px;color:#fff;font-size:.56rem;font-weight:700;line-height:1.3;text-align:left;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 5px #000}
+.video-tile-views{position:absolute;top:7px;right:7px;z-index:2;display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border:1px solid rgba(255,255,255,.14);border-radius:30px;background:rgba(8,3,5,.58);color:#fff;font-size:.5rem;font-weight:700;backdrop-filter:blur(8px)}
 .video-tile-views i{color:#ff9bab}
 .video-tile-loading{position:absolute;inset:0;z-index:3;display:grid;place-items:center;background:rgba(7,3,5,.38);pointer-events:none}
 .video-tile-loading[hidden]{display:none}
@@ -140,6 +148,15 @@ main{min-height:55vh}
 .badge.available .availability-dot{background:#53dc89;box-shadow:0 0 0 3px rgba(83,220,137,.14);animation:statusPulse 2.2s ease-out infinite}
 .detail-section{padding:21px 0;border-top:1px solid rgba(255,255,255,.11)}
 .detail-section h2{margin-bottom:13px;font:800 .69rem/1.4 "Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:.17em;text-transform:uppercase;color:#ff9bab}
+.detail-section.disclosure{padding:0}
+.detail-section.disclosure summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 0;color:#ff9bab;font-size:.69rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase;cursor:pointer;list-style:none}
+.detail-section.disclosure summary::-webkit-details-marker{display:none}
+.detail-section.disclosure summary i{font-size:.68rem;transition:transform .2s}
+.detail-section.disclosure[open] summary i{transform:rotate(180deg)}
+.detail-section.disclosure .attribute-grid{padding:0 0 20px}
+.profile-banner-ad{display:flex;justify-content:center;align-items:center;margin:0;padding:0;overflow:hidden}
+.profile-banner-ad.is-displayed{margin:17px 0;padding:8px}
+.profile-banner-ad ins{max-width:100%}
 .profile-bio{color:#d9c6cb;white-space:pre-line}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px;list-style:none}
 .facts li{display:flex;gap:10px;color:#e3d3d7;font-size:.84rem}
@@ -203,7 +220,7 @@ main{min-height:55vh}
 @media(max-width:940px){.nav-links{display:none}.nav-toggle{display:grid}}
 @media(max-width:900px){.profile-layout{grid-template-columns:minmax(0,1fr)}.profile-media{padding:10px}.profile-info{padding:24px 22px 30px}.below-profile{grid-template-columns:minmax(0,1fr)}.extra-sections{grid-template-columns:minmax(0,1fr)}.footer-grid{grid-template-columns:minmax(0,1fr);gap:24px}}
 @media(max-width:520px){.wrap{width:calc(100% - 28px)}.nav{height:66px;gap:8px}.brand{gap:8px;font-size:1.1rem}.mark{width:34px;height:34px}.nav-actions{gap:7px}.nav-cta{padding:9px 12px;font-size:.6rem}.nav-account,.nav-toggle{width:37px;height:37px}.profile-wrap{padding-top:18px;padding-bottom:42px}.photo-gallery{gap:8px;padding-right:0;padding-left:0}.vip-cover-badge:before,.vip-photo-lock:before{inset:8px}.vip-cover-badge i{width:48px;height:48px;font-size:1.45rem}.vip-photo-lock i{width:36px;height:36px;font-size:1.05rem}.facts{grid-template-columns:1fr}.profile-info h1{font-size:2.45rem}.info-card{padding:18px}.float{right:12px;bottom:12px}.fab{width:46px;height:46px}}
-@media(max-width:520px){.video-player{aspect-ratio:4/3;border-radius:10px}.video-play-main{width:58px;height:58px;font-size:1.1rem}.video-controls{gap:5px;padding:28px 7px 8px}.video-time{font-size:.5rem}.video-control{width:28px;height:28px}.video-share-status:not(:empty){right:8px;bottom:48px}.video-playlist{gap:7px}.video-tile-title{right:6px;bottom:6px;left:6px;padding:6px 7px;font-size:.52rem}.video-tile-views{top:6px;right:6px;padding:5px 7px;font-size:.5rem}.video-tile-play{width:38px;height:38px;font-size:.88rem}}
+@media(max-width:520px){.video-player{aspect-ratio:4/3;border-radius:10px}.video-actions{align-items:flex-start;flex-direction:column}.video-share-status{text-align:left}.video-playlist{gap:7px}.video-tile{border-radius:9px}.video-tile-title{right:6px;bottom:5px;left:6px;font-size:.48rem}.video-tile-views{top:5px;right:5px;padding:4px 6px;font-size:.46rem}.video-tile-play{width:34px;height:34px;font-size:.76rem}}
 @media(max-width:520px){.profile-layout{gap:11px;overflow:visible;border:0;background:transparent;box-shadow:none}.profile-media,.profile-info{border:1px solid rgba(255,143,163,.16);border-radius:16px;background:linear-gradient(145deg,rgba(255,46,77,.045),transparent 58%),rgba(20,10,14,.86)}.profile-media{padding:10px}.profile-info{padding:18px}.cover-frame{aspect-ratio:4/4.5;max-height:520px;border-radius:12px}.photo-gallery{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding-top:10px}.profile-info h1{font-size:clamp(2rem,9vw,2.7rem)}.profile-badges{gap:7px;margin-bottom:16px}.badge{padding:7px 9px;font-size:.58rem}.facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.facts li{min-width:0;padding:9px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.025);font-size:.72rem}.detail-section{padding:17px 0}.profile-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.profile-actions .button{width:100%}.action-note{max-width:none;text-align:center}.extra-sections{gap:10px}.detail-card{padding:17px;border-radius:14px}.below-profile{gap:12px}.info-card{border-radius:14px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -294,15 +311,10 @@ main{min-height:55vh}
             <img id="profile-video-gif" alt="" hidden>
             <div class="video-loading" id="video-loading" role="status" aria-label="Loading video" hidden><span class="video-spinner" aria-hidden="true"></span><span>Loading video</span></div>
             <span class="video-view-count" aria-live="polite"><i class="fa-solid fa-eye" aria-hidden="true"></i><span id="video-view-count">0 views</span></span>
-            <button class="video-play-main" id="video-play-main" type="button" aria-label="Play video"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
-            <div class="video-controls" id="video-controls">
-              <button class="video-control" id="video-play-toggle" type="button" aria-label="Play video"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
-              <input class="video-progress" id="video-progress" type="range" min="0" max="1000" value="0" aria-label="Video position">
-              <span class="video-time" id="video-time">0:00 / 0:00</span>
-              <button class="video-control" id="video-mute" type="button" aria-label="Unmute video"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i></button>
-              <button class="video-control" id="video-fullscreen" type="button" aria-label="Enter fullscreen"><i class="fa-solid fa-expand" aria-hidden="true"></i></button>
-              <button class="video-control" id="video-share" type="button" aria-label="Share current video"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i></button>
-            </div>
+          </div>
+          <p class="video-ad-status" id="video-ad-status" role="status" aria-live="polite" hidden></p>
+          <div class="video-actions">
+            <button class="video-share-control" id="video-share" type="button" aria-label="Share current video"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Share video</button>
             <p class="video-share-status" id="video-share-status" role="status" aria-live="polite"></p>
           </div>
           <div class="video-playlist" id="video-playlist" aria-label="Other profile videos"></div>
@@ -319,10 +331,10 @@ main{min-height:55vh}
           <span class="badge" id="views-badge"><i class="fa-solid fa-eye" aria-hidden="true"></i><span id="profile-views"></span></span>
           <span class="badge" id="video-views-badge" hidden><i class="fa-solid fa-film" aria-hidden="true"></i><span id="profile-video-views">Watched 0</span></span>
         </div>
-        <section class="detail-section" id="attributes-section">
-          <h2>At a glance</h2>
+        <details class="detail-section disclosure" id="attributes-section">
+          <summary><span>At a glance</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
           <div class="attribute-grid" id="attribute-grid"></div>
-        </section>
+        </details>
         <section class="detail-section">
           <h2>About</h2>
           <p class="profile-bio" id="profile-bio"></p>
@@ -334,6 +346,11 @@ main{min-height:55vh}
             <li><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i><span><strong id="profile-service-area"></strong><br>Service area</span></li>
           </ul>
         </section>
+        <aside class="profile-banner-ad" data-ad-zone="6106074" aria-label="Advertisement">
+          <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+          <ins class="eas6a97888e2" data-zoneid="6106074"></ins>
+          <script>(window.AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+        </aside>
         <section class="detail-section">
           <h2>Booking with Red Room</h2>
           <p class="booking-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>Confirm availability, the final rate and any driver/travel fee with our team. A R50 deposit is added to the service rate to secure a booking; exact meeting details are shared privately after confirmation.</p>
@@ -475,13 +492,92 @@ function setupProfileVideos(profile) {
   const video = document.getElementById("profile-video");
   const gif = document.getElementById("profile-video-gif");
   const videoLoading = document.getElementById("video-loading");
+  const videoAdStatus = document.getElementById("video-ad-status");
   const playlist = document.getElementById("video-playlist");
+  const videoVastTag = "https://s.magsrv.com/v1/vast.php?idz=6106096";
   let playerIsLoading = false;
+  let activeVideo = null;
+  let fluidPlayerInstance = null;
   const videoViewsBadge = document.getElementById("video-views-badge");
   const videoViewsLabel = document.getElementById("profile-video-views");
   const setVideoLoading = (isLoading) => {
     playerIsLoading = isLoading;
-    videoLoading.hidden = !playerIsLoading || videosPanel.hidden;
+    videoLoading.hidden = !playerIsLoading || videosPanel.hidden || !activeVideo?.isGif;
+  };
+  const playSelectedVideo = () => {
+    const playAttempt = fluidPlayerInstance ? fluidPlayerInstance.play() : video.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch((error) => console.warn("Video playback could not start.", error));
+    }
+  };
+  const createFluidPlayer = (item) => {
+    videoAdStatus.hidden = true;
+    videoAdStatus.textContent = "";
+    player.classList.remove("is-ad-playing");
+    video.controls = false;
+    if (typeof window.fluidPlayer !== "function") {
+      video.controls = true;
+      videoAdStatus.textContent = "VAST ads are unavailable; this video is using standard player controls.";
+      videoAdStatus.hidden = false;
+      console.error("Fluid Player did not load; profile video is playing without VAST ads.");
+      return null;
+    }
+    try {
+      let instance;
+      let fallbackScheduled = false;
+      const startContentWithoutAd = () => {
+        if (fallbackScheduled) return;
+        fallbackScheduled = true;
+        Promise.resolve().then(() => {
+          if (activeVideo !== item) return;
+          if (fluidPlayerInstance === instance) destroyFluidPlayer();
+          video.hidden = false;
+          video.controls = true;
+          player.classList.remove("is-ad-playing");
+          videoAdStatus.textContent = "No ad available. Playing video.";
+          videoAdStatus.hidden = false;
+          playSelectedVideo();
+        });
+      };
+      instance = window.fluidPlayer("profile-video", {
+        layoutControls: {
+          primaryColor: "#ff2e4d",
+          posterImage: profile.image,
+          posterImageSize: "cover",
+          fillToContainer: true,
+          allowDownload: false,
+          allowTheatre: true,
+          miniPlayer: { enabled: false }
+        },
+        vastOptions: {
+          adList: [{ roll: "preRoll", vastTag: videoVastTag }],
+          vastTimeout: 5000,
+          adText: "Advertisement",
+          adTextPosition: "top left",
+          maxAllowedVastTagRedirects: 3,
+          vastAdvanced: {
+            noVastVideoCallback: startContentWithoutAd
+          }
+        }
+      });
+      instance.on("play", (additionalInfo) => {
+        const mediaSourceType = additionalInfo?.mediaSourceType;
+        const isAd = ["preRoll", "midRoll", "postRoll"].includes(mediaSourceType);
+        player.classList.toggle("is-ad-playing", isAd);
+        if (mediaSourceType === "source") recordView(item);
+      });
+      instance.on("ended", (additionalInfo) => {
+        if (additionalInfo?.mediaSourceType !== "source") player.classList.remove("is-ad-playing");
+      });
+      return instance;
+    } catch (error) {
+      player.classList.remove("is-ad-playing");
+      video.controls = true;
+      videoAdStatus.textContent = "VAST ads are unavailable; this video is using standard player controls.";
+      videoAdStatus.hidden = false;
+      console.error("Could not initialize Fluid Player; profile video is playing without VAST ads.", error);
+      return null;
+    }
   };
   const updateTotalVideoViews = () => {
     const total = Object.values(profile.videoViews).reduce((sum, value) => {
@@ -544,7 +640,6 @@ function setupProfileVideos(profile) {
     }
   };
   const viewedVideos = new Set();
-  let activeVideo = null;
 
   const updateCount = (item, value) => {
     const count = Number.isSafeInteger(value) && value >= 0 ? value : 0;
@@ -574,34 +669,14 @@ function setupProfileVideos(profile) {
       document.getElementById("video-view-count").parentElement.title = "Video view count could not be updated.";
     });
   };
-  const playPauseButton = document.getElementById("video-play-toggle");
-  const mainPlayButton = document.getElementById("video-play-main");
-  const muteButton = document.getElementById("video-mute");
-  const fullscreenButton = document.getElementById("video-fullscreen");
   const shareButton = document.getElementById("video-share");
   const shareStatus = document.getElementById("video-share-status");
-  const controls = document.getElementById("video-controls");
-  const progress = document.getElementById("video-progress");
-  const timeLabel = document.getElementById("video-time");
-  const formatTime = (seconds) => {
-    if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-    const whole = Math.floor(seconds);
-    return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
-  };
-  const syncTime = () => {
-    const duration = Number.isFinite(video.duration) ? video.duration : 0;
-    const currentTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
-    progress.value = String(duration ? Math.round((currentTime / duration) * 1000) : 0);
-    timeLabel.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-  };
-  const syncPlayback = () => {
-    const playing = !video.paused && !video.ended;
-    player.classList.toggle("is-playing", playing);
-    const icon = `<i class="fa-solid fa-${playing ? "pause" : "play"}" aria-hidden="true"></i>`;
-    playPauseButton.innerHTML = icon;
-    playPauseButton.setAttribute("aria-label", playing ? "Pause video" : "Play video");
-    mainPlayButton.innerHTML = icon;
-    mainPlayButton.setAttribute("aria-label", playing ? "Pause video" : "Play video");
+  const destroyFluidPlayer = () => {
+    if (!fluidPlayerInstance) return;
+    fluidPlayerInstance.destroy();
+    fluidPlayerInstance = null;
+    player.prepend(video);
+    player.classList.remove("is-ad-playing");
   };
   const loadVideo = (item, shouldPlay = false, countGifView = false) => {
     activeVideo = item;
@@ -609,23 +684,29 @@ function setupProfileVideos(profile) {
     updateProfileMetadata(profile, item);
     const isGif = item.isGif;
     const gifAlreadyLoaded = isGif && gif.src === item.url && gif.complete && gif.naturalWidth > 0;
+    destroyFluidPlayer();
     video.pause();
+    video.controls = false;
     video.hidden = isGif;
     gif.hidden = !isGif;
     setVideoLoading(!gifAlreadyLoaded);
-    if (isGif) gif.src = item.url;
-    else gif.removeAttribute("src");
+    if (isGif) {
+      video.removeAttribute("src");
+      video.load();
+      gif.src = item.url;
+    } else {
+      gif.removeAttribute("src");
+    }
     gif.alt = isGif ? `${profile.name} video ${profile.videos.indexOf(item) + 1}` : "";
-    controls.hidden = isGif;
-    mainPlayButton.hidden = isGif;
     if (!isGif) {
       video.src = item.url;
       video.poster = profile.image;
       video.muted = true;
-      muteButton.innerHTML = '<i class="fa-solid fa-volume-xmark" aria-hidden="true"></i>';
-      muteButton.setAttribute("aria-label", "Unmute video");
       video.load();
-      if (shouldPlay) video.play().catch((error) => console.warn("Video autoplay could not start.", error));
+      if (!videosPanel.hidden) {
+        fluidPlayerInstance = createFluidPlayer(item);
+        if (shouldPlay) playSelectedVideo();
+      }
     } else if (countGifView) {
       recordView(item);
     }
@@ -633,7 +714,6 @@ function setupProfileVideos(profile) {
     playlist.querySelectorAll(".video-tile").forEach((tile) => {
       tile.setAttribute("aria-current", String(tile.dataset.videoId === item.id));
     });
-    syncPlayback();
   };
   const showTab = (name) => {
     const showVideos = name === "videos";
@@ -645,20 +725,21 @@ function setupProfileVideos(profile) {
     if (showVideos && profile.videos.length) {
       if (!activeVideo) loadVideo(profile.videos[0], true, true);
       else if (activeVideo.isGif) recordView(activeVideo);
-      else if (!activeVideo.isGif && video.paused) video.play().catch((error) => console.warn("Video autoplay could not start.", error));
+      else {
+        if (!fluidPlayerInstance) fluidPlayerInstance = createFluidPlayer(activeVideo);
+        if (video.paused) playSelectedVideo();
+      }
       syncMobilePreview();
     } else if (showVideos === false) {
-      video.pause();
+      if (fluidPlayerInstance) fluidPlayerInstance.pause();
+      else video.pause();
       pausePreviews();
     }
   };
 
-  video.addEventListener("loadstart", () => setVideoLoading(true));
-  video.addEventListener("waiting", () => setVideoLoading(true));
-  video.addEventListener("stalled", () => setVideoLoading(true));
-  video.addEventListener("canplay", () => setVideoLoading(false));
-  video.addEventListener("playing", () => setVideoLoading(false));
-  video.addEventListener("error", () => setVideoLoading(false));
+  video.addEventListener("play", () => {
+    if (!fluidPlayerInstance && activeVideo && !activeVideo.isGif) recordView(activeVideo);
+  });
   gif.addEventListener("load", () => setVideoLoading(false));
   gif.addEventListener("error", () => setVideoLoading(false));
 
@@ -768,40 +849,10 @@ function setupProfileVideos(profile) {
 
   imagesTab.onclick = () => showTab("images");
   videosTab.onclick = () => showTab("videos");
-  const togglePlayback = () => {
-    if (!activeVideo || activeVideo.isGif) return;
-    if (video.paused) video.play().catch((error) => console.warn("Video playback could not start.", error));
-    else video.pause();
-  };
-  playPauseButton.onclick = togglePlayback;
-  mainPlayButton.onclick = togglePlayback;
-  video.addEventListener("play", () => {
-    syncPlayback();
-    if (activeVideo) recordView(activeVideo);
-  });
-  video.addEventListener("pause", syncPlayback);
-  video.addEventListener("ended", syncPlayback);
-  video.addEventListener("timeupdate", syncTime);
-  video.addEventListener("loadedmetadata", syncTime);
   video.addEventListener("error", () => {
     if (activeVideo) console.warn(`Could not load profile video ${activeVideo.id}.`);
     player.title = "This video could not be loaded.";
   });
-  progress.oninput = () => {
-    if (Number.isFinite(video.duration)) video.currentTime = (Number(progress.value) / 1000) * video.duration;
-  };
-  muteButton.onclick = () => {
-    video.muted = !video.muted;
-    muteButton.innerHTML = `<i class="fa-solid fa-volume-${video.muted ? "xmark" : "high"}" aria-hidden="true"></i>`;
-    muteButton.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
-  };
-  fullscreenButton.onclick = () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch((error) => console.warn("Could not exit video fullscreen.", error));
-    } else if (player.requestFullscreen) {
-      player.requestFullscreen().catch((error) => console.warn("Could not open video fullscreen.", error));
-    }
-  };
   shareButton.onclick = async () => {
     if (!activeVideo) return;
     updateProfileMetadata(profile, activeVideo);
@@ -1162,11 +1213,29 @@ function trackView(profile) {
 document.getElementById("age-confirm").addEventListener("click", () => {
   sessionStorage.setItem("rv-age-confirmed", "yes");
   ageGate.close();
+  requestFullScreenAd();
   if (currentProfile) trackView(currentProfile);
 });
 document.getElementById("age-exit").addEventListener("click", () => window.location.replace("https://www.google.com/"));
 ageGate.addEventListener("cancel", (event) => event.preventDefault());
+function requestFullScreenAd() {
+  const adShownKey = "rr-fullscreen-ad-shown";
+  if (sessionStorage.getItem("rv-age-confirmed") !== "yes" || sessionStorage.getItem(adShownKey) === "yes") return;
+  sessionStorage.setItem(adShownKey, "yes");
+  const placement = document.createElement("ins");
+  placement.className = "eas6a97888e33";
+  placement.dataset.zoneid = "6106108";
+  document.body.append(placement);
+  window.AdProvider = window.AdProvider || [];
+  window.AdProvider.push({ "serve": {} });
+  const providerScript = document.createElement("script");
+  providerScript.async = true;
+  providerScript.type = "application/javascript";
+  providerScript.src = "https://a.pemsrv.com/ad-provider.js";
+  document.body.append(providerScript);
+}
 if (sessionStorage.getItem("rv-age-confirmed") !== "yes") ageGate.showModal();
+else requestFullScreenAd();
 
 const mobileNavToggle = document.getElementById("nav-toggle");
 const mobileMenu = document.getElementById("mobile-menu");

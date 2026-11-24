@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Delegate-CH" content="Sec-CH-UA https://s.magsrv.com; Sec-CH-UA-Mobile https://s.magsrv.com; Sec-CH-UA-Arch https://s.magsrv.com; Sec-CH-UA-Model https://s.magsrv.com; Sec-CH-UA-Platform https://s.magsrv.com; Sec-CH-UA-Platform-Version https://s.magsrv.com; Sec-CH-UA-Bitness https://s.magsrv.com; Sec-CH-UA-Full-Version-List https://s.magsrv.com; Sec-CH-UA-Full-Version https://s.magsrv.com;">
 <title>Red Room | Escorts Near You in South Africa</title>
 <meta name="description" content="Searching for the best escort agency or escorts near you? Browse Red Room's adult profiles by location and confirm availability, rates and travel directly.">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -23,6 +22,8 @@
 <meta name="twitter:image" content="https://pub-db389dd5f7f34f0dba7af1f11313f7e4.r2.dev/escort/ximg/mane.webp">
 <meta name="twitter:image:alt" content="Red Room companion profile">
 <meta name="theme-color" content="#0a0406">
+<meta http-equiv="Delegate-CH" content="Sec-CH-UA https://s.pemsrv.com; Sec-CH-UA-Mobile https://s.pemsrv.com; Sec-CH-UA-Arch https://s.pemsrv.com; Sec-CH-UA-Model https://s.pemsrv.com; Sec-CH-UA-Platform https://s.pemsrv.com; Sec-CH-UA-Platform-Version https://s.pemsrv.com; Sec-CH-UA-Bitness https://s.pemsrv.com; Sec-CH-UA-Full-Version-List https://s.pemsrv.com; Sec-CH-UA-Full-Version https://s.pemsrv.com;">
+<script>document.addEventListener("creativeDisplayed-6106074",()=>{document.querySelectorAll('[data-ad-zone="6106074"]').forEach((slot)=>{slot.classList.add("is-displayed");});},false);</script>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 <script>document.documentElement.classList.add('js');</script>
@@ -218,7 +219,6 @@ section{padding:86px 0;position:relative}
 
 /* ---------- roster ---------- */
 #roster{background:radial-gradient(850px 500px at 85% 20%,rgba(139,0,22,.15),transparent 72%),linear-gradient(180deg,rgba(255,255,255,.018),transparent 38%,rgba(255,255,255,.015))}
-.roster-ad{display:flex;justify-content:center;max-width:100%;margin:0 auto 28px}
 .roster-tools{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:32px;padding:16px 18px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:rgba(255,255,255,.025)}
 .roster-tools p{font-size:.82rem;color:var(--dim)}
 .roster-count{font-size:.72rem!important;letter-spacing:.11em;text-transform:uppercase;color:#e8cfd5!important}
@@ -241,6 +241,9 @@ section{padding:86px 0;position:relative}
 .booking-policy p{font-size:.77rem;line-height:1.5;color:var(--dim);margin-top:5px}
 @media(max-width:760px){.booking-policy{grid-template-columns:1fr}}
 @media(max-width:620px){.roster-tools{align-items:stretch}.roster-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.roster-search{grid-column:1/-1;width:100%!important}.roster-location,.roster-more{min-width:0}.roster-location select,.roster-more select{font-size:16px}}
+.roster-ad{display:flex;justify-content:center;align-items:center;margin:0;padding:0;overflow:hidden}
+.roster-ad.is-displayed{margin:20px auto 24px;padding:8px}
+.roster-ad ins{max-width:100%}
 .age-dialog{
   position:fixed;inset:0;width:min(480px,calc(100% - 32px));max-height:calc(100vh - 32px);margin:auto;
   overflow-y:auto;text-align:center;padding:42px 34px;border:1px solid rgba(255,143,163,.3);border-radius:16px;
@@ -437,6 +440,31 @@ footer a{overflow-wrap:anywhere}
   const ageGate = document.getElementById("age-gate");
   if (!ageGate) return;
 
+  const fullScreenAdShownKey = "rr-fullscreen-ad-shown";
+  const ageConfirmedKey = "rv-age-confirmed";
+  const loadFullScreenAd = () => {
+    try {
+      if (sessionStorage.getItem(ageConfirmedKey) !== "yes" || sessionStorage.getItem(fullScreenAdShownKey) === "yes") return;
+      sessionStorage.setItem(fullScreenAdShownKey, "yes");
+    } catch (error) {
+      console.error("Could not check the full-screen ad session state.", error);
+      return;
+    }
+
+    const placement = document.createElement("ins");
+    placement.className = "eas6a97888e33";
+    placement.dataset.zoneid = "6106108";
+    document.body.append(placement);
+
+    window.AdProvider = window.AdProvider || [];
+    window.AdProvider.push({ "serve": {} });
+    const providerScript = document.createElement("script");
+    providerScript.async = true;
+    providerScript.type = "application/javascript";
+    providerScript.src = "https://a.pemsrv.com/ad-provider.js";
+    document.body.append(providerScript);
+  };
+
   let ageConfirmed = false;
   const hasAgeConfirmation = () => {
     if (ageConfirmed) return true;
@@ -458,11 +486,13 @@ footer a{overflow-wrap:anywhere}
       console.error("Could not save the age-confirmation state.", error);
     }
     ageGate.close();
+    loadFullScreenAd();
   });
   document.getElementById("age-exit").addEventListener("click", () => {
     window.location.replace("https://www.google.com/");
   });
   ageGate.addEventListener("cancel", (event) => event.preventDefault());
+  if (hasAgeConfirmation()) loadFullScreenAd();
 })();
 </script>
 
@@ -562,16 +592,16 @@ footer a{overflow-wrap:anywhere}
 
 <section id="roster">
   <div class="wrap">
-    <aside class="roster-ad" aria-label="Advertisement">
-      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-      <ins class="eas6a97888e2" data-zoneid="6106074"></ins>
-      <script>(window.AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-    </aside>
     <div class="rv">
       <span class="eyebrow">Newest &amp; most viewed · Companion directory</span>
       <h2>Featured companion profiles.</h2>
       <p class="lead" style="margin-top:16px">Newly added profiles are featured first for 48 hours, then popular profiles remain ranked by anonymous profile views. Browse current listings, check each companion's service area and message her or the booking team to confirm live availability.</p>
     </div>
+    <aside class="roster-ad" data-ad-zone="6106074" aria-label="Advertisement">
+      <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+      <ins class="eas6a97888e2" data-zoneid="6106074"></ins>
+      <script>(window.AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+    </aside>
     <p class="booking-note"><i class="fa-solid fa-circle-info"></i>Availability, rates and travel costs can change. Confirm the selected companion’s area, rate, arrival time and any driver fee on WhatsApp before booking. Profile view totals are anonymous and count once per visitor every 24 hours.</p>
     <div class="roster-tools">
       <div class="roster-filters">
